@@ -2,7 +2,7 @@ import { defineConfig } from "vitest/config";
 import react from "@vitejs/plugin-react";
 import tailwind from "@tailwindcss/vite";
 
-// Verified public repository: Ganesh-g18/Saakh. Actions supplies authoritative Pages metadata.
+// GitHub Pages project repository: gganesh17g/Saakh1. Actions supplies authoritative Pages metadata.
 export function normalizeBase(value: string): string {
   const base = value === "" ? "/" : value.endsWith("/") ? value : value + "/";
   if (!/^\/(?:[A-Za-z0-9._~-]+\/)*$/.test(base)) {
@@ -16,7 +16,7 @@ export default defineConfig(({ command, isPreview }) => {
   const base =
     command === "serve" && !isPreview
       ? "/"
-      : normalizeBase(process.env.SAAKH_BASE_PATH ?? "/Saakh/");
+      : normalizeBase(process.env.SAAKH_BASE_PATH ?? "/Saakh1/");
   return {
     base,
     plugins: [

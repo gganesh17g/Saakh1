@@ -1,0 +1,54 @@
+[
+  {
+    "command": "git status --short",
+    "exitCode": 128,
+    "output": [
+      "fatal: not a git repository (or any parent up to mount point /)",
+      "Stopping at filesystem boundary (GIT_DISCOVERY_ACROSS_FILESYSTEM not set)."
+    ]
+  },
+  {
+    "command": "git diff --stat",
+    "exitCode": 129,
+    "output": [
+      "warning: Not a git repository. Use --no-index to compare two paths outside a working tree",
+      "usage: git diff --no-index [<options>] <path> <path> [<pathspec>...]",
+      ""
+    ]
+  },
+  {
+    "command": "git diff --name-status",
+    "exitCode": 129,
+    "output": [
+      "warning: Not a git repository. Use --no-index to compare two paths outside a working tree",
+      "usage: git diff --no-index [<options>] <path> <path> [<pathspec>...]",
+      ""
+    ]
+  },
+  {
+    "command": "git diff --check",
+    "exitCode": 129,
+    "output": [
+      "warning: Not a git repository. Use --no-index to compare two paths outside a working tree",
+      "usage: git diff --no-index [<options>] <path> <path> [<pathspec>...]",
+      ""
+    ]
+  },
+  {
+    "command": "git diff --cached --name-status",
+    "exitCode": 129,
+    "output": [
+      "error: unknown option `cached'",
+      "usage: git diff --no-index [<options>] <path> <path> [<pathspec>...]",
+      ""
+    ]
+  },
+  {
+    "command": "git ls-files --others --exclude-standard",
+    "exitCode": 128,
+    "output": [
+      "fatal: not a git repository (or any parent up to mount point /)",
+      "Stopping at filesystem boundary (GIT_DISCOVERY_ACROSS_FILESYSTEM not set)."
+    ]
+  }
+]

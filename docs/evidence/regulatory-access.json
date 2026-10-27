@@ -1,0 +1,127 @@
+[
+  {
+    "name": "rbi-digital",
+    "url": "https://www.rbi.org.in/Scripts/NotificationUser.aspx?Id=12848&Mode=0",
+    "finalUrl": "https://www.rbi.org.in/Scripts/NotificationUser.aspx?Id=12848&Mode=0",
+    "http": 200,
+    "bytes": 168737,
+    "accessed": "2026-10-27"
+  },
+  {
+    "name": "dpdp",
+    "url": "https://www.meity.gov.in/documents/act-and-policies/digital-personal-data-protection-rules-2025-gDOxUjMtQWa",
+    "finalUrl": "https://www.meity.gov.in/documents/act-and-policies/digital-personal-data-protection-rules-2025-gDOxUjMtQWa",
+    "http": 200,
+    "bytes": 3137,
+    "accessed": "2026-10-27"
+  },
+  {
+    "name": "aa-dfs",
+    "url": "https://www.financialservices.gov.in/account-aggregator-framework",
+    "error": "<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: Hostname mismatch, certificate is not valid for 'www.financialservices.gov.in'. (_ssl.c:1082)>",
+    "accessed": "2026-10-27"
+  },
+  {
+    "name": "aa-rbi",
+    "url": "https://systemhealth.rbi.org.in/Scripts/BS_ViewMasDirections.aspx_id%3D10598%281%29.html",
+    "error": "<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1082)>",
+    "accessed": "2026-10-27"
+  },
+  {
+    "name": "ondc",
+    "url": "https://www.ondc.org/",
+    "finalUrl": "https://www.ondc.org/",
+    "http": 200,
+    "bytes": 2489,
+    "accessed": "2026-10-27"
+  },
+  {
+    "name": "ondc-seller",
+    "url": "https://ondc.org/pages/seller-network-participants.html",
+    "finalUrl": "https://ondc.org/pages/seller-network-participants.html",
+    "http": 200,
+    "bytes": 16070,
+    "accessed": "2026-10-27"
+  },
+  {
+    "name": "ondc-buyer",
+    "url": "https://ondc.org/pages/buyer-network-participants.html",
+    "finalUrl": "https://ondc.org/pages/buyer-network-participants.html",
+    "http": 200,
+    "bytes": 18024,
+    "accessed": "2026-10-27"
+  },
+  {
+    "name": "navadhan",
+    "url": "https://www.navadhan.com/",
+    "finalUrl": "https://www.navadhan.com/",
+    "http": 200,
+    "bytes": 221217,
+    "accessed": "2026-10-27"
+  },
+  {
+    "name": "aa-current",
+    "url": "https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=10598",
+    "finalUrl": "https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=10598",
+    "http": 200,
+    "bytes": 197191,
+    "accessed": "2026-10-27"
+  },
+  {
+    "name": "dfs-current",
+    "url": "https://financialservices.gov.in/account-aggregator-framework",
+    "finalUrl": "https://financialservices.gov.in/account-aggregator-framework",
+    "http": 200,
+    "bytes": 76356,
+    "accessed": "2026-10-27"
+  },
+  {
+    "name": "meity-policy",
+    "url": "https://www.meity.gov.in/data-protection-framework",
+    "finalUrl": "https://www.meity.gov.in/data-protection-framework",
+    "http": 200,
+    "bytes": 3285,
+    "accessed": "2026-10-27"
+  },
+  {
+    "name": "dpdp-act",
+    "url": "https://www.indiacode.nic.in/bitstream/123456789/20064/1/a2023-22.pdf",
+    "error": "The read operation timed out",
+    "accessed": "2026-10-27"
+  },
+  {
+    "name": "meity-official-1",
+    "url": "https://www.meity.gov.in/static/uploads/2025/12/3c7ebbae0e5456f493f486e6845df86b.pdf",
+    "http": 200,
+    "bytes": 408279,
+    "accessed": "2026-10-27"
+  },
+  {
+    "name": "meity-official-2",
+    "url": "https://www.meity.gov.in/static/uploads/2025/11/53450e6e5dc0bfa85ebd78686cadad39.pdf",
+    "http": 200,
+    "bytes": 2492944,
+    "accessed": "2026-10-27"
+  },
+  {
+    "name": "meity-official-3",
+    "url": "https://www.meity.gov.in/static/uploads/2025/11/c56ceae6c383460ca69577428d36828b.pdf",
+    "http": 200,
+    "bytes": 1869005,
+    "accessed": "2026-10-27"
+  },
+  {
+    "name": "meity-official-4",
+    "url": "https://www.meity.gov.in/static/uploads/2025/11/cc217843dc3bcb37b2b05bcc3b4e031f.pdf",
+    "http": 200,
+    "bytes": 1804307,
+    "accessed": "2026-10-27"
+  },
+  {
+    "name": "meity-official-5",
+    "url": "https://www.meity.gov.in/static/uploads/2025/11/f6c0837972422cf79d890bfe84cc04d6.pdf",
+    "http": 200,
+    "bytes": 1819855,
+    "accessed": "2026-10-27"
+  }
+]

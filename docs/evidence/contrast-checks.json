@@ -1,0 +1,35 @@
+{
+  "method": "WCAG relative luminance contrast ratio for specified palette pairs; not a complete accessibility audit",
+  "pairs": [
+    {
+      "foreground": "#586b77",
+      "background": "#ffffff",
+      "ratio": 5.55
+    },
+    {
+      "foreground": "#586b77",
+      "background": "#f4f7f8",
+      "ratio": 5.15
+    },
+    {
+      "foreground": "#007e73",
+      "background": "#ffffff",
+      "ratio": 4.96
+    },
+    {
+      "foreground": "#007e73",
+      "background": "#f4f7f8",
+      "ratio": 4.61
+    },
+    {
+      "foreground": "#8f5a0c",
+      "background": "#ffffff",
+      "ratio": 5.78
+    },
+    {
+      "foreground": "#ffca79",
+      "background": "#11232f",
+      "ratio": 10.71
+    }
+  ]
+}

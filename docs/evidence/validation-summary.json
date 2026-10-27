@@ -1,0 +1,43 @@
+{
+  "date": "2026-10-27",
+  "unit": {
+    "files": 6,
+    "passed": 75,
+    "failed": 0,
+    "runner": "Vitest 5.0.5",
+    "evidence": "Executed npm test stdout"
+  },
+  "developmentBrowser": {
+    "passed": 33,
+    "failed": 0,
+    "evidence": "Executed npm run test:e2e stdout"
+  },
+  "finalContrastBrowserRecheck": {
+    "passed": 8,
+    "failed": 0,
+    "scope": "6 widths, native-dialog Escape, theme captures/performance"
+  },
+  "pagesBrowser": {
+    "startTime": "2026-10-27T04:19:18.468Z",
+    "duration": 31836.629,
+    "expected": 17,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "rootBrowser": {
+    "startTime": "2026-10-27T04:21:22.256Z",
+    "duration": 7710.508,
+    "expected": 6,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "typeScriptErrors": 0,
+  "eslintErrors": 0,
+  "eslintWarnings": 0,
+  "npmAuditVulnerabilities": 0,
+  "productionBuild": "Passed; large lazy WebGL chunk and two dependency annotation warning categories disclosed",
+  "workflowValidation": "js-yaml structural parse and checksum-verified actionlint v1.7.12 exit 0",
+  "livePublication": "Not verified; supplied URL returned HTTP 404; no upload/push/deploy performed"
+}

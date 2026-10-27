@@ -96,7 +96,7 @@ export default function PublicInfo() {
           {page === "contact" && (
             <a
               className="text-link"
-              href="https://github.com/Ganesh-g18/Saakh/issues"
+              href="https://github.com/gganesh17g/Saakh1/issues"
               target="_blank"
               rel="noreferrer"
             >

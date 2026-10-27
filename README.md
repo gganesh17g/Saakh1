@@ -1,3 +1,36 @@
+# Current Saakh1 release and deployment
+
+Target repository: **gganesh17g/Saakh1**, branch **main**. Live URL: https://gganesh17g.github.io/Saakh1/. Production base: `/Saakh1/`; development remains `/`. The earlier `/Saakh/` instructions below are retained historical documentation and are superseded by this section.
+
+```sh
+cd /home/thunder/shared/Saakh
+npm ci
+npm run dev
+npm run typecheck
+npm run lint
+npm test
+npm run build
+npm run test:e2e
+npm run test:pages
+npm run preview
+```
+
+Preview: `http://localhost:4173/Saakh1/#/business`. Strict static host: `npm run preview:pages`, then `http://127.0.0.1:4175/Saakh1/`. Install Chromium with `npx playwright install chromium` when needed. Production uses HashRouter; `/Saakh1/#/business`, `/Saakh1/#/app` and `/Saakh1/#/product/accounting` support copied links and refresh. Recognized old clean paths migrate through the generated 404 document.
+
+**Publishing:** Settings → Pages → Source must be **GitHub Actions**, rather than a branch/Jekyll build. The existing official pinned workflow runs lockfile install, type/lint/unit/build and both browser suites, uploads only `dist`, then deploys. No credentials, source TSX, node_modules or test output belong in the Pages artifact. The workflow passes its exact commit SHA as `SAAKH_RELEASE_SHA`; generated `release.json` and the HTML `saakh-release` meta value identify the artifact being served. Local builds identify as `local`.
+
+Live-compatible acceptance checks:
+
+```sh
+SAAKH_TEST_URL=https://gganesh17g.github.io/Saakh1/ SAAKH_EXPECTED_SHA=ACTUAL_DEPLOYED_COMMIT npx playwright test --config playwright.pages.config.ts tests/pages/release.spec.ts
+```
+
+This runs isolated synthetic browser contexts; it does not delete existing users’ browser data or contact banks, lenders or government systems. All 14 business modules, credit engines, WebGL graph and local data boundaries are retained. The assistant and financial services remain synthetic demonstration tools.
+
+Current evidence: [deployment](docs/GITHUB-DEPLOYMENT-REPORT.md), [sync](docs/GITHUB-SYNC-REPORT.md), [live site](docs/LIVE-SITE-VALIDATION.md), [tests](docs/TEST-REPORT.md), [file changes](docs/FILE-CHANGES-REPORT.md).
+
+## Earlier project documentation — retained for provenance
+
 # Saakh — digital munim & credit intelligence demo
 
 Know your money. Plan your next move.

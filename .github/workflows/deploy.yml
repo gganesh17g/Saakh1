@@ -36,6 +36,7 @@ jobs:
       - name: Build production artifact
         env:
           SAAKH_BASE_PATH: ${{ steps.pages.outputs.base_path }}/
+          SAAKH_RELEASE_SHA: ${{ github.sha }}
         run: npm run build
       - name: Install Chromium
         run: npx playwright install --with-deps chromium

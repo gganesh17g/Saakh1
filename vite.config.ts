@@ -7,7 +7,7 @@ export function normalizeBase(value: string): string {
   const base = value === "" ? "/" : value.endsWith("/") ? value : value + "/";
   if (!/^\/(?:[A-Za-z0-9._~-]+\/)*$/.test(base)) {
     throw new Error(
-      "SAAKH_BASE_PATH must be an absolute directory path, such as /Saakh/ or /.",
+      "SAAKH_BASE_PATH must be an absolute directory path, such as /Saakh1/ or /.",
     );
   }
   return base;
@@ -24,8 +24,20 @@ export default defineConfig(({ command, isPreview }) => {
       tailwind(),
       {
         name: "saakh-pages-fallback",
+        transformIndexHtml() {
+          return [
+            {
+              tag: "meta",
+              attrs: {
+                name: "saakh-release",
+                content: process.env.SAAKH_RELEASE_SHA || "local",
+              },
+              injectTo: "head",
+            },
+          ];
+        },
         generateBundle() {
-          // GitHub serves this document with HTTP 404. Only legacy app links are migrated.
+          // GitHub serves this document with HTTP 404; recognized legacy paths migrate to hashes.
           const baseLiteral = JSON.stringify(base);
           this.emitFile({
             type: "asset",
@@ -33,6 +45,16 @@ export default defineConfig(({ command, isPreview }) => {
             source: `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Saakh — page not found</title></head><body style="background:#080d18;color:#f3f6fc;font:16px system-ui;padding:40px"><main><h1>Page not found</h1><p>This address is not a published Saakh page.</p><a id="home" style="color:#49d9ff">Return to Saakh</a></main><script>const base=${baseLiteral};document.getElementById('home').href=base;const path=location.pathname.startsWith(base)?'/'+location.pathname.slice(base.length):'';if(path==='/app'||path.startsWith('/app/')||path==='/business'||path.startsWith('/business/')||path.startsWith('/product/'))location.replace(base+'#'+path+location.search);</script></body></html>`,
           });
           this.emitFile({ type: "asset", fileName: ".nojekyll", source: "" });
+          this.emitFile({
+            type: "asset",
+            fileName: "release.json",
+            source: JSON.stringify({
+              sourceCommit: process.env.SAAKH_RELEASE_SHA || "local",
+              base,
+              application: "Saakh",
+              dataMode: "synthetic-local-demo",
+            }),
+          });
         },
       },
     ],

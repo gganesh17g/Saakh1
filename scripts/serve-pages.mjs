@@ -3,7 +3,7 @@ import { createServer } from "node:http";
 import { readFile, stat } from "node:fs/promises";
 import { resolve, sep, extname } from "node:path";
 const root = resolve(process.env.SAAKH_DIST_DIR || "dist");
-const inputBase = process.env.SAAKH_BASE_PATH ?? "/Saakh/";
+const inputBase = process.env.SAAKH_BASE_PATH ?? "/Saakh1/";
 const base = inputBase === "/" ? "/" : inputBase.replace(/\/$/, "") + "/";
 const port = Number(process.env.SAAKH_PORT || 4175);
 const types = {

@@ -1,3 +1,10 @@
+## 2026-10-27 — Saakh1 verified publishing release
+
+- Preserved and fast-forwarded remote correction `4cd6e8c16a2c71695f3fe6cbbfac645b531a6c64` for the `/Saakh1/` production base.
+- Aligned static preview and Pages-test defaults to Saakh1; added live-target testing, artifact commit identity and exact-SHA workflow metadata.
+- Added all-module/public/credit financial acceptance and eight-width deployment checks, retaining every existing financial service and history.
+- Updated the feedback repository link, release documentation and file-by-file attribution. Actual push/workflow/live status is recorded in the release reports, not inferred from local builds.
+
 ## 1.3.0-demo — 2026-10-27 · business ledger expansion
 
 - Added the local digital munim workspace with confirmed onboarding, balanced paise ledger, stock, documents, collections/payments/refunds, reconciliation, CSV/XLSX import and audit exports.

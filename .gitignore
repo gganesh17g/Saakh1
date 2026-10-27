@@ -4,3 +4,8 @@ playwright-report/
 test-results/
 *.local
 *.tsbuildinfo
+
+# Local credentials must never enter source control.
+.env
+.env.*
+!.env.example

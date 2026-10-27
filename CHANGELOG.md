@@ -1,3 +1,9 @@
+## 2026-10-27 — Resolve competing publishers; verify live release
+
+- Preserved concurrent user workflow additions in Git history; converted Jekyll/raw-source templates into manual guidance so only the tested Vite dist publisher deploys.
+- Confirmed the reproduced raw `/src/main.tsx` 404 failure, retained failed-run evidence, then verified the repaired application revision live with 13 acceptance tests across eight widths.
+- Strengthened actual score X-ray, time scrubber, evidence, replay and guided-demo interactions; synchronized current reports while archiving historical reports verbatim.
+
 ## 2026-10-27 — Saakh1 verified publishing release
 
 - Preserved and fast-forwarded remote correction `4cd6e8c16a2c71695f3fe6cbbfac645b531a6c64` for the `/Saakh1/` production base.

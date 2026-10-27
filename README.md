@@ -17,6 +17,8 @@ npm run preview
 
 Preview: `http://localhost:4173/Saakh1/#/business`. Strict static host: `npm run preview:pages`, then `http://127.0.0.1:4175/Saakh1/`. Install Chromium with `npx playwright install chromium` when needed. Production uses HashRouter; `/Saakh1/#/business`, `/Saakh1/#/app` and `/Saakh1/#/product/accounting` support copied links and refresh. Recognized old clean paths migrate through the generated 404 document.
 
+**Verified release:** Application revision `e84d9c4` passed live exact-commit acceptance (13/13). Reports distinguish application verification from the later evidence commit. Two concurrent raw/Jekyll templates are now manual guidance only; keep `deploy.yml` as the sole publisher.
+
 **Publishing:** Settings → Pages → Source must be **GitHub Actions**, rather than a branch/Jekyll build. The existing official pinned workflow runs lockfile install, type/lint/unit/build and both browser suites, uploads only `dist`, then deploys. No credentials, source TSX, node_modules or test output belong in the Pages artifact. The workflow passes its exact commit SHA as `SAAKH_RELEASE_SHA`; generated `release.json` and the HTML `saakh-release` meta value identify the artifact being served. Local builds identify as `local`.
 
 Live-compatible acceptance checks:

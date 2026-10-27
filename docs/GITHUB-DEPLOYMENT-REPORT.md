@@ -1,21 +1,36 @@
-# GitHub deployment report — Saakh1
+# GitHub Pages deployment — verified application release
 
-Repository: `gganesh17g/Saakh1`; branch: main. Expected URL: https://gganesh17g.github.io/Saakh1/. Production base: `/Saakh1/`. Development base `/`; production HashRouter; existing 404 migration and root/graph error boundaries retained.
+Repository **gganesh17g/Saakh1**, branch **main**; project `/home/thunder/shared/Saakh`. Verified application/publishing revision `e84d9c43b475ff792564edf193449085ce2924b5`. [Successful build/test/deploy workflow](https://github.com/gganesh17g/Saakh1/actions/runs/40458297033). [Published site](https://gganesh17g.github.io/Saakh1/). Production base `/Saakh1/`; production HashRouter, development BrowserRouter. User explicitly confirmed changing Pages Source to **GitHub Actions**; no authenticated settings API read is claimed.
 
-## Evidence-based diagnosis
+The following evidence describes this exact application revision. The subsequent documentation/acceptance-test evidence commit does not change financial application code; the currently served revision is always exposed by [release.json](https://gganesh17g.github.io/Saakh1/release.json) and matching HTML metadata. A commit cannot contain its own SHA or the results of its own future deployment. Final follow-up deployment identity is checked after publication and reported in the delivery summary.
 
-The original local revision still defaulted to `/Saakh/`; remote correction `4cd6e8c16a2c71695f3fe6cbbfac645b531a6c64` had already changed it to `/Saakh1/`. That correction was fetched and preserved, not recreated or claimed as new work. Earlier custom workflow run 40454270331 failed specifically at configure-pages with “Get Pages site failed … Not Found”; subsequent build/test/deploy steps were skipped. The log confirms an unavailable/misconfigured Pages site at that earlier time, not an engine or WebGL failure.
+## Confirmed diagnosis and repair
 
-At this task’s baseline, the current site returned HTTP 200 with compiled `/Saakh1/assets/...` scripts and rendered the public website in a real browser. Therefore a current blank screen was not reproduced. The later custom workflow 40455522689 succeeded, including browser tests and deployment. A separate branch/Jekyll workflow 40455522861 ran on the same commit. That confirms competing publication mechanisms were active in the history, but does not establish the current authenticated Source setting. Source must be GitHub Actions to avoid publishing unbuilt source in later branch builds.
+The blank screen was reproduced during this task after concurrent publishing workflows appeared. Live HTML returned HTTP 200 with `<script type="module" src="/src/main.tsx">`; that host-root module returned 404, and release.json was absent (404). React could not load its entry. This is confirmed evidence, not a suspected engine or WebGL problem. See release-evidence/intermediate-live-response.json and initial-live-failure.json.
 
-## Release controls
+The concurrent user commits d6eeee4 (Jekyll template) and a4a4b24 (static template) were fetched without rewriting history. Both triggered on main; the static workflow uploaded `.` and Jekyll built source instead of Vite dist. Run 40457782305 published Jekyll while the Vite run was cancelled. The earlier first release run 40457643022 itself passed, but competing publication means its success did not establish what the URL served. At the start of this task the site had rendered; therefore this later reproduced failure is distinguished from the initially healthy baseline and from the historical original Saakh incident.
 
-Vite’s corrected base is preserved; static preview/test defaults are aligned. The build now emits release.json plus HTML release metadata; workflow supplies github.sha so live identity can be compared with the deployment commit. No `/src/main.tsx` is published by the artifact workflow; only dist is uploaded. Official pinned checkout/setup-node/configure-pages/upload-pages-artifact/deploy-pages steps and least-privilege job permissions remain. No administrator token is embedded in the workflow or client.
+Repair e84d9c4 preserves both template filenames and Git ancestry, but converts them into manual guidance jobs with read-only contents permission and no upload/deploy. Only deploy.yml publishes: npm ci → strict type/lint/unit → Vite build → development/production browser tests → upload dist → deploy-pages. Existing remote correction 4cd6e8c for /Saakh1/ is preserved and credited to its author. Current release metadata establishes artifact identity; aligned preview/test defaults and feedback link do not change any financial calculation or saved-data schema.
 
-GitHub’s Pages settings-update API requires both Pages-write and Administration-write permissions. The Actions token cannot provide Administration permissions. The connector can publish source but has no Pages-setting mutation tool, and the browser is signed out. A manual Source confirmation/change has been requested while independent release work continues. Exact action: Repository Settings → Pages → Build and deployment → Source → GitHub Actions. This is a tool capability boundary, not a request for additional code-push authorization.
+## Validation
 
-## Current result
+| Check | Reproduced competing-publisher state | Repaired local production | Exact application revision live |
+|---|---|---|---|
+| Asset loading | **Failed**: source module 404 | **Passed** | **Passed**: compiled JS/CSS/favicon status and MIME |
+| React Router navigation | **Failed**: entry unavailable | **Passed** | **Passed**: all business/credit/public routes |
+| Direct URL access | **Failed** for functioning React content | **Passed** | **Passed**: copied hash link/new tab |
+| Nested route refresh | **Not Tested** as functioning application | **Passed** | **Passed**: all inspected hash routes |
+| JavaScript console | **Failed**: source-entry resource error | **Passed** | **Passed**: zero monitored console/page errors |
+| Network requests | **Failed**: source module and release marker 404 | **Passed** | **Passed**: zero monitored failed requests |
+| Production build | **Passed** but competing publisher bypassed it | **Passed** | **Passed** in associated Actions build |
+| GitHub Pages deployment | **Failed** to serve compiled app | **Passed** static subpath emulation | **Passed**: release.json and HTML exact SHA |
 
-Local release validation and publishing are in progress. Commit SHA, associated workflow URL/status, artifact, deployment result and live exact-SHA checks will be updated after actual execution. Do not interpret this initial report as successful publication.
+Local checks: 75/75 unit/component/store tests (six files), 33/33 development browser tests, 30/30 production Pages tests. Strengthened X-ray/time/evidence/replay/story interaction check: 1/1 focused, then included in the final 30. TypeScript zero errors; ESLint zero errors/warnings; build passed; npm audit zero vulnerabilities; actionlint exit 0. Fresh npm ci installed 363 packages and audited 364. Live acceptance: **13/13 passed, zero failed**, using isolated synthetic contexts. Exact commands and warnings are in TEST-REPORT.md.
 
-References: [GitHub Pages REST update requirements](https://docs.github.com/en/rest/pages/pages#update-information-about-a-github-pages-site), [custom Pages workflows](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages).
+Eight live widths **320, 375, 430, 768, 1024, 1280, 1440, 1920** passed: public site, business navigation, forms/dialog, charts/tables, financial routes and 3D view; no accidental horizontal overflow. Local suite additionally covers 360/390. No FPS, real-world credit accuracy, universal accessibility or all-device compatibility claim is made. Existing measured local render timings are device-specific; production build retains the large lazy WebGL chunk advisory and Zod annotation warnings.
+
+## Remaining boundaries
+
+No manual deployment action is currently required after the user's Source change. Keep Source set to GitHub Actions and deploy.yml as the sole publisher. Avoid re-enabling raw-source/Jekyll publication. Official pinned Actions and scoped permissions are retained; no private administrator token is added. Browser-local data is not secure multi-user storage; banking, lenders, AA, messaging, GST filing and production authentication remain demo-only. The root error boundary cannot recover a missing bootstrap script, which is why correct artifact publication is required.
+
+References reviewed: [GitHub custom Pages workflows](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages), [Pages settings API permission requirements](https://docs.github.com/en/rest/pages/pages#update-information-about-a-github-pages-site). GitHub requires Administration-write plus Pages-write for that settings API; the user performed the admin setting change.

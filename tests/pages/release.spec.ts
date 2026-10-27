@@ -140,6 +140,11 @@ test("credit engines, graph interaction, scenario comparison, evidence, replay a
     page.getByRole("button", { name: "Resume graph" }),
   ).toBeVisible();
   await page.getByRole("button", { name: "Reset camera" }).click();
+  await page.getByRole("button", { name: /Cash-flow stability/ }).click();
+  await expect(page.locator(".xray")).toContainText("CV");
+  await page.locator("#time").focus();
+  await page.keyboard.press("ArrowRight");
+  await expect(page.locator('label[for="time"]')).toContainText("Forecast");
   await page
     .getByRole("link", { name: "Generate Simulation", exact: true })
     .click();
@@ -156,9 +161,33 @@ test("credit engines, graph interaction, scenario comparison, evidence, replay a
   await expect(
     page.getByRole("heading", { name: "Simulation snapshot" }),
   ).toBeVisible();
+  await page.getByRole("button", { name: /Invoices & transactions/ }).click();
+  await expect(page.locator(".evidence-pre")).toContainText("anjali-tx");
   await page.getByRole("link", { name: "Attack Lab" }).click();
   await page.getByRole("button", { name: "Run all tests" }).click();
   await expect(page.getByText("PASS", { exact: true })).toHaveCount(6);
+  await page.goto("./#/app/reports");
+  const replay = page.getByRole("slider", { name: /Stage/ });
+  await replay.focus();
+  await page.keyboard.press("ArrowRight");
+  await expect(replay).toHaveValue("1");
+  await page.getByText("Reproducible input snapshot", { exact: true }).click();
+  await expect(page.locator("details pre")).toContainText('"sources"');
+  await page.goto("./#/app/guide");
+  await page
+    .getByRole("button", { name: "Start interactive story mode" })
+    .click();
+  await expect(
+    page.getByRole("complementary", { name: "Interactive story mode" }),
+  ).toBeVisible();
+  await page.getByRole("button", { name: "Next checkpoint" }).click();
+  await expect(
+    page.getByRole("heading", { name: "Change the financial twin" }),
+  ).toBeVisible();
+  await page.getByRole("button", { name: "Skip tour", exact: true }).click();
+  await expect(
+    page.getByRole("complementary", { name: "Interactive story mode" }),
+  ).toHaveCount(0);
   expect(errors).toEqual([]);
 });
 test("live-compatible confirmed credit invoice, partial receipt, balanced export and reload", async ({
@@ -183,14 +212,12 @@ test("live-compatible confirmed credit invoice, partial receipt, balanced export
   const row = page.getByRole("row").filter({ hasText: "RELEASE-CHECK-001" });
   await expect(row).toContainText("₹1,000.00");
   await row.getByRole("button", { name: "Details" }).click();
-  const form = page
-    .locator("form")
-    .filter({
-      has: page.getByRole("heading", {
-        name: "Record collection",
-        exact: true,
-      }),
-    });
+  const form = page.locator("form").filter({
+    has: page.getByRole("heading", {
+      name: "Record collection",
+      exact: true,
+    }),
+  });
   await form.getByLabel("Amount (₹)", { exact: true }).fill("250");
   await form.getByLabel("Confirm receipt").check();
   await form

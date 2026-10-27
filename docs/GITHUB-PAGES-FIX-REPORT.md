@@ -1,73 +1,34 @@
-# Current deployment revalidation — 27 October 2026
+# GitHub Pages repair — current verified result
 
-**Status: Partially Fixed — repaired local deployment behavior remains verified; live publication unavailable.** This update concerns the business-platform upgrade, not ownership of the earlier Pages repair. Exact current file counts are in FILE-CHANGES-REPORT.md.
+**Status: Fixed for the tested application release; verified live.**
 
-The prior report below documented an unbuilt-source HTML entry and missing module as the confirmed historical blank-screen cause. That historical diagnosis is preserved. The new read-only check instead received **HTTP 404 for https://ganesh-g18.github.io/Saakh/**. The exact present hosting/settings cause is **unconfirmed**. No new live script payload or browser-console claim is inferred from a failed entry request.
+Repository **gganesh17g/Saakh1**, branch **main**; project `/home/thunder/shared/Saakh`. Verified application/publishing revision `e84d9c43b475ff792564edf193449085ce2924b5`. [Successful build/test/deploy workflow](https://github.com/gganesh17g/Saakh1/actions/runs/40458297033). [Published site](https://gganesh17g.github.io/Saakh1/). Production base `/Saakh1/`; production HashRouter, development BrowserRouter. User explicitly confirmed changing Pages Source to **GitHub Actions**; no authenticated settings API read is claimed.
 
-Current changes preserve `/Saakh/`, production HashRouter, compiled-asset publication and recovery boundaries; the 404 migrator now also recognizes `/business` and `/product` paths. The existing workflow now gates both full browser and Pages suites. Final local checks: 75 unit/component/store, 33 full browser, 8 final contrast/view rechecks, 17 production Pages and 6 root-hosting smoke tests passed. Strict typecheck, lint, build, workflow parsing and checksum-verified actionlint passed; final npm audit reports zero vulnerabilities. See TEST-REPORT.md and DEPLOYMENT-VALIDATION.md for warnings, commands and verification limits.
+The following evidence describes this exact application revision. The subsequent documentation/acceptance-test evidence commit does not change financial application code; the currently served revision is always exposed by [release.json](https://gganesh17g.github.io/Saakh1/release.json) and matching HTML metadata. A commit cannot contain its own SHA or the results of its own future deployment. Final follow-up deployment identity is checked after publication and reported in the delivery summary.
 
-No remote upload, push, settings update or deployment was performed. Local production validation passed, but **live GitHub Pages verification remains pending**. Older remote Actions success is not evidence of this upgrade being deployed. File attribution and preserved historical documentation are recorded separately.
+## Root cause
 
-## Historical repair report — pre-existing baseline, retained verbatim
+The blank screen was reproduced during this task after concurrent publishing workflows appeared. Live HTML returned HTTP 200 with `<script type="module" src="/src/main.tsx">`; that host-root module returned 404, and release.json was absent (404). React could not load its entry. This is confirmed evidence, not a suspected engine or WebGL problem. See release-evidence/intermediate-live-response.json and initial-live-failure.json.
 
-# GitHub Pages blank-screen repair report
+The concurrent user commits d6eeee4 (Jekyll template) and a4a4b24 (static template) were fetched without rewriting history. Both triggered on main; the static workflow uploaded `.` and Jekyll built source instead of Vite dist. Run 40457782305 published Jekyll while the Vite run was cancelled. The earlier first release run 40457643022 itself passed, but competing publication means its success did not establish what the URL served. At the start of this task the site had rendered; therefore this later reproduced failure is distinguished from the initially healthy baseline and from the historical original Saakh incident.
 
-## Status
-
-**Repair status: Partially Fixed — local code/artifact repair verified; live publication pending.**
-
-Project: `/home/thunder/shared/Saakh`. Verified repository: [Ganesh-g18/Saakh](https://github.com/Ganesh-g18/Saakh), default branch main. Reported site: [https://ganesh-g18.github.io/Saakh/](https://ganesh-g18.github.io/Saakh/). Source changes: **11 created, 10 modified, 0 renamed, 0 deleted**, 21 files total. No original source/documentation file was deleted or renamed.
-
-## Confirmed root cause
-
-The published HTML is the **unbuilt Vite source index.html**, not dist/index.html. The live page returns HTTP 200 but contains `<script type="module" src="/src/main.tsx"></script>`. That resolves to `https://ganesh-g18.github.io/src/main.tsx`, which returns **404**. The browser records a failed-resource console error, failed request, and an empty rendered body. React cannot bootstrap because its entry module never loads. The live 598-byte HTML matches the pre-edit source entry.
-
-The repository has no `.github/workflows` directory in the public API inspection. This supports the missing build/deployment-pipeline diagnosis; the exact authenticated Pages branch/source setting was not available and is **not claimed as confirmed**.
-
-## Additional confirmed deployment defects
-
-- Vite had no configured base and emitted host-root `/assets/...` URLs. Mounting the original compiled artifact under `/Saakh/` reproduced missing JS/CSS and a blank body. Thus merely uploading the old dist would still be unsafe at this project prefix.
-- BrowserRouter used clean `/app/...` paths without a static-host fallback; the real `/Saakh/app/verify` request returned 404.
-- Source favicon used `/favicon.svg`, outside the project prefix.
-- There was no root React recovery boundary or fallback for a WebGL exception occurring after capability detection. No WebGL failure was observed as the cause of the live blank page.
-
-No case-sensitive import mismatch, missing production runtime package, API key, or financial engine defect was identified. Successful Linux builds and loaded lazy modules provide evidence against those causes in the tested artifact, not an exhaustive proof for all devices.
-
-## Targeted repair
-
-`vite.config.ts` now selects root base for local development and verified /Saakh/ for builds/previews, with a validated SAAKH_BASE_PATH override. GitHub Actions takes base_path from configure-pages metadata. `index.html` uses %BASE_URL% for its public favicon. Production HashRouter keeps application routes in the URL fragment without a basename; React Router links become `/Saakh/#/app/...`. The development BrowserRouter remains unchanged. Landing section links and skip focus preserve the hash router.
-
-The build emits .nojekyll and an explicit 404 document: legacy clean /app URLs migrate to the equivalent hash route; unrelated missing pages show a recovery link. A root ErrorBoundary logs and shows actual post-bootstrap React failures, with retry/reload/home recovery. A graph-scoped boundary reuses the existing data-driven SVG inspector when Canvas fails. An error boundary cannot repair a missing initial script; publishing a correct built artifact solves that root cause.
-
-The official Actions workflow installs via npm ci, runs strict type/lint/unit checks, builds with metadata-derived base, runs the 14-test strict production suite, uploads only dist, then deploys via Pages. Scoped permissions, protected github-pages environment, serialized deployments and full action SHA pins are included. No node_modules, credentials or unrelated product changes are introduced into deployment artifacts.
+Repair e84d9c4 preserves both template filenames and Git ancestry, but converts them into manual guidance jobs with read-only contents permission and no upload/deploy. Only deploy.yml publishes: npm ci → strict type/lint/unit → Vite build → development/production browser tests → upload dist → deploy-pages. Existing remote correction 4cd6e8c for /Saakh1/ is preserved and credited to its author. Current release metadata establishes artifact identity; aligned preview/test defaults and feedback link do not change any financial calculation or saved-data schema.
 
 ## Before and after
 
-| Item                    | Before                                                                                                | Repaired local production                               | Repaired live deployment                 |
-| ----------------------- | ----------------------------------------------------------------------------------------------------- | ------------------------------------------------------- | ---------------------------------------- |
-| Asset loading           | **Failed** — raw source module 404; old compiled JS/CSS prefix reproduction also fails                | **Passed** — every emitted JS/CSS and favicon 200       | **Blocked** — not published              |
-| React Router navigation | **Failed** — live React never bootstrapped; browser-history strategy unsuitable for static deep links | **Passed** — all five areas, back/forward               | **Blocked**                              |
-| Direct URL access       | **Failed** — clean app URL 404                                                                        | **Passed** — hash links and tested legacy 404 migration | **Blocked**                              |
-| Browser refresh         | **Not Tested** as a working live app before repair; direct clean URL failure confirmed                | **Passed** — all five hash routes refresh               | **Blocked**                              |
-| JavaScript console      | **Failed** — resource-load error; no JS exception because entry missing                               | **Passed** — zero errors in normal monitored flows      | **Blocked**                              |
-| Network requests        | **Failed** — source module 404; compiled-prefix baseline JS/CSS 404                                   | **Passed** — no failed normal flow requests             | **Blocked**                              |
-| Production build        | **Not Tested** as a fresh before-repair command; existing bad-prefix artifact inspected               | **Passed** — final strict build, 404/.nojekyll emitted  | **Blocked** for cloud execution          |
-| GitHub Pages behavior   | **Failed** — blank published page observed                                                            | **Passed** on exact-prefix strict static fixture        | **Blocked** pending authenticated deploy |
+| Check | Reproduced competing-publisher state | Repaired local production | Exact application revision live |
+|---|---|---|---|
+| Asset loading | **Failed**: source module 404 | **Passed** | **Passed**: compiled JS/CSS/favicon status and MIME |
+| React Router navigation | **Failed**: entry unavailable | **Passed** | **Passed**: all business/credit/public routes |
+| Direct URL access | **Failed** for functioning React content | **Passed** | **Passed**: copied hash link/new tab |
+| Nested route refresh | **Not Tested** as functioning application | **Passed** | **Passed**: all inspected hash routes |
+| JavaScript console | **Failed**: source-entry resource error | **Passed** | **Passed**: zero monitored console/page errors |
+| Network requests | **Failed**: source module and release marker 404 | **Passed** | **Passed**: zero monitored failed requests |
+| Production build | **Passed** but competing publisher bypassed it | **Passed** | **Passed** in associated Actions build |
+| GitHub Pages deployment | **Failed** to serve compiled app | **Passed** static subpath emulation | **Passed**: release.json and HTML exact SHA |
 
-## Validation and residual risks
+Local checks: 75/75 unit/component/store tests (six files), 33/33 development browser tests, 30/30 production Pages tests. Strengthened X-ray/time/evidence/replay/story interaction check: 1/1 focused, then included in the final 30. TypeScript zero errors; ESLint zero errors/warnings; build passed; npm audit zero vulnerabilities; actionlint exit 0. Fresh npm ci installed 363 packages and audited 364. Live acceptance: **13/13 passed, zero failed**, using isolated synthetic contexts. Exact commands and warnings are in TEST-REPORT.md.
 
-30/30 unit/component/state tests, 13/13 existing browser regressions, 14/14 production Pages tests and 4/4 root-base smoke checks. TypeScript and ESLint pass; actionlint v1.7.12 reports no diagnostics. Full commands, intermediate failures and environment details are in DEPLOYMENT-VALIDATION.md.
+Eight live widths **320, 375, 430, 768, 1024, 1280, 1440, 1920** passed: public site, business navigation, forms/dialog, charts/tables, financial routes and 3D view; no accidental horizontal overflow. Local suite additionally covers 360/390. No FPS, real-world credit accuracy, universal accessibility or all-device compatibility claim is made. Existing measured local render timings are device-specific; production build retains the large lazy WebGL chunk advisory and Zod annotation warnings.
 
-The existing large 3D bundle advisory remains. A page unload during an uncommitted asynchronous note write can lose that last write; the regression test verifies durable commit before reloading. Browser-local synthetic-data limitations remain unchanged. The workflow has not run on GitHub; permissions, Pages source setting and any environment approval must be confirmed there.
-
-No authenticated GitHub write tool was connected and the local directory lacks Git metadata; no source push or live settings change was made. Local production validation passed but **live GitHub Pages verification remains pending**.
-
-## Primary references
-
-- [Vite static deployment guidance](https://vite.dev/guide/static-deploy): project-repository base and publishing built dist.
-- [GitHub Pages custom workflows](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages): official build/upload/deploy flow and permissions.
-- [GitHub publishing-source settings](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site): select GitHub Actions.
-- [React Router HashRouter](https://reactrouter.com/api/declarative-routers/HashRouter): route fragment is not sent to the server.
-- [configure-pages metadata outputs](https://github.com/actions/configure-pages/blob/45bfe0192ca1faeb007ade9deae92b16b8254a0d/action.yml): authoritative base_path output.
-
-Reviewed 26 October 2026. Action SHAs were taken from the official Vite workflow example and the workflow was checked with actionlint. These references describe platform behavior, not successful deployment of this repair.
+File-by-file ownership/counts/side effects: FILE-CHANGES-REPORT.md. Prior repair analysis is preserved verbatim in history/pre-saakh1-release-GITHUB-PAGES-FIX-REPORT.md; it describes an earlier repository, not current deployment status.

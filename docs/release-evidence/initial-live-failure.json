@@ -1,0 +1,467 @@
+{
+  "config": {
+    "argv": [
+      "/home/thunder/.nvm/versions/node/v26.11.1/bin/node",
+      "/home/thunder/shared/Saakh/node_modules/.bin/playwright",
+      "test",
+      "--config",
+      "playwright.pages.config.ts",
+      "tests/pages/release.spec.ts"
+    ],
+    "configFile": "/home/thunder/shared/Saakh/playwright.pages.config.ts",
+    "rootDir": "/home/thunder/shared/Saakh/tests/pages",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/home/thunder/shared/Saakh/test-results/pages",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "/home/thunder/shared/Saakh/tests/pages",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "/home/thunder/shared/Saakh/test-results/pages",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "",
+        "testDir": "/home/thunder/shared/Saakh/tests/pages",
+        "snapshotDir": "/home/thunder/shared/Saakh/tests/pages",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 60000,
+        "use": {
+          "baseURL": "https://gganesh17g.github.io/Saakh1/",
+          "headless": true,
+          "launchOptions": {
+            "args": [
+              "--no-sandbox",
+              "--enable-unsafe-swiftshader"
+            ]
+          }
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": ""
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "test-results/pages-results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.64.1",
+    "workers": 2,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "release.spec.ts",
+      "file": "release.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "release identity, compiled entry, JS/CSS/image MIME and no doubled prefix",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 16637,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('heading', { name: /See the business/ })\nExpected: visible\nTimeout: 15000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('heading', { name: /See the business/ }) with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: /See the business/ })\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('heading', { name: /See the business/ })\nExpected: visible\nTimeout: 15000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('heading', { name: /See the business/ }) with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: /See the business/ })\u001b[22m\n\n    at /home/thunder/shared/Saakh/tests/pages/release.spec.ts:21:5",
+                    "location": {
+                      "file": "/home/thunder/shared/Saakh/tests/pages/release.spec.ts",
+                      "column": 5,
+                      "line": 21
+                    },
+                    "snippet": "  19 |   await expect(\n  20 |     page.getByRole(\"heading\", { name: /See the business/ }),\n> 21 |   ).toBeVisible();\n     |     ^\n  22 |   const r = await request.get(\"./release.json\");\n  23 |   expect(r.status()).toBe(200);\n  24 |   const identity = await r.json();"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/home/thunder/shared/Saakh/tests/pages/release.spec.ts",
+                        "column": 5,
+                        "line": 21
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('heading', { name: /See the business/ })\nExpected: visible\nTimeout: 15000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('heading', { name: /See the business/ }) with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: /See the business/ })\u001b[22m\n\n\n  19 |   await expect(\n  20 |     page.getByRole(\"heading\", { name: /See the business/ }),\n> 21 |   ).toBeVisible();\n     |     ^\n  22 |   const r = await request.get(\"./release.json\");\n  23 |   expect(r.status()).toBe(200);\n  24 |   const identity = await r.json();\n    at /home/thunder/shared/Saakh/tests/pages/release.spec.ts:21:5"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T05:55:41.349Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/home/thunder/shared/Saakh/test-results/pages/release-release-identity-c-f5da8--MIME-and-no-doubled-prefix/error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/home/thunder/shared/Saakh/tests/pages/release.spec.ts",
+                    "column": 5,
+                    "line": 21
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "7324964a6aa193ebd049-dc9995c8c360dac08bd8",
+          "file": "release.spec.ts",
+          "line": 13,
+          "column": 1
+        },
+        {
+          "title": "all public feature, pricing, company, privacy, terms and support pages load and refresh",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "interrupted",
+                  "duration": 15592,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('h1')\nExpected: visible\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" locator('h1') with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for locator('h1')\u001b[22m\n\u001b[2m  - Test ended.\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('h1')\nExpected: visible\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" locator('h1') with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for locator('h1')\u001b[22m\n\u001b[2m  - Test ended.\u001b[22m\n\n    at /home/thunder/shared/Saakh/tests/pages/release.spec.ts:66:38",
+                    "location": {
+                      "file": "/home/thunder/shared/Saakh/tests/pages/release.spec.ts",
+                      "column": 38,
+                      "line": 66
+                    },
+                    "snippet": "  64 |   ]) {\n  65 |     await page.goto(\"./#/product/\" + route);\n> 66 |     await expect(page.locator(\"h1\")).toBeVisible();\n     |                                      ^\n  67 |     await page.reload();\n  68 |     await expect(page.locator(\"h1\")).toBeVisible();\n  69 |   }"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/home/thunder/shared/Saakh/tests/pages/release.spec.ts",
+                        "column": 38,
+                        "line": 66
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('h1')\nExpected: visible\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" locator('h1') with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for locator('h1')\u001b[22m\n\u001b[2m  - Test ended.\u001b[22m\n\n\n  64 |   ]) {\n  65 |     await page.goto(\"./#/product/\" + route);\n> 66 |     await expect(page.locator(\"h1\")).toBeVisible();\n     |                                      ^\n  67 |     await page.reload();\n  68 |     await expect(page.locator(\"h1\")).toBeVisible();\n  69 |   }\n    at /home/thunder/shared/Saakh/tests/pages/release.spec.ts:66:38"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T05:55:59.717Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/home/thunder/shared/Saakh/test-results/pages/release-all-public-feature-9b3a4-port-pages-load-and-refresh/error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/home/thunder/shared/Saakh/tests/pages/release.spec.ts",
+                    "column": 38,
+                    "line": 66
+                  }
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "7324964a6aa193ebd049-7708696820b6b598af15",
+          "file": "release.spec.ts",
+          "line": 48,
+          "column": 1
+        },
+        {
+          "title": "all fourteen business modules, copied links, back and forward work",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "7324964a6aa193ebd049-cfd59d37f90b9225468f",
+          "file": "release.spec.ts",
+          "line": 72,
+          "column": 1
+        },
+        {
+          "title": "credit engines, graph interaction, scenario comparison, evidence, replay and guided demo remain reachable",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "7324964a6aa193ebd049-f41dd056cc3a9370ced9",
+          "file": "release.spec.ts",
+          "line": 116,
+          "column": 1
+        },
+        {
+          "title": "live-compatible confirmed credit invoice, partial receipt, balanced export and reload",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "7324964a6aa193ebd049-c35ee5c1a3d6bffa5234",
+          "file": "release.spec.ts",
+          "line": 164,
+          "column": 1
+        },
+        {
+          "title": "release responsive 320",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "7324964a6aa193ebd049-e573965cc2158ab55963",
+          "file": "release.spec.ts",
+          "line": 224,
+          "column": 3
+        },
+        {
+          "title": "release responsive 375",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "7324964a6aa193ebd049-4582df95a6a7d907d672",
+          "file": "release.spec.ts",
+          "line": 224,
+          "column": 3
+        },
+        {
+          "title": "release responsive 430",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "7324964a6aa193ebd049-c4d25a1f35c54758e235",
+          "file": "release.spec.ts",
+          "line": 224,
+          "column": 3
+        },
+        {
+          "title": "release responsive 768",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "7324964a6aa193ebd049-9150c545885750d9c493",
+          "file": "release.spec.ts",
+          "line": 224,
+          "column": 3
+        },
+        {
+          "title": "release responsive 1024",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "7324964a6aa193ebd049-4c80e1f74bdc6ce82b67",
+          "file": "release.spec.ts",
+          "line": 224,
+          "column": 3
+        },
+        {
+          "title": "release responsive 1280",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "7324964a6aa193ebd049-01e3477f112c7c535915",
+          "file": "release.spec.ts",
+          "line": 224,
+          "column": 3
+        },
+        {
+          "title": "release responsive 1440",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "7324964a6aa193ebd049-1cfaa0c653c4d9c017ba",
+          "file": "release.spec.ts",
+          "line": 224,
+          "column": 3
+        },
+        {
+          "title": "release responsive 1920",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "7324964a6aa193ebd049-865716eef469e27f9de1",
+          "file": "release.spec.ts",
+          "line": 224,
+          "column": 3
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-27T05:55:40.667Z",
+    "duration": 35500.047,
+    "expected": 0,
+    "skipped": 12,
+    "unexpected": 1,
+    "flaky": 0
+  }
+}

@@ -41,8 +41,8 @@ Verified commands: `git status --short`, `git diff --stat`, `git diff --name-sta
 | `src/business/store.ts` | Modified | Storage integrity and complete deletion | Store persistence/failure/deletion tests and browser restoration |
 | `src/business/view4.ts` | Created | Context-preserving view state | Filter persistence and repeated-create browser case |
 | `src/business/workspace4.css` | Created | Consistent responsive/comfort surfaces | Overflow checks 320–1920px, appearance/density and screenshots |
-| `src/business/workspace4.test.ts` | Created | Financial and persistence regression evidence | 155 total tests passed, including 32 new cases |
-| `src/business/workspace4.ts` | Created | Local workspace domain and persistence | 32 new unit cases within the final 155 suite, production task/restore/scenario tests |
+| `src/business/workspace4.test.ts` | Created | Financial and persistence regression evidence | 156 total tests passed, including 33 new cases |
+| `src/business/workspace4.ts` | Created | Local workspace domain and persistence | 33 new unit cases within the final 156 suite, production task/restore/scenario tests |
 | `src/components/Network.tsx` | Modified | Adaptive reusable scene | Original graph/unsupported-WebGL/keyboard tests and new business 3D test |
 | `src/main.tsx` | Modified | Clear public entry and resilient theme preference | Public launch, themes, navigation and routing tests |
 | `tests/business.spec.ts` | Modified | Adapt retained acceptance tests to deliberate UX changes | Final full development suite: 33/33 |
@@ -387,7 +387,7 @@ Verified commands: `git status --short`, `git diff --stat`, `git diff --name-sta
 - **Important changes:** Uses original synthetic fixtures and posting engines, not mirror-only UI assertions.
 - **Features affected:** New workspace core.
 - **Potential side effects:** Mocks IndexedDB for failure injection; real IndexedDB covered by browser tests.
-- **Validation:** 155 total tests passed, including 32 new cases.
+- **Validation:** 156 total tests passed, including 33 new cases.
 
 ## `src/business/workspace4.ts` — Created
 
@@ -397,7 +397,7 @@ Verified commands: `git status --short`, `git diff --stat`, `git diff --name-sta
 - **Important changes:** Uses existing engines; validates IDs, membership, cash arithmetic and backup counts; source identities remap; one-time imported archive synchronization is supported by UI.
 - **Features affected:** Tasks, search, notifications, scenarios, backup/recovery.
 - **Potential side effects:** Backups are unencrypted; count metadata is not a signature; all permissions are client-demo checks.
-- **Validation:** 32 new unit cases within the final 155 suite, production task/restore/scenario tests.
+- **Validation:** 33 new unit cases within the final 156 suite, production task/restore/scenario tests.
 
 ## `src/components/Network.tsx` — Modified
 

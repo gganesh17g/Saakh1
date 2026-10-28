@@ -3,22 +3,7 @@
   "metrics": [
     {
       "width": 1440,
-      "readyMs": 1043,
-      "paint": [
-        {
-          "name": "first-paint",
-          "startTime": 40
-        },
-        {
-          "name": "first-contentful-paint",
-          "startTime": 136
-        }
-      ],
-      "resources": 6
-    },
-    {
-      "width": 390,
-      "readyMs": 452,
+      "readyMs": 1082,
       "paint": [
         {
           "name": "first-paint",
@@ -26,7 +11,22 @@
         },
         {
           "name": "first-contentful-paint",
-          "startTime": 64
+          "startTime": 120
+        }
+      ],
+      "resources": 6
+    },
+    {
+      "width": 390,
+      "readyMs": 460,
+      "paint": [
+        {
+          "name": "first-paint",
+          "startTime": 56
+        },
+        {
+          "name": "first-contentful-paint",
+          "startTime": 80
         }
       ],
       "resources": 6

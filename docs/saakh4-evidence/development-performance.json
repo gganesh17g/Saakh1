@@ -3,30 +3,30 @@
   "metrics": [
     {
       "width": 1440,
-      "readyMs": 1982,
+      "readyMs": 2064,
       "paint": [
         {
           "name": "first-paint",
-          "startTime": 300
+          "startTime": 344
         },
         {
           "name": "first-contentful-paint",
-          "startTime": 360
+          "startTime": 428
         }
       ],
       "resources": 58
     },
     {
       "width": 390,
-      "readyMs": 847,
+      "readyMs": 681,
       "paint": [
         {
           "name": "first-paint",
-          "startTime": 124
+          "startTime": 100
         },
         {
           "name": "first-contentful-paint",
-          "startTime": 196
+          "startTime": 168
         }
       ],
       "resources": 58

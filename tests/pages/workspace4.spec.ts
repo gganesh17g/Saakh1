@@ -218,6 +218,14 @@ test("4.0 role permissions hide confidential search, data management and creatio
   page,
 }) => {
   await role(page, "staff");
+  await page.getByRole("button", { name: "+ Create", exact: true }).click();
+  await expect(
+    page.getByRole("dialog").getByRole("button", { name: "Add Product" }),
+  ).toHaveCount(0);
+  await expect(
+    page.getByRole("dialog").getByRole("button", { name: "Create Invoice" }),
+  ).toBeVisible();
+  await page.keyboard.press("Escape");
   await go(page, "data");
   await expect(
     page.getByRole("heading", { name: "Role access", exact: true }),

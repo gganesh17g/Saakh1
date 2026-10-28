@@ -18,6 +18,7 @@ import {
   useWorkspace4,
   roleNames,
   canPage,
+  createActions4,
   searchRecords,
   notifications,
   makeBackup,
@@ -91,20 +92,7 @@ export function Tools4() {
         e.category === w.data.prefs.notifications,
     ),
     unread = events.filter((e) => !w.data.read.includes(e.id));
-  const actions = [
-    ["customers", "Add Customer"],
-    ["sales", "Create Invoice"],
-    ["bills", "Record Purchase"],
-    ["inventory", "Add Product"],
-    ["tasks", "Create Task"],
-    ["payroll", "Prepare Payroll"],
-  ].filter(
-    ([p]) =>
-      canPage(s.role, p) &&
-      (p === "tasks"
-        ? s.role !== "auditor"
-        : permissions[s.role].includes(p === "payroll" ? "payroll" : "draft")),
-  );
+  const actions = createActions4(s.role);
   const go = (p: string) => {
     setPanel("");
     setQ("");

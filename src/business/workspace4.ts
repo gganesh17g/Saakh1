@@ -714,3 +714,21 @@ export function answerWorkspace4(s: BusinessState, q: string) {
     estimate: false,
   };
 }
+export function createActions4(role: Role) {
+  return [
+    ["customers", "Add Customer", "draft"],
+    ["sales", "Create Invoice", "draft"],
+    ["bills", "Record Purchase", "draft"],
+    ["inventory", "Add Product", "journal"],
+    ["tasks", "Create Task", "task"],
+    ["payroll", "Prepare Payroll", "payroll"],
+  ]
+    .filter(
+      ([page, , permission]) =>
+        canPage(role, page) &&
+        (permission === "task"
+          ? role !== "auditor"
+          : permissions[role].includes(permission)),
+    )
+    .map(([page, label]) => [page, label]);
+}

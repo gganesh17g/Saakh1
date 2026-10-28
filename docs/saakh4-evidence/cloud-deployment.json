@@ -1,4 +1,34 @@
 {
-  "status": "pending",
-  "description": "Not a verified deployment result. This record will be updated after publication and live checks."
+  "status": "initial-release-verified",
+  "applicationCommit": "cb7ec4f48fcaedf6b16e19511c7d3f075477d9d1",
+  "workflowId": 40675782267,
+  "workflowUrl": "https://github.com/gganesh17g/Saakh1/actions/runs/40675782267",
+  "jobs": [
+    {
+      "id": 122773702132,
+      "name": "build",
+      "conclusion": "success"
+    },
+    {
+      "id": 122775144642,
+      "name": "deploy",
+      "conclusion": "success"
+    }
+  ],
+  "artifact": [
+    {
+      "id": 12810387202,
+      "name": "github-pages",
+      "size": 838827,
+      "expired": false
+    }
+  ],
+  "observedTests": {
+    "unit": 155,
+    "developmentBrowser": 33,
+    "productionBrowser": 61
+  },
+  "releaseIdentityHttp": 200,
+  "releaseIdentityCommit": "cb7ec4f48fcaedf6b16e19511c7d3f075477d9d1",
+  "note": "Initial source release; final operation-specific Create permission fix is being published separately."
 }

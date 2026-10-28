@@ -284,3 +284,11 @@ it.each([
   expect(() => parseBackup(JSON.stringify(b))).toThrow();
   expect(JSON.stringify(s)).toBe(before);
 });
+import { createActions4 } from "./workspace4";
+it("Create menu uses operation-specific authority instead of equating draft permission with stock journal authority", () => {
+  expect(createActions4("staff").map((r) => r[0])).not.toContain("inventory");
+  expect(createActions4("staff").map((r) => r[0])).toContain("sales");
+  expect(createActions4("accountant").map((r) => r[0])).toContain("inventory");
+  expect(createActions4("auditor")).toEqual([]);
+  expect(createActions4("manager").map((r) => r[0])).toEqual(["tasks"]);
+});

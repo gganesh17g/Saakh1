@@ -22,4 +22,4 @@ See the requirements matrix for qualifications and `SAAKH-4-TEST-RESULTS.md` for
 
 ## Final local acceptance
 
-155 unit/integration, 33 development-browser and 61 production-browser tests passed; typecheck, lint and production build passed. Dependency audit found zero known vulnerabilities. Final source preserves the original financial/scoring engines byte-for-byte; only orchestration, validation, presentation and workspace features changed. See the requirements matrix for qualified scope rather than interpreting this as a claim of full production banking capability.
+156 unit/integration, 33 development-browser and 61 production-browser tests passed; typecheck, lint and production build passed. Dependency audit found zero known vulnerabilities. Final source preserves the original financial/scoring engines byte-for-byte; only orchestration, validation, presentation and workspace features changed. See the requirements matrix for qualified scope rather than interpreting this as a claim of full production banking capability.

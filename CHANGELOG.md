@@ -1,3 +1,12 @@
+## 4.0.0-demo — 28 October 2026 · connected workspace
+
+- Preserved existing accounting, payroll, returns, stock, credit and simulation engines; added role-aware shell tools, dedicated demo roles, searchable business switcher and mobile navigation.
+- Added tasks, real-condition notifications, universal read-only search, Create links, customer drawer, eligible invoice draft recovery and source-linked record sections.
+- Added Insights, named immutable scenario snapshots, comparison charts/tables, explicit recalculation and a posted-document business network using the existing lazy 3D scene.
+- Added selected-period Reports Centre exports, versioned validated separate-business backups, imported-workspace recovery archives and safe queued workspace persistence.
+- Added appearance initialization, density/comfort/quality preferences, contextual Help, dashboard customization and business-scoped view preferences.
+- Expanded financial/persistence/privacy/browser coverage and added ten detailed release reports. See the current test/deployment reports for executed counts and verified publication status; no unverified live release is implied by this entry.
+
 ## 3.0.0-demo — 28 October 2026 · connected operations
 
 - Extended the existing ledger/application with customer profiles/statements, atomic automatic FY invoices, separate quantity-based sales/purchase returns, and effective-dated monthly payroll.

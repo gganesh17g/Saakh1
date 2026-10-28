@@ -93,6 +93,7 @@ it("deletion touches only owned records and requires typed confirmation", async 
     "runs",
     "borrowers",
     "notes",
+    "saakh-workspace-v4",
   ]);
   expect(set).toHaveBeenCalledWith("saakh-business-v1", emptyState());
 });

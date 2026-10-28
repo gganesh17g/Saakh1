@@ -93,9 +93,14 @@ function Logo() {
   );
 }
 function Theme() {
-  const [theme, setTheme] = useState(
-    window.localStorage.getItem("saakh-theme") || "system",
-  );
+  const [theme, setTheme] = useState(() => {
+    try {
+      return window.localStorage.getItem("saakh-theme") || "system";
+    } catch {
+      return "system";
+    }
+  });
+  const [appearanceError, setAppearanceError] = useState("");
   useEffect(() => {
     const m = matchMedia("(prefers-color-scheme: light)");
     const apply = () =>
@@ -103,14 +108,22 @@ function Theme() {
         theme === "system" ? (m.matches ? "light" : "dark") : theme);
     apply();
     m.addEventListener("change", apply);
-    window.localStorage.setItem("saakh-theme", theme);
+    try {
+      window.localStorage.setItem("saakh-theme", theme);
+      setAppearanceError("");
+    } catch {
+      setAppearanceError(
+        "Appearance could not be saved; preference applies for this session only.",
+      );
+    }
     return () => m.removeEventListener("change", apply);
   }, [theme]);
   return (
     <button
       className="icon-btn"
       aria-label="Change theme"
-      title={`Theme: ${theme}`}
+      title={appearanceError || `Theme: ${theme}`}
+      aria-description={appearanceError || `Appearance preference: ${theme}`}
       onClick={() =>
         setTheme(
           theme === "dark" ? "light" : theme === "light" ? "system" : "dark",
@@ -161,8 +174,14 @@ function Landing() {
             explained.
           </p>
           <div className="actions">
-            <Link className="button" to="/business">
-              Open Business Pulse <ArrowUpRight size={18} />
+            <Link className="button" to="/business?start=owner">
+              Explore Business Demo <ArrowUpRight size={18} />
+            </Link>
+            <Link className="text-link" to="/business">
+              Continue Previous Session →
+            </Link>
+            <Link className="text-link" to="/business/roles">
+              Explore Team Roles →
             </Link>
             <Link className="text-link" to="/product/accounting">
               Explore business tools →

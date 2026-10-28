@@ -1,4 +1,12 @@
-import { type ReactNode, type FormEvent, useState } from "react";
+import {
+  type ReactNode,
+  type FormEvent,
+  useState,
+  Children,
+  isValidElement,
+  cloneElement,
+  type ReactElement,
+} from "react";
 import { useBusiness, contextFor } from "./store";
 import { authorize, permissions, rupees } from "./model";
 import { download, csvCell } from "./imports";
@@ -94,7 +102,26 @@ export function Table3({
             ))}
           </tr>
         </thead>
-        <tbody>{children}</tbody>
+        <tbody>
+          {Children.map(children, (row) =>
+            isValidElement(row) && row.type === "tr"
+              ? cloneElement(
+                  row as ReactElement<{ children: ReactNode }>,
+                  {},
+                  Children.map(
+                    (row.props as { children: ReactNode }).children,
+                    (cell, i) =>
+                      isValidElement(cell)
+                        ? cloneElement(
+                            cell as ReactElement<{ "data-label"?: string }>,
+                            { "data-label": heads[i] || "Details" },
+                          )
+                        : cell,
+                  ),
+                )
+              : row,
+          )}
+        </tbody>
       </table>
     </div>
   );

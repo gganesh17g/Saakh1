@@ -219,19 +219,42 @@ export default function Network({
   graph,
   period = 0,
   onSelect,
+  quality = "Automatic",
+  reducedMotion = false,
 }: {
   graph: Graph;
   period?: number;
   onSelect?: (s: string) => void;
+  quality?: string;
+  reducedMotion?: boolean;
 }) {
   const [selected, select] = useState("");
   const [paused, pause] = useState(
-    matchMedia("(prefers-reduced-motion: reduce)").matches,
+    reducedMotion || matchMedia("(prefers-reduced-motion: reduce)").matches,
   );
   const [mode, setMode] = useState(false);
   const [filter, setFilter] = useState("all");
   const [reset, setReset] = useState(0);
   const root = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(true);
+  useEffect(() => {
+    const el = root.current;
+    if (!el || typeof IntersectionObserver === "undefined") return;
+    const observer = new IntersectionObserver((entries) =>
+      setVisible(entries[0]?.isIntersecting ?? true),
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+  useEffect(() => {
+    const media = matchMedia("(prefers-reduced-motion: reduce)");
+    const apply = () => {
+      if (reducedMotion || media.matches) pause(true);
+    };
+    apply();
+    media.addEventListener("change", apply);
+    return () => media.removeEventListener("change", apply);
+  }, [reducedMotion]);
   const webgl = useMemo(() => {
     try {
       return !!document.createElement("canvas").getContext("webgl2");
@@ -256,7 +279,14 @@ export default function Network({
         </button>
         <button
           aria-label={paused ? "Resume graph" : "Pause graph"}
-          onClick={() => pause(!paused)}
+          onClick={() =>
+            pause(
+              reducedMotion ||
+                matchMedia("(prefers-reduced-motion: reduce)").matches
+                ? true
+                : !paused,
+            )
+          }
         >
           {paused ? <Play size={15} /> : <Pause size={15} />}
         </button>
@@ -291,16 +321,18 @@ export default function Network({
               <Canvas
                 key={reset}
                 dpr={
-                  navigator.hardwareConcurrency <= 4 || innerWidth < 768
+                  quality === "Performance" ||
+                  (quality !== "Visual Quality" &&
+                    (navigator.hardwareConcurrency <= 4 || innerWidth < 768))
                     ? 1
                     : [1, 1.5]
                 }
-                frameloop={paused ? "demand" : "always"}
+                frameloop={paused || !visible ? "demand" : "always"}
                 camera={{ position: [0, 1, 9], fov: 45 }}
               >
                 <Scene
                   graph={graph}
-                  paused={paused}
+                  paused={paused || !visible || reducedMotion}
                   filter={filter}
                   select={choose}
                   period={period}

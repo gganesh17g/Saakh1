@@ -1,4 +1,11 @@
 import { test, expect, type Page } from "@playwright/test";
+async function chooseRole4(page: Page, role: string) {
+  const prior = page.url();
+  await page.getByRole("button", { name: "Demo roles", exact: true }).click();
+  await page.getByLabel("Demo role", { exact: true }).selectOption(role);
+  await expect(page.locator(".m-asof")).toContainText(role + " demo view");
+  await page.goto(prior);
+}
 const pages = [
   ["", "Business Pulse"],
   ["sales", "Sales & Invoices"],
@@ -27,7 +34,7 @@ test("public launch reaches Business Pulse and preserves credit workspace", asyn
   page,
 }) => {
   await page.goto("/");
-  await page.getByRole("link", { name: "Open Business Pulse" }).click();
+  await page.getByRole("link", { name: "Explore Business Demo" }).click();
   await expect(
     page.getByRole("heading", { name: "Business Pulse", exact: true }),
   ).toBeVisible();
@@ -160,21 +167,19 @@ test("staff posting is rejected and admin is guarded by demo view", async ({
   page,
 }) => {
   await page.goto("/business");
-  await page.getByLabel("Demo role").selectOption("staff");
+  await chooseRole4(page, "staff");
   await page.goto("/business/passbook");
-  const form = page.locator("form").filter({
-    has: page.getByRole("button", { name: "Post balanced journal" }),
-  });
-  await form.getByLabel("Amount (₹)", { exact: true }).fill("100");
-  await form.getByLabel("Memo / source").fill("Denied staff posting");
-  await form.getByLabel("I reviewed the transaction").check();
-  await form.getByRole("button", { name: "Post balanced journal" }).click();
-  await expect(page.getByRole("alert")).toContainText("does not allow journal");
+  await expect(
+    page.getByRole("heading", { name: "Role access", exact: true }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("button", { name: "Post balanced journal", exact: true }),
+  ).toHaveCount(0);
   await page.goto("/business/admin");
   await expect(
     page.getByRole("heading", { name: "Demo admin view restricted" }),
   ).toBeVisible();
-  await page.getByLabel("Demo role").selectOption("admin");
+  await chooseRole4(page, "admin");
   await expect(
     page.getByRole("heading", { name: "Synthetic marketplace moderation" }),
   ).toBeVisible();
@@ -275,9 +280,18 @@ test("onboarding creates independent confirmed opening balances and switches bus
   ).toContainText("₹50,000.00");
   await page.goto("/business/sales");
   await expect(
-    page.getByText("No records. Create a draft to start."),
+    page.getByText(
+      "No matching records. Adjust filters or create a permitted draft.",
+    ),
   ).toBeVisible();
-  await page.getByLabel("Select business").selectOption("BIZ-SYNTHETIC-01");
+  await page.getByRole("button", { name: /Synthetic New Shop.*▾/ }).click();
+  page.once("dialog", (dialog) => dialog.accept());
+  await page
+    .getByRole("dialog")
+    .getByRole("button", { name: /Shree Ganesh Traders/ })
+    .click();
+  await expect(page).toHaveURL(/\/business\/?$/);
+  await page.goto("/business/sales");
   await expect(
     page.getByRole("row").filter({ hasText: "SGT-INV-001" }),
   ).toBeVisible();
@@ -360,15 +374,15 @@ test("owner deletion clears saved data while staff deletion is rejected", async 
   page,
 }) => {
   await page.goto("/business/settings");
-  await page.getByLabel("Demo role").selectOption("staff");
+  await chooseRole4(page, "staff");
+  await expect(
+    page.getByRole("heading", { name: "Role access", exact: true }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("button", { name: "Delete local Saakh records" }),
+  ).toHaveCount(0);
+  await chooseRole4(page, "owner");
   await page.getByLabel("Type DELETE to confirm").fill("DELETE");
-  await page
-    .getByRole("button", { name: "Delete local Saakh records" })
-    .click();
-  await expect(page.getByRole("alert")).toContainText(
-    "does not allow settings",
-  );
-  await page.getByLabel("Demo role").selectOption("owner");
   await page
     .getByRole("button", { name: "Delete local Saakh records" })
     .click();

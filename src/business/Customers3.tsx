@@ -1,7 +1,9 @@
+import { useView4 } from "./view4";
+import { Drawer4 } from "./Drawer4";
 import { totals, due } from "./accounting";
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import { type Party, paise, rupees, today } from "./model";
+import { Link, useLocation } from "react-router-dom";
+import { type Party, paise, rupees, today, permissions } from "./model";
 import * as ops from "./operations3";
 import { statementDocument, type Printable } from "./documents3";
 import {
@@ -19,11 +21,14 @@ import {
 } from "./UI3";
 export default function Customers3() {
   const { s, c, commit } = useOps();
-  const [search, setSearch] = useState(""),
-    [filter, setFilter] = useState("active"),
-    [sort, setSort] = useState("name"),
-    [edit, setEdit] = useState<Party | null | undefined>(),
-    [selected, setSelected] = useState(""),
+  const query = new URLSearchParams(useLocation().search);
+  const [search, setSearch] = useView4("q", "");
+  const [filter, setFilter] = useView4("status", "active");
+  const [sort, setSort] = useView4("sort", "name");
+  const [edit, setEdit] = useState<Party | null | undefined>(
+      query.has("create") ? null : undefined,
+    ),
+    [selected, setSelected] = useState(query.get("record") || ""),
     [preview, setPreview] = useState<Printable | null>(null),
     [from, setFrom] = useState(
       s.businesses.find((b) => b.id === c.businessId)!.financialYear,
@@ -73,7 +78,12 @@ export default function Customers3() {
               <option value="due">Outstanding</option>
             </select>
           </Field3>
-          <button onClick={() => setEdit(null)}>New customer</button>
+          <button
+            disabled={!permissions[s.role].includes("draft")}
+            onClick={() => setEdit(null)}
+          >
+            New customer
+          </button>
         </div>
         <Table3
           heads={[
@@ -112,7 +122,12 @@ export default function Customers3() {
                   <button onClick={() => setSelected(p.id)}>
                     Customer details
                   </button>
-                  <button onClick={() => setEdit(p)}>Edit customer</button>
+                  <button
+                    disabled={!permissions[s.role].includes("draft")}
+                    onClick={() => setEdit(p)}
+                  >
+                    Edit customer
+                  </button>
                   <Confirm3
                     text={p.archived ? "Restore customer" : "Archive customer"}
                     onConfirm={() =>
@@ -129,7 +144,10 @@ export default function Customers3() {
         {!list.length && <p>No matching customers.</p>}
       </Panel3>
       {edit !== undefined && (
-        <Panel3 title={edit ? "Edit customer profile" : "Register a customer"}>
+        <Drawer4
+          title={edit ? "Edit customer profile" : "Register a customer"}
+          close={() => setEdit(undefined)}
+        >
           <form
             className="m-form"
             key={edit?.id || "new"}
@@ -216,7 +234,7 @@ export default function Customers3() {
               Cancel customer edit
             </button>
           </form>
-        </Panel3>
+        </Drawer4>
       )}
       {person && summary && (
         <Panel3 title={person.name + " · customer history"}>

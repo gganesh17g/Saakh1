@@ -1,4 +1,11 @@
 import { test, expect, type Page } from "@playwright/test";
+async function chooseRole4(page: Page, role: string) {
+  const prior = page.url();
+  await page.getByRole("button", { name: "Demo roles", exact: true }).click();
+  await page.getByLabel("Demo role", { exact: true }).selectOption(role);
+  await expect(page.locator(".m-asof")).toContainText(role + " demo view");
+  await page.goto(prior);
+}
 import { readFile } from "node:fs/promises";
 function watch(page: Page) {
   const errors: string[] = [];
@@ -380,7 +387,7 @@ test("Saakh 3 migration, demo fixtures, role privacy, activity search and refres
   await expect(
     page.getByRole("row").filter({ hasText: "Meera Demo" }).first(),
   ).toBeVisible();
-  await page.getByLabel("Demo role").selectOption("staff");
+  await chooseRole4(page, "staff");
   await expect(
     page.getByRole("heading", { name: "Payroll access restricted" }),
   ).toBeVisible();
@@ -391,14 +398,14 @@ test("Saakh 3 migration, demo fixtures, role privacy, activity search and refres
       .filter({ hasText: /salaryPayment|payrollFinalized/ }),
   ).toHaveCount(0);
   await go(page, "payroll");
-  await page.getByLabel("Demo role").selectOption("manager");
+  await chooseRole4(page, "manager");
   await expect(
     page.getByRole("heading", { name: "Attendance and manager review" }),
   ).toBeVisible();
   await expect(
     page.getByRole("button", { name: "Preview payslip" }),
   ).toHaveCount(0);
-  await page.getByLabel("Demo role").selectOption("owner");
+  await chooseRole4(page, "owner");
   await expect(page.locator(".m-asof")).toContainText("owner demo view");
   await page.reload();
   await expect(

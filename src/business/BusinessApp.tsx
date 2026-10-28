@@ -1,3 +1,20 @@
+import { useView4 } from "./view4";
+import {
+  Tools4,
+  Roles4,
+  Tasks4,
+  Insights4,
+  Data4,
+  Help4,
+  Preferences4,
+  Explorer4,
+  Assistant4,
+  Approvals4,
+  RolePulse4,
+  ReportsCentre4,
+  RecordDetails4,
+} from "./Workspace4";
+import { canPage, useWorkspace4 } from "./workspace4";
 import Customers3 from "./Customers3";
 import Returns3 from "./Returns3";
 import Payroll3 from "./Payroll3";
@@ -12,7 +29,9 @@ import { Preview3 } from "./UI3";
 import {
   useEffect,
   useState,
+  useRef,
   cloneElement,
+  Children,
   isValidElement,
   type ReactElement,
   type ReactNode,
@@ -49,14 +68,13 @@ import {
   type Context,
   type DocLine,
   type BusinessDocument,
-  type Role,
-  roles,
   today,
   plusDays,
   paise,
   rupees,
   uid,
   authorize,
+  permissions,
   audit,
 } from "./model";
 import {
@@ -76,7 +94,6 @@ import {
   defaultAssumptions,
   loanSchedule,
   reconciliation,
-  answer,
 } from "./analytics";
 import {
   download,
@@ -109,6 +126,15 @@ const modules = [
   ["assistant", "AI Assistant"],
   ["settings", "Team & Settings"],
   ["admin", "Demo Admin"],
+  ["approvals", "Approvals Inbox"],
+  ["tasks", "My Tasks"],
+  ["roles", "Explore Demo Roles"],
+  ["insights", "Insights Centre"],
+  ["scenarios", "Scenario Lab"],
+  ["explorer", "Financial Network Explorer"],
+  ["data", "Data Management"],
+  ["help", "Help Centre"],
+  ["preferences", "Workspace Preferences"],
 ];
 function guardedExport(s: BusinessState, c: Context, action: () => void) {
   try {
@@ -160,7 +186,26 @@ function Table({ heads, children }: { heads: string[]; children: ReactNode }) {
             ))}
           </tr>
         </thead>
-        <tbody>{children}</tbody>
+        <tbody>
+          {Children.map(children, (row) =>
+            isValidElement(row) && row.type === "tr"
+              ? cloneElement(
+                  row as ReactElement<{ children: ReactNode }>,
+                  {},
+                  Children.map(
+                    (row.props as { children: ReactNode }).children,
+                    (cell, i) =>
+                      isValidElement(cell)
+                        ? cloneElement(
+                            cell as ReactElement<{ "data-label"?: string }>,
+                            { "data-label": heads[i] || "Details" },
+                          )
+                        : cell,
+                  ),
+                )
+              : row,
+          )}
+        </tbody>
       </table>
     </div>
   );
@@ -248,7 +293,6 @@ export default function BusinessApp({ theme }: { theme: ReactNode }) {
     error,
     notice,
     clearError,
-    setRole,
     commit,
     recovery,
     deleteData,
@@ -259,6 +303,25 @@ export default function BusinessApp({ theme }: { theme: ReactNode }) {
     void hydrate();
   }, [hydrate]);
   useEffect(() => setNav(false), [loc.pathname]);
+  const workspace4 = useWorkspace4();
+  useEffect(() => {
+    document.documentElement.dataset.density =
+      workspace4.data.prefs.density || "Comfortable";
+    document.documentElement.dataset.motion =
+      workspace4.data.prefs.motion || "System";
+    document.documentElement.dataset.contrast =
+      workspace4.data.prefs.contrast || "Standard";
+  }, [workspace4.data.prefs]);
+  const navigate4 = useNavigate();
+  useEffect(() => {
+    if (ready && new URLSearchParams(loc.search).get("start") === "owner") {
+      void commit("Business Owner demo selected", (d) => {
+        d.role = "owner";
+      }).then((ok) => {
+        if (ok) navigate4("/business", { replace: true });
+      });
+    }
+  }, [ready, loc.search, commit, navigate4]);
   const page = loc.pathname.split("/")[2] || "";
   if (!ready)
     return (
@@ -303,13 +366,45 @@ export default function BusinessApp({ theme }: { theme: ReactNode }) {
             },
             {
               title: "Other workspaces",
-              paths: ["network", "tax", "assistant", "settings", "admin"],
+              paths: [
+                "network",
+                "tax",
+                "assistant",
+                "insights",
+                "scenarios",
+                "explorer",
+                "tasks",
+                "approvals",
+                "roles",
+                "preferences",
+                "help",
+                "data",
+                "settings",
+                "admin",
+              ],
             },
           ].map((group) => (
-            <details className="m-nav-group" open key={group.title}>
+            <details
+              className="m-nav-group"
+              open={
+                group.paths.includes(page) ||
+                workspace4.data.prefs["nav:" + group.title] !== "closed"
+              }
+              key={group.title + ":" + page}
+              onToggle={(e) => {
+                const value = e.currentTarget.open ? "open" : "closed";
+                if (workspace4.data.prefs["nav:" + group.title] !== value)
+                  void workspace4.write((d) => {
+                    d.prefs["nav:" + group.title] = value;
+                  });
+              }}
+            >
               <summary>{group.title}</summary>
               {modules
-                .filter(([path]) => group.paths.includes(path))
+                .filter(
+                  ([path]) =>
+                    group.paths.includes(path) && canPage(s.role, path),
+                )
                 .map(([path, title]) => (
                   <NavLink
                     key={path}
@@ -337,6 +432,25 @@ export default function BusinessApp({ theme }: { theme: ReactNode }) {
           Plan your next move.
         </div>
       </aside>
+      <nav className="w4-bottom" aria-label="Mobile workspace">
+        <Link to="/business">Home</Link>
+        <Link
+          to={
+            "/business/" +
+            (s.role === "payroll" || s.role === "manager"
+              ? "payroll"
+              : s.role === "auditor"
+                ? "reports"
+                : s.role === "accountant"
+                  ? "passbook"
+                  : "sales")
+          }
+        >
+          Work
+        </Link>
+        <Link to="/business/tasks">Tasks</Link>
+        <button onClick={() => setNav(!nav)}>More</button>
+      </nav>
       <div className="m-body">
         <header className="m-top">
           <button
@@ -353,18 +467,10 @@ export default function BusinessApp({ theme }: { theme: ReactNode }) {
           <div className="m-top-right">
             <span className="m-demo">● SYNTHETIC DEMO</span>
             {theme}
-            <select
-              aria-label="Demo role"
-              value={s.role}
-              onChange={(e) => void setRole(e.target.value as Role)}
-            >
-              {roles.map((r) => (
-                <option key={r}>{r}</option>
-              ))}
-            </select>
           </div>
         </header>
         <main id="main" tabIndex={-1} className="m-content">
+          <Tools4 />
           <div className="m-business-bar">
             <div>
               <span className="m-label">BUSINESS WORKSPACE / INR</span>
@@ -374,21 +480,7 @@ export default function BusinessApp({ theme }: { theme: ReactNode }) {
                 Browser-local demo identities
               </small>
             </div>
-            <select
-              aria-label="Select business"
-              value={s.activeBusiness}
-              onChange={(e) =>
-                void commit("Business switched", (d) => {
-                  d.activeBusiness = e.target.value;
-                })
-              }
-            >
-              {s.businesses.map((b) => (
-                <option key={b.id} value={b.id}>
-                  {b.name}
-                </option>
-              ))}
-            </select>
+
             <Link to="/business/onboarding" className="m-secondary">
               + New business
             </Link>
@@ -421,11 +513,21 @@ export default function BusinessApp({ theme }: { theme: ReactNode }) {
           {!b || page === "onboarding" ? (
             <Onboarding />
           ) : (
-            <>
+            <div
+              key={
+                s.activeBusiness +
+                ":" +
+                s.role +
+                ":" +
+                (new URLSearchParams(loc.search).get("record") || "") +
+                ":" +
+                (new URLSearchParams(loc.search).get("create") || "")
+              }
+            >
               <div className="m-page-heading">
                 <div>
                   <span className="m-label">
-                    SAAKH 3.0 / BUSINESS OPERATIONS
+                    SAAKH 4.0 / FINANCIAL OPERATING PLATFORM
                   </span>
                   <h1>
                     {modules.find((m) => m[0] === page)?.[1] ||
@@ -436,8 +538,45 @@ export default function BusinessApp({ theme }: { theme: ReactNode }) {
                   As of {today()} · {s.role} demo view
                 </span>
               </div>
-              {page === "" ? (
-                <Pulse />
+              <RecordDetails4 />
+              {!canPage(s.role, page) ? (
+                <Panel
+                  title={
+                    page === "payroll"
+                      ? "Payroll access restricted"
+                      : page === "admin"
+                        ? "Demo admin view restricted"
+                        : "Role access"
+                  }
+                >
+                  <p>This page is unavailable for the selected demo role.</p>
+                  <Link to="/business">Return to your workspace</Link>
+                </Panel>
+              ) : page === "approvals" ? (
+                <Approvals4 />
+              ) : page === "roles" ? (
+                <Roles4 />
+              ) : page === "tasks" ? (
+                <Tasks4 />
+              ) : page === "insights" || page === "scenarios" ? (
+                <Insights4 />
+              ) : page === "explorer" ? (
+                <Explorer4 />
+              ) : page === "data" ? (
+                <Data4 />
+              ) : page === "help" ? (
+                <Help4 />
+              ) : page === "preferences" ? (
+                <Preferences4 />
+              ) : page === "" ? (
+                ["payroll", "manager", "auditor"].includes(s.role) ? (
+                  <RolePulse4 />
+                ) : (
+                  <>
+                    <RolePulse4 />
+                    <Pulse />
+                  </>
+                )
               ) : page === "sales" || page === "bills" ? (
                 <Documents kind={page === "sales" ? "sale" : "purchase"} />
               ) : page === "customers" ? (
@@ -463,9 +602,12 @@ export default function BusinessApp({ theme }: { theme: ReactNode }) {
               ) : page === "tax" ? (
                 <Tax />
               ) : page === "reports" ? (
-                <Reports />
+                <>
+                  <ReportsCentre4 />
+                  {s.role !== "payroll" && <Reports />}
+                </>
               ) : page === "assistant" ? (
-                <Assistant />
+                <Assistant4 />
               ) : page === "settings" ? (
                 <Settings />
               ) : page === "admin" ? (
@@ -475,7 +617,7 @@ export default function BusinessApp({ theme }: { theme: ReactNode }) {
                   <Link to="/business">Return to Business Pulse</Link>
                 </Panel>
               )}
-            </>
+            </div>
           )}
           <footer className="m-footer">
             <Info size={16} />
@@ -876,14 +1018,53 @@ function Documents({ kind }: { kind: "sale" | "purchase" }) {
   const { s, c, commit } = useData();
   const [preview, setPreview] = useState<Printable | null>(null);
   const [editing, setEditing] = useState<BusinessDocument | null>(null),
-    [adding, setAdding] = useState(false),
-    [selected, setSelected] = useState("");
+    [adding, setAdding] = useState(
+      new URLSearchParams(useLocation().search).has("create"),
+    ),
+    [selected, setSelected] = useState(
+      new URLSearchParams(useLocation().search).get("record") || "",
+    );
   const docs = s.documents.filter(
     (d) =>
       d.businessId === c.businessId &&
       (kind === "sale" ? d.kind === "sale" : d.kind !== "sale"),
   );
   const d = docs.find((d) => d.id === selected);
+  const [query, setQuery] = useView4("q", "");
+  const [filterStatus, setFilterStatus] = useView4("status", "All");
+  const [sortBy, setSortBy] = useView4("sort", "Recorded order");
+  const [listPage, setListPage] = useView4("page", "1");
+  const [selection, setSelection] = useState<string[]>([]);
+  const matching = docs
+    .filter(
+      (row) =>
+        (filterStatus === "All" || row.status === filterStatus) &&
+        `${row.number} ${row.id} ${s.parties.find((p) => p.id === row.partyId)?.name || ""}`
+          .toLowerCase()
+          .includes(query.toLowerCase()),
+    )
+    .sort((a, b) =>
+      sortBy === "Newest"
+        ? b.issueDate.localeCompare(a.issueDate)
+        : sortBy === "Highest total"
+          ? totals(b.lines).total - totals(a.lines).total
+          : 0,
+    );
+  const pageCount = Math.max(1, Math.ceil(matching.length / 25));
+  const pageIndex = Math.max(
+    1,
+    Math.min(pageCount, Number.isFinite(+listPage) ? Math.floor(+listPage) : 1),
+  );
+  const visible = matching.slice((pageIndex - 1) * 25, pageIndex * 25);
+  if (adding)
+    return (
+      <DocumentForm
+        key={editing?.id || "new"}
+        kind={kind}
+        existing={editing}
+        close={() => setAdding(false)}
+      />
+    );
   return (
     <>
       <div className="m-toolbar">
@@ -893,6 +1074,12 @@ function Documents({ kind }: { kind: "sale" | "purchase" }) {
             : "Inventory, expense and equipment bills remain payable until a separate payment."}
         </p>
         <button
+          disabled={!permissions[s.role].includes("draft")}
+          title={
+            permissions[s.role].includes("draft")
+              ? "Create a draft"
+              : "This role cannot create documents"
+          }
           onClick={() => {
             setEditing(null);
             setAdding(true);
@@ -902,19 +1089,75 @@ function Documents({ kind }: { kind: "sale" | "purchase" }) {
         </button>
       </div>
       {preview && <Preview3 doc={preview} close={() => setPreview(null)} />}
-      {adding && (
-        <DocumentForm
-          key={editing?.id || "new"}
-          kind={kind}
-          existing={editing}
-          close={() => setAdding(false)}
-        />
-      )}
       <Panel
         title={
           kind === "sale" ? "Sales register" : "Purchases & bills register"
         }
       >
+        <div className="m-toolbar">
+          <label>
+            Search documents
+            <input
+              aria-label="Search documents"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+            />
+          </label>
+          <label>
+            Document status
+            <select
+              aria-label="Document status"
+              value={filterStatus}
+              onChange={(e) => setFilterStatus(e.target.value)}
+            >
+              {["All", "Draft", "Posted", "Cancelled"].map((v) => (
+                <option key={v}>{v}</option>
+              ))}
+            </select>
+          </label>
+          <label>
+            Sort documents
+            <select
+              aria-label="Sort documents"
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value)}
+            >
+              {["Recorded order", "Newest", "Highest total"].map((v) => (
+                <option key={v}>{v}</option>
+              ))}
+            </select>
+          </label>
+        </div>
+        <button onClick={() => setSelection(visible.map((row) => row.id))}>
+          Select visible documents
+        </button>
+        <button onClick={() => setSelection([])}>
+          Clear document selection
+        </button>
+        <button
+          disabled={
+            !selection.length || !permissions[s.role].includes("export")
+          }
+          onClick={() =>
+            guardedExport(s, c, () =>
+              download(
+                "selected-documents.json",
+                JSON.stringify(
+                  {
+                    businessId: c.businessId,
+                    exportedAt: new Date().toISOString(),
+                    documents: docs.filter((row) => selection.includes(row.id)),
+                    disclaimer: "Synthetic local records",
+                  },
+                  null,
+                  2,
+                ),
+              ),
+            )
+          }
+        >
+          Export selected documents
+        </button>
         <Table
           heads={[
             "Document / source",
@@ -926,9 +1169,21 @@ function Documents({ kind }: { kind: "sale" | "purchase" }) {
             "Inspect",
           ]}
         >
-          {docs.map((d) => (
+          {visible.map((d) => (
             <tr key={d.id}>
               <td>
+                <input
+                  type="checkbox"
+                  aria-label={"Select document " + d.number}
+                  checked={selection.includes(d.id)}
+                  onChange={(e) =>
+                    setSelection(
+                      e.target.checked
+                        ? [...selection, d.id]
+                        : selection.filter((id) => id !== d.id),
+                    )
+                  }
+                />
                 <b>{d.number}</b>
                 <small>
                   {d.id} · v{d.version}
@@ -949,7 +1204,28 @@ function Documents({ kind }: { kind: "sale" | "purchase" }) {
             </tr>
           ))}
         </Table>
-        {!docs.length && <p>No records. Create a draft to start.</p>}
+        {!matching.length && (
+          <p>
+            No matching records. Adjust filters or create a permitted draft.
+          </p>
+        )}
+        <div className="m-toolbar">
+          <button
+            disabled={pageIndex <= 1}
+            onClick={() => setListPage(String(pageIndex - 1))}
+          >
+            Previous document page
+          </button>
+          <span>
+            Page {pageIndex} of {pageCount} · {matching.length} records
+          </span>
+          <button
+            disabled={pageIndex >= pageCount}
+            onClick={() => setListPage(String(pageIndex + 1))}
+          >
+            Next document page
+          </button>
+        </div>
       </Panel>
       {d && (
         <Panel title={`${d.number} · evidence & actions`}>
@@ -1042,7 +1318,7 @@ function Documents({ kind }: { kind: "sale" | "purchase" }) {
               Export record
             </button>
           </div>
-          {d.status === "Posted" && (
+          {d.status === "Posted" && permissions[s.role].includes("pay") && (
             <div className="m-two">
               <form
                 className="m-form"
@@ -1138,12 +1414,86 @@ function DocumentForm({
   close: () => void;
 }) {
   const { s, c, commit } = useData();
-  const [submissionToken] = useState(() => crypto.randomUUID());
+  const draftStore = useWorkspace4();
+  const formRef = useRef<HTMLFormElement>(null);
+  const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  const draftId = c.businessId + ":" + kind + ":" + (existing?.id || "new");
+  const [draftStatus, setDraftStatus] = useState("No autosaved changes");
+  const savedDraft = draftStore.data.drafts.find((d) => d.id === draftId);
+  const latestDraftValues = useRef<Record<string, string>>({});
+  const dirtyDraft = useRef(false);
+  const draftRevision = useRef(0);
+  const completedDraft = useRef(false);
+  const persistDraft = async (values: Record<string, string>) => {
+    if (
+      !useBusiness.getState().data.businesses.some((b) => b.id === c.businessId)
+    )
+      return false;
+    return draftStore.write((d) => {
+      d.drafts = d.drafts.filter((x) => x.id !== draftId);
+      d.drafts.push({
+        id: draftId,
+        businessId: c.businessId,
+        workflow: kind,
+        values,
+        at: new Date().toISOString(),
+      });
+    });
+  };
+  useEffect(() => {
+    const protect = (e: BeforeUnloadEvent) => {
+      if (dirtyDraft.current) {
+        e.preventDefault();
+        e.returnValue = "";
+      }
+    };
+    window.addEventListener("beforeunload", protect);
+    return () => {
+      window.removeEventListener("beforeunload", protect);
+      clearTimeout(timer.current);
+      if (dirtyDraft.current && !completedDraft.current)
+        void persistDraft({
+          ...latestDraftValues.current,
+          lines: JSON.stringify(linesRef.current),
+          submissionToken: tokenRef.current,
+        });
+    };
+  }, []);
+  const queueDraft = () => {
+    if (!formRef.current) return;
+    const values: Record<string, string> = {};
+    new FormData(formRef.current).forEach((v, k) => {
+      if (typeof v === "string" && !["confirm", "mode", "cashSale"].includes(k))
+        values[k] = v;
+    });
+    latestDraftValues.current = values;
+    dirtyDraft.current = true;
+    const revision = ++draftRevision.current;
+    setDraftStatus("Unsaved Changes");
+    clearTimeout(timer.current);
+    timer.current = setTimeout(async () => {
+      setDraftStatus("Saving");
+      const ok = await persistDraft({
+        ...latestDraftValues.current,
+        lines: JSON.stringify(linesRef.current),
+        submissionToken: tokenRef.current,
+      });
+      if (ok && draftRevision.current === revision) dirtyDraft.current = false;
+      setDraftStatus(ok ? "Saved" : "Save Failed");
+    }, 600);
+  };
+  const [submissionToken, setSubmissionToken] = useState<string>(() =>
+    crypto.randomUUID(),
+  );
+  const tokenRef = useRef(submissionToken);
+  tokenRef.current = submissionToken;
   const [lines, setLines] = useState<DocLine[]>(
     existing?.lines || [
       { description: "", quantity: 1, price: 0, discount: 0, tax: 0 },
     ],
   );
+  const linesRef = useRef(lines);
+  linesRef.current = lines;
   const [attachment, setAttachment] = useState(existing?.attachmentId || "");
   const patch = (i: number, k: string, v: string) =>
     setLines(
@@ -1152,9 +1502,11 @@ function DocumentForm({
           ? {
               ...l,
               [k]:
-                k === "description" || k === "itemId" || k === "classification"
-                  ? v || undefined
-                  : Number(v),
+                k === "description"
+                  ? v
+                  : k === "itemId" || k === "classification"
+                    ? v || undefined
+                    : Number(v),
             }
           : l,
       ),
@@ -1202,7 +1554,54 @@ function DocumentForm({
           : "Create a reviewed document"
       }
     >
+      <p role="status">
+        Local form recovery · {draftStatus}. Autosave never posts.
+      </p>
+      {savedDraft && (
+        <div className="m-toolbar">
+          <button
+            type="button"
+            onClick={() => {
+              for (const [k, v] of Object.entries(savedDraft.values)) {
+                const el = formRef.current?.elements.namedItem(k);
+                if (
+                  el instanceof HTMLInputElement ||
+                  el instanceof HTMLSelectElement ||
+                  el instanceof HTMLTextAreaElement
+                )
+                  el.value = v;
+              }
+              try {
+                setLines(JSON.parse(savedDraft.values.lines));
+                if (savedDraft.values.submissionToken)
+                  setSubmissionToken(savedDraft.values.submissionToken);
+                setDraftStatus("Resumed saved draft; review all values");
+              } catch {
+                setDraftStatus("Invalid draft; discard safely");
+              }
+            }}
+          >
+            Resume Draft
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              if (confirm("Discard this autosaved form only?")) {
+                clearTimeout(timer.current);
+                dirtyDraft.current = false;
+                void draftStore.write((d) => {
+                  d.drafts = d.drafts.filter((x) => x.id !== draftId);
+                });
+              }
+            }}
+          >
+            Discard saved draft
+          </button>
+        </div>
+      )}
       <form
+        ref={formRef}
+        onChange={queueDraft}
         onSubmit={async (e) => {
           e.preventDefault();
           const f = val(e);
@@ -1277,7 +1676,15 @@ function DocumentForm({
               );
             }
           });
-          if (ok) close();
+          if (ok) {
+            completedDraft.current = true;
+            dirtyDraft.current = false;
+            clearTimeout(timer.current);
+            await draftStore.write((d) => {
+              d.drafts = d.drafts.filter((x) => x.id !== draftId);
+            });
+            close();
+          }
         }}
       >
         <div className="m-form">
@@ -1513,7 +1920,12 @@ function DocumentForm({
           <Field label="Save mode">
             <select name="mode">
               <option value="draft">Draft — no ledger effect</option>
-              <option value="post">Post to ledger</option>
+              <option
+                value="post"
+                disabled={!permissions[s.role].includes("post")}
+              >
+                Post to ledger
+              </option>
             </select>
           </Field>
           {kind === "sale" && (
@@ -3091,82 +3503,66 @@ function Reports() {
     </>
   );
 }
-function Assistant() {
-  const { s, c } = useData();
-  const [q, setQ] = useState("Who owes me money?"),
-    [response, setResponse] = useState<ReturnType<typeof answer> | null>(null);
-  return (
-    <Panel title="Ask your digital munim">
-      <p>
-        AI-inspired, deterministic local queries. No language model, voice
-        recognition or external data transfer. Answers cite records and
-        distinguish estimates. Natural-language requests never post money
-        movements.
-      </p>
-      <div className="m-toolbar">
-        {[
-          "Who owes me money?",
-          "Which supplier bills are due?",
-          "Why is bank balance different?",
-          "What does next month cash look like?",
-          "Compare financing scenarios",
-        ].map((x) => (
-          <button
-            key={x}
-            onClick={() => {
-              setQ(x);
-              setResponse(answer(s, c, x));
-            }}
-          >
-            {x}
-          </button>
-        ))}
-      </div>
-      <form
-        className="m-form"
-        onSubmit={(e) => {
-          e.preventDefault();
-          setResponse(answer(s, c, q));
-        }}
-      >
-        <Field label="Your question">
-          <input value={q} onChange={(e) => setQ(e.target.value)} required />
-        </Field>
-        <button>Ask Saakh</button>
-      </form>
-      {response && (
-        <div className="m-answer" role="status">
-          <span className="m-badge">
-            {response.estimate
-              ? "Assumption-based estimate"
-              : "Recorded-data answer"}
-          </span>
-          <p>{response.text}</p>
-          <b>Source evidence</b>
-          {response.sources.map((id) => (
-            <details key={id}>
-              <summary>{id}</summary>
-              <pre>
-                {JSON.stringify(
-                  s.documents.find((d) => d.id === id) ||
-                    s.journals.find((j) => j.id === id) ||
-                    s.statements.find((r) => r.id === id),
-                  null,
-                  2,
-                )}
-              </pre>
-            </details>
-          ))}
-        </div>
-      )}
-    </Panel>
-  );
-}
 function Settings() {
   const { s, c, b, commit, deleteData } = useData();
   const [confirmation, setConfirmation] = useState("");
   return (
     <>
+      <Preferences4 />
+      <Panel title="Settings Hub">
+        <nav className="actions">
+          <Link to="/business/preferences">Appearance & Comfort</Link>
+          <Link to="/business/data">Data Management</Link>
+          <Link to="/business/roles">Team & Permissions</Link>
+          <Link to="/business/help">Help & Recovery</Link>
+        </nav>
+      </Panel>
+      <Panel title="Business Profile">
+        <form
+          className="m-form"
+          onSubmit={(e) => {
+            e.preventDefault();
+            const v = new FormData(e.currentTarget);
+            void commit("Business profile updated", (d, c) => {
+              authorize(d, c, "settings");
+              const business = d.businesses.find((b) => b.id === c.businessId)!;
+              const before = structuredClone(business);
+              business.name = String(v.get("profileName"));
+              business.location = String(v.get("profileLocation"));
+              audit(
+                d,
+                c,
+                "Business profile updated",
+                business.id,
+                before,
+                business,
+              );
+            });
+          }}
+        >
+          <Field label="Business display name">
+            <input
+              name="profileName"
+              defaultValue={b?.name}
+              minLength={2}
+              maxLength={90}
+              required
+            />
+          </Field>
+          <Field label="Business location">
+            <input
+              name="profileLocation"
+              defaultValue={b?.location}
+              minLength={2}
+              required
+            />
+          </Field>
+          <button>Save business profile</button>
+        </form>
+        <p>
+          Opening balances and posted financial history cannot be changed here.
+        </p>
+      </Panel>
       <Panel title="Demo identity & data boundaries">
         <p>
           Business: {b?.name} · INR · {b?.language} language preference. Owner,
@@ -3191,7 +3587,10 @@ function Settings() {
                 op.inviteMember(s, c, {
                   name: str(f, "name"),
                   role: str(f, "role"),
-                  permissions: f.getAll("permissions").map(String),
+                  permissions:
+                    str(f, "role") === "accountant"
+                      ? ["read", "draft", "post", "reconcile", "export", "tax"]
+                      : ["read", "draft"],
                   expiresAt: str(f, "expiry"),
                 }),
               );
@@ -3214,19 +3613,10 @@ function Settings() {
                 required
               />
             </Field>
-            {["read", "draft", "post", "reconcile", "export", "tax"].map(
-              (p) => (
-                <label className="m-check" key={p}>
-                  <input
-                    type="checkbox"
-                    name="permissions"
-                    value={p}
-                    defaultChecked={p === "read"}
-                  />{" "}
-                  {p}
-                </label>
-              ),
-            )}
+            <p>
+              Permissions follow the selected predefined role template; custom
+              grants are unavailable.
+            </p>
             <button>Create demo invitation</button>
           </form>
           {s.memberships

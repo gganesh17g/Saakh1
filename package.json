@@ -1,6 +1,6 @@
 {
   "name": "saakh",
-  "version": "3.0.0-demo",
+  "version": "4.0.0-demo",
   "type": "module",
   "scripts": {
     "dev": "vite --host 0.0.0.0",

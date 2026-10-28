@@ -1,3 +1,41 @@
+# Saakh 4.0 — financial operating workspace
+
+This release extends the existing local MSME platform with role-aware workspace tools, searchable business switching, tasks and alerts, recoverable invoice forms, source-linked records, Insights and saved scenarios, a business financial network, and validated separate-business backup restoration. Financial posting still uses the existing paise ledger and credit engines.
+
+**Local demonstration only:** no secure accounts, live banking, tax filing, transfers, external messaging or cloud synchronization. Use fictional data. Backups are unencrypted. [Requirements and boundaries](docs/SAAKH-4-REQUIREMENTS-MATRIX.md).
+
+## Run and validate
+
+From `/home/thunder/shared/Saakh`, using Node 26:
+
+```sh
+npm ci
+npx playwright install chromium
+npm run dev
+```
+
+Development: `http://localhost:5173/`. Production commands:
+
+```sh
+npm run typecheck
+npm run lint
+npm test
+npm run build
+npm run test:e2e
+npm run test:pages
+npm run preview
+```
+
+Preview: `http://localhost:4173/Saakh1/#/business`. `npm run preview:pages` serves the strict static Pages-subpath test fixture on port 4175. Run browser suites serially; copy their evidence before another suite cleans `test-results`.
+
+Public entry offers Business Demo, Continue Previous Session and Team Roles. Inside the business workspace, use **+ Create**, **Search** (Ctrl/Cmd+K), **Alerts**, **Ask Saakh**, and the separate **Demo roles** screen. New routes include `tasks`, `approvals`, `roles`, `insights`, `scenarios`, `explorer`, `preferences`, `help`, and `data` under `#/business/`.
+
+**Data Management:** export the selected business, validate a backup preview, and explicitly restore it as a separate business. Original records are retained. Financial forms never post through autosave. Supported invoice editor drafts can be resumed after navigation or refresh.
+
+See [implementation](docs/SAAKH-4-IMPLEMENTATION-REPORT.md), [requirements](docs/SAAKH-4-REQUIREMENTS-MATRIX.md), [architecture](docs/SAAKH-4-ARCHITECTURE.md), [financial integrity](docs/SAAKH-4-FINANCIAL-INTEGRITY.md), [migration](docs/SAAKH-4-DATA-MIGRATION.md), [accessibility](docs/SAAKH-4-UX-ACCESSIBILITY.md), [3D/performance](docs/SAAKH-4-3D-PERFORMANCE.md), [test results](docs/SAAKH-4-TEST-RESULTS.md), [deployment](docs/SAAKH-4-DEPLOYMENT-VALIDATION.md), and [file changes](docs/SAAKH-4-FILE-CHANGES.md). Exact final validation and live status are recorded in those reports.
+
+## Saakh 3.0 release documentation — preserved
+
 # Saakh 3.0 — connected business operations
 
 Verified application release `3e372fa` passed its deployment workflow and 25 live acceptance tests (123 unit, 33 development and 42 production tests also passed). The subsequent report-only commit preserves the same application code; current artifact identity is available in `release.json`.

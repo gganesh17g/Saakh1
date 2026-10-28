@@ -1,0 +1,35 @@
+{
+  "environment": "Local Vite development server, Chromium headless. One run per viewport; not production/mobile hardware or FPS benchmark.",
+  "metrics": [
+    {
+      "width": 1440,
+      "readyMs": 1982,
+      "paint": [
+        {
+          "name": "first-paint",
+          "startTime": 300
+        },
+        {
+          "name": "first-contentful-paint",
+          "startTime": 360
+        }
+      ],
+      "resources": 58
+    },
+    {
+      "width": 390,
+      "readyMs": 847,
+      "paint": [
+        {
+          "name": "first-paint",
+          "startTime": 124
+        },
+        {
+          "name": "first-contentful-paint",
+          "startTime": 196
+        }
+      ],
+      "resources": 58
+    }
+  ]
+}

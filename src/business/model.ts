@@ -337,6 +337,15 @@ export type ForecastRun = {
   inputJournalIds: string[];
 };
 export type BusinessState = OperationsData & {
+  workspaceRestores4?: Record<
+    string,
+    {
+      tasks: import("./workspace4").Task4[];
+      scenarios: import("./workspace4").Scenario4[];
+      drafts: import("./workspace4").Draft4[];
+      preferences?: Record<string, string>;
+    }
+  >;
   version: 2;
   operationsRevision: 2;
   sequence: number;

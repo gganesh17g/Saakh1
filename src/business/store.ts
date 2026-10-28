@@ -1,3 +1,4 @@
+import { freezeWorkspace4, useWorkspace4 } from "./workspace4";
 import { migrateBusinessState } from "./migration";
 import { validateOperations } from "./validation3";
 import { create } from "zustand";
@@ -78,6 +79,34 @@ export function validateBusinessState(s: BusinessState) {
       throw Error("Credit liability exceeds credit amount");
     if ((credit.refundAmount || 0) > credit.amount)
       throw new Error("Refund exceeds credit");
+  }
+  if (s.workspaceRestores4) {
+    for (const [id, workspace] of Object.entries(s.workspaceRestores4)) {
+      if (
+        !ids.has(id) ||
+        !workspace ||
+        ![workspace.tasks, workspace.scenarios, workspace.drafts].every(
+          Array.isArray,
+        )
+      )
+        throw Error("Invalid restored workspace archive");
+      if (
+        workspace.preferences &&
+        (typeof workspace.preferences !== "object" ||
+          Array.isArray(workspace.preferences) ||
+          Object.values(workspace.preferences).some(
+            (v) => typeof v !== "string",
+          ))
+      )
+        throw Error("Invalid restored workspace preferences");
+      for (const r of [
+        ...workspace.tasks,
+        ...workspace.scenarios,
+        ...workspace.drafts,
+      ])
+        if (r.businessId !== id)
+          throw Error("Restored workspace outside its business");
+    }
   }
   validateOperations(s);
   return s;
@@ -175,14 +204,32 @@ export const useBusiness = create<Store>((update, state) => ({
       });
       return false;
     }
+    let releaseWorkspace: (() => void) | undefined;
     try {
       const current = state().data;
       if (current.businesses.length)
         authorize(current, contextFor(current), "settings");
       if (state().busy)
         throw new Error("Wait for the current save before deleting records");
+      update({ busy: true });
+      releaseWorkspace = await freezeWorkspace4();
       await set(KEY, emptyState());
-      await Promise.all(["runs", "borrowers", "notes"].map((k) => del(k)));
+      await Promise.all(
+        ["runs", "borrowers", "notes", "saakh-workspace-v4"].map((k) => del(k)),
+      );
+      useWorkspace4.setState({
+        data: {
+          version: 1,
+          tasks: [],
+          scenarios: [],
+          drafts: [],
+          read: [],
+          prefs: {},
+        },
+        error: "",
+        ready: true,
+        busy: false,
+      });
       useCreditStore.getState().cancel();
       useCreditStore.setState({
         runs: [],
@@ -198,6 +245,7 @@ export const useBusiness = create<Store>((update, state) => ({
       });
       update({
         data: emptyState(),
+        busy: false,
         recovery: "",
         ready: true,
         error: "",
@@ -206,8 +254,10 @@ export const useBusiness = create<Store>((update, state) => ({
       });
       return true;
     } catch (e) {
-      update({ error: String(e) });
+      update({ error: String(e), busy: false });
       return false;
+    } finally {
+      releaseWorkspace?.();
     }
   },
 }));

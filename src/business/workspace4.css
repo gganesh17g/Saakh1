@@ -1,0 +1,398 @@
+/* Saakh 4: shared workspace surfaces, scoped to preserve credit visualization. */
+.munim {
+  --w4-accent: #087f8c;
+  --w4-line: rgba(114, 137, 160, 0.25);
+}
+.w4-tools {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 12px 0;
+}
+.w4-tools button,
+.w4-dialog button,
+.w4-grid > button {
+  border: 1px solid var(--w4-line);
+  border-radius: 10px;
+  padding: 10px 14px;
+  background: var(--m-card, #fff);
+  color: inherit;
+  cursor: pointer;
+}
+.w4-tools button:nth-child(3) {
+  background: #087f8c;
+  color: #fff;
+}
+.w4-tools kbd {
+  font-size: 10px;
+  opacity: 0.6;
+}
+.w4-dialog {
+  color: var(--text, #17283c);
+  background: var(--surface, #fff);
+  border: 1px solid var(--w4-line);
+  border-radius: 20px;
+  width: min(640px, calc(100vw - 28px));
+  max-height: 85dvh;
+  padding: 24px;
+  box-shadow: 0 32px 100px #0006;
+}
+.w4-dialog::backdrop {
+  background: #051322aa;
+  backdrop-filter: blur(7px);
+}
+.w4-dialog-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.w4-results {
+  display: grid;
+  gap: 12px;
+  margin-top: 16px;
+}
+.w4-results button {
+  display: block;
+  text-align: left;
+  width: 100%;
+}
+.w4-results small {
+  display: block;
+  opacity: 0.65;
+}
+.w4-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+  gap: 16px;
+}
+.w4-grid > details,
+.w4-scenario,
+.w4-record {
+  border: 1px solid var(--w4-line);
+  padding: 18px;
+  border-radius: 14px;
+}
+.w4-record {
+  display: flex;
+  gap: 14px;
+  margin-top: 12px;
+}
+.w4-scenario.selected {
+  outline: 2px solid #087f8c;
+}
+.w4-spark {
+  height: 100px;
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+}
+.w4-spark span {
+  flex: 1;
+  background: #087f8c;
+  border-radius: 3px 3px 0 0;
+}
+.w4-split {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(230px, 1fr);
+  gap: 24px;
+  resize: horizontal;
+  overflow: auto;
+}
+.w4-network2 {
+  background: radial-gradient(ellipse at center, #0c555c, #0b1629);
+  color: #fff;
+  padding: 30px;
+  border-radius: 18px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
+  align-content: center;
+  min-height: 350px;
+}
+.w4-network2 > strong {
+  grid-column: 1/-1;
+  text-align: center;
+}
+.w4-network2 button {
+  padding: 14px;
+  background: #ffffff10;
+  border: 1px solid #54b8ba66;
+  color: #fff;
+  border-radius: 14px;
+}
+.w4-network2 small {
+  display: block;
+}
+.w4-bottom {
+  display: none;
+}
+.w4-tools button:focus-visible,
+.w4-dialog :focus-visible {
+  outline: 3px solid #16a7ad;
+  outline-offset: 3px;
+}
+[data-density="Compact"] .m-panel {
+  padding: 16px;
+}
+[data-density="Compact"] .m-content {
+  padding-top: 12px;
+}
+[data-contrast="Enhanced"] {
+  --w4-line: #697d91;
+}
+[data-motion="Reduced"] *,
+[data-motion="Reduced"] *:before,
+[data-motion="Reduced"] *:after {
+  animation: none !important;
+  transition: none !important;
+  scroll-behavior: auto !important;
+}
+.w4-dialog input,
+.w4-dialog select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #8c9baa;
+  border-radius: 8px;
+  background: transparent;
+  color: inherit;
+}
+.w4-scenario pre {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+html[data-theme="dark"] .w4-dialog {
+  background: #111e30;
+  color: #eef5fc;
+}
+html[data-theme="dark"] .w4-tools button {
+  background: #152338;
+  color: #e4f2fc;
+}
+html[data-theme="dark"] .m-panel {
+  border-color: #2a3b50;
+}
+.w4-grid label {
+  display: grid;
+  gap: 8px;
+}
+.w4-grid select {
+  padding: 10px;
+}
+.m-panel form {
+  max-width: 100%;
+}
+@media (max-width: 768px) {
+  .w4-split {
+    grid-template-columns: 1fr;
+    resize: none;
+  }
+  .w4-tools {
+    gap: 6px;
+  }
+  .w4-tools button {
+    padding: 10px;
+    font-size: 12px;
+  }
+  .w4-tools button:first-child {
+    width: 100%;
+    text-align: left;
+  }
+  .w4-bottom {
+    position: fixed;
+    display: flex;
+    justify-content: space-around;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 35;
+    background: #0b1829;
+    color: white;
+    border-top: 1px solid #3a5365;
+    padding: 9px 4px calc(9px + env(safe-area-inset-bottom));
+    gap: 4px;
+  }
+  .w4-bottom a,
+  .w4-bottom button {
+    color: white;
+    background: transparent;
+    font-size: 12px;
+    padding: 10px 5px;
+    border: 0;
+  }
+  .m-content {
+    padding-bottom: 90px !important;
+  }
+  .w4-dialog {
+    max-height: 92dvh;
+    padding: 18px;
+  }
+  .w4-record {
+    padding: 12px;
+  }
+  .w4-tools kbd {
+    display: none;
+  }
+}
+@media (max-width: 600px) {
+  .munim .m-table-scroll table {
+    min-width: 0;
+    width: 100%;
+  }
+  .munim .m-table-scroll thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+  .munim .m-table-scroll tbody {
+    display: grid;
+    gap: 12px;
+  }
+  .munim .m-table-scroll tr {
+    display: block;
+    border: 1px solid var(--m-line);
+    border-radius: 12px;
+    padding: 10px;
+  }
+  .munim .m-table-scroll td {
+    display: block;
+    min-width: 0;
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    border: 0;
+    padding: 6px;
+  }
+  .munim .m-table-scroll td[data-label]:before {
+    content: attr(data-label);
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    opacity: 0.7;
+    margin-bottom: 3px;
+  }
+  .munim .m-table-scroll td button {
+    margin: 4px 6px 4px 0;
+    min-height: 40px;
+  }
+  .munim .m-table-scroll {
+    overflow: visible;
+  }
+}
+.m-panel [role="tablist"] {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.m-panel [role="tab"][aria-selected="true"] {
+  background: #087f8c;
+  color: #fff;
+}
+.w4-record input[type="checkbox"] {
+  flex: 0 0 20px;
+  width: 20px;
+}
+.w4-record > div {
+  min-width: 0;
+}
+.m-panel label > input:not([type="checkbox"]),
+.m-panel label > select {
+  max-width: 100%;
+}
+.m-panel pre {
+  max-width: 100%;
+  overflow: auto;
+}
+.w4-drawer {
+  position: fixed;
+  inset: 0 0 0 auto;
+  margin: 0;
+  width: min(600px, 100vw);
+  height: 100dvh;
+  max-height: 100dvh;
+  border: 0;
+  border-left: 1px solid #536f86;
+  padding: 28px;
+  color: var(--m-text, #172b3a);
+  background: #f8fbfc;
+  overflow: auto;
+}
+.w4-drawer::backdrop {
+  background: #06152488;
+  backdrop-filter: blur(3px);
+}
+.w4-drawer header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+.w4-drawer .m-form {
+  display: grid;
+  gap: 16px;
+}
+.w4-drawer .m-field {
+  display: grid;
+  gap: 6px;
+}
+.w4-drawer input,
+.w4-drawer select {
+  border: 1px solid #8b9eac;
+  padding: 12px;
+  border-radius: 8px;
+  min-width: 0;
+  max-width: 100%;
+  background: transparent;
+  color: inherit;
+}
+.w4-drawer button {
+  padding: 12px;
+  border: 1px solid #8b9eac;
+  border-radius: 8px;
+  background: #087f8c;
+  color: white;
+}
+.w4-drawer .m-two {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+[data-theme="dark"] .w4-drawer {
+  background: #111f31;
+  color: #eff6fc;
+}
+.w4-account {
+  position: relative;
+}
+.w4-account summary {
+  padding: 10px;
+  cursor: pointer;
+}
+.w4-account[open] {
+  border: 1px solid var(--m-line);
+  padding: 8px;
+  border-radius: 10px;
+}
+.w4-account a {
+  display: block;
+  padding: 8px;
+}
+@media (max-width: 600px) {
+  .w4-drawer {
+    width: 100vw;
+    padding: 18px;
+  }
+  .w4-drawer .m-two {
+    grid-template-columns: 1fr;
+  }
+}
+
+[data-contrast="Enhanced"] .munim {
+  --w4-line: #8194a7;
+  --m-line: #8194a7;
+}
+[data-contrast="Enhanced"] .munim :focus-visible {
+  outline-width: 3px;
+}

@@ -849,3 +849,46 @@
 [data-theme="dark"] .munim .m-badge.amber {
   color: #ffca79;
 }
+
+/* Operations 3.0 retains the shared navy / teal / warm-white design tokens. */
+.m-nav-group > summary {
+  cursor: pointer;
+  padding: 12px 10px 8px;
+  color: #c7dce3;
+  font-size: 10px;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.m-nav-group {
+  flex-shrink: 0;
+}
+.munim button.m-metric {
+  display: block;
+  text-align: left;
+  color: var(--m-text);
+  background: var(--m-card);
+  border: 1px solid var(--m-line);
+}
+.munim button.m-metric:hover,
+.munim a.m-metric:hover {
+  border-color: #108b80;
+}
+.munim .m-metric {
+  text-decoration: none;
+}
+.munim input[type="month"] {
+  min-width: 0;
+}
+.munim .m-panel {
+  scroll-margin-top: 80px;
+}
+@media print {
+  .m-nav-group,
+  .m-sidebar,
+  .m-top,
+  .m-toolbar button,
+  .m-mobile {
+    display: none !important;
+  }
+}

@@ -1,3 +1,4 @@
+import { emptyOperations, type OperationsData } from "./operationsModel";
 import { z } from "zod";
 export const moneySchema = z.number().int().safe().min(0).max(1e12);
 export const dateSchema = z
@@ -8,9 +9,27 @@ export const dateSchema = z
       !isNaN(Date.parse(v)) && new Date(v).toISOString().slice(0, 10) === v,
     "Use a valid calendar date",
   );
-export const roles = ["owner", "staff", "accountant", "admin"] as const;
+export const roles = [
+  "owner",
+  "staff",
+  "accountant",
+  "admin",
+  "payroll",
+  "manager",
+  "auditor",
+] as const;
 export type Role = (typeof roles)[number];
 export const accounts = [
+  "salaryExpense",
+  "employerExpense",
+  "salaryPayable",
+  "deductionPayable",
+  "employerPayable",
+  "employeeAdvance",
+  "customerCredit",
+  "supplierCredit",
+  "returnsPending",
+  "quarantineInventory",
   "cash",
   "bank",
   "receivable",
@@ -59,6 +78,16 @@ export type Party = {
   notes: string;
   verification: "Self-reported";
   blocked: boolean;
+  email?: string;
+  phone?: string;
+  billing?: string;
+  delivery?: string;
+  gstin?: string;
+  category?: string;
+  creditLimit?: number;
+  updatedAt?: string;
+  createdAt?: string;
+  archived?: boolean;
 };
 export type Item = {
   id: string;
@@ -72,6 +101,7 @@ export type Item = {
 };
 export const lineSchema = z.object({
   itemId: z.string().optional(),
+  classification: z.string().max(20).optional(),
   description: z.string().min(1),
   quantity: z.number().finite().positive().max(1e6),
   price: moneySchema,
@@ -89,6 +119,8 @@ export const documentInput = z
     lines: z.array(lineSchema).min(1).max(40),
     cashSale: z.boolean().default(false),
     attachmentId: z.string().optional(),
+    notes: z.string().max(1000).optional(),
+    terms: z.string().max(400).optional(),
   })
   .refine(
     (d) => d.dueDate >= d.issueDate,
@@ -105,6 +137,9 @@ export type BusinessDocument = DocumentInput & {
   updatedAt: string;
   enteredBy: string;
   reviewedBy?: string;
+  automated?: boolean;
+  notes?: string;
+  terms?: string;
 };
 export const journalLine = z
   .object({
@@ -299,8 +334,8 @@ export type ForecastRun = {
   metrics: { method: string; mae: number; wape: number | null }[];
   inputJournalIds: string[];
 };
-export type BusinessState = {
-  version: 1;
+export type BusinessState = OperationsData & {
+  version: 2;
   sequence: number;
   activeBusiness: string;
   role: Role;
@@ -332,7 +367,8 @@ export type BusinessState = {
   forecasts: ForecastRun[];
 };
 export const emptyState = (): BusinessState => ({
-  version: 1,
+  ...emptyOperations(),
+  version: 2,
   sequence: 0,
   activeBusiness: "",
   role: "owner",
@@ -388,6 +424,9 @@ export function uid(s: BusinessState, prefix: string) {
   return `${prefix}-${String(++s.sequence).padStart(6, "0")}`;
 }
 export const permissions: Record<Role, string[]> = {
+  payroll: ["read", "payroll", "pay", "export"],
+  manager: ["read", "attendance"],
+  auditor: ["read", "export", "payrollRead"],
   owner: [
     "read",
     "draft",
@@ -400,9 +439,13 @@ export const permissions: Record<Role, string[]> = {
     "market",
     "tax",
     "consent",
+    "payroll",
+    "payrollRead",
+    "attendance",
   ],
   staff: ["read", "draft", "market"],
   accountant: [
+    "payrollRead",
     "read",
     "draft",
     "post",
@@ -424,6 +467,9 @@ export const permissions: Record<Role, string[]> = {
     "tax",
     "consent",
     "admin",
+    "payroll",
+    "payrollRead",
+    "attendance",
   ],
 };
 export function authorize(

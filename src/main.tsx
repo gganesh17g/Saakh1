@@ -47,8 +47,26 @@ function scrollToSection(
   const target = document.getElementById(id);
   target?.scrollIntoView();
   if (id === "main") {
-    target?.setAttribute("tabindex", "-1");
-    target?.focus();
+    const focusMain = (element: HTMLElement) => {
+      element.setAttribute("tabindex", "-1");
+      element.focus();
+    };
+    if (target) focusMain(target);
+    // A lazy route can replace the previous page's main just after activation.
+    // Transfer this skip intent once to the replacement; never refocus on ordinary child updates.
+    const observer = new MutationObserver(() => {
+      const next = document.getElementById(id);
+      if (next && next !== target) {
+        focusMain(next);
+        observer.disconnect();
+        clearTimeout(timeout);
+      }
+    });
+    observer.observe(document.getElementById("root") || document.body, {
+      childList: true,
+      subtree: true,
+    });
+    const timeout = window.setTimeout(() => observer.disconnect(), 10000);
   }
 }
 const BusinessApp = lazy(() => import("./business/BusinessApp"));

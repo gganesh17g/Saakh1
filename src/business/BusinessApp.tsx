@@ -1,3 +1,10 @@
+import Customers3 from "./Customers3";
+import Returns3 from "./Returns3";
+import Payroll3 from "./Payroll3";
+import { OperationsPulse3, OperationsReports3 } from "./Reports3";
+import { issueSale, duplicateInvoice } from "./operations3";
+import { invoiceDocument, type Printable } from "./documents3";
+import { Preview3 } from "./UI3";
 import {
   useEffect,
   useState,
@@ -16,8 +23,6 @@ import {
   Wallet,
   TrendingUp,
   FileText,
-  Package,
-  Users,
   ShieldCheck,
   ChevronRight,
   Plus,
@@ -84,7 +89,11 @@ import { useStore as useCreditStore } from "../state/store";
 const modules = [
   ["", "Business Pulse"],
   ["sales", "Sales & Invoices"],
+  ["customers", "Customer Management"],
+  ["sales-returns", "Sales Returns"],
   ["bills", "Purchases & Bills"],
+  ["purchase-returns", "Purchase Returns"],
+  ["payroll", "Payroll Management"],
   ["passbook", "Passbook & Reconciliation"],
   ["inventory", "Inventory"],
   ["cashflow", "Cash Flow & Forecasts"],
@@ -227,8 +236,19 @@ function MoneyInput({ name, value = 0 }: { name: string; value?: number }) {
   );
 }
 export default function BusinessApp({ theme }: { theme: ReactNode }) {
-  const { s, b, ready, hydrate, error, notice, clearError, setRole, commit } =
-    useData();
+  const {
+    s,
+    b,
+    ready,
+    hydrate,
+    error,
+    notice,
+    clearError,
+    setRole,
+    commit,
+    recovery,
+    deleteData,
+  } = useData();
   const loc = useLocation();
   const [nav, setNav] = useState(false);
   useEffect(() => {
@@ -253,23 +273,52 @@ export default function BusinessApp({ theme }: { theme: ReactNode }) {
         </Link>
         <div className="m-label">YOUR DIGITAL MUNIM</div>
         <nav>
-          {modules.map(([path, title], i) => (
-            <NavLink key={path} end to={"/business" + (path ? "/" + path : "")}>
-              <span className="m-nav-icon">
-                {i === 0 ? (
-                  <Wallet size={17} />
-                ) : i < 4 ? (
-                  <FileText size={17} />
-                ) : i === 4 ? (
-                  <Package size={17} />
-                ) : i === 8 ? (
-                  <Users size={17} />
-                ) : (
-                  <ChevronRight size={17} />
-                )}
-              </span>
-              {title}
-            </NavLink>
+          {[
+            {
+              title: "Business operations",
+              paths: [
+                "",
+                "sales",
+                "customers",
+                "sales-returns",
+                "bills",
+                "purchase-returns",
+                "inventory",
+                "payroll",
+              ],
+            },
+            {
+              title: "Finance",
+              paths: [
+                "passbook",
+                "cashflow",
+                "collections",
+                "funding",
+                "reports",
+              ],
+            },
+            {
+              title: "Other workspaces",
+              paths: ["network", "tax", "assistant", "settings", "admin"],
+            },
+          ].map((group) => (
+            <details className="m-nav-group" open key={group.title}>
+              <summary>{group.title}</summary>
+              {modules
+                .filter(([path]) => group.paths.includes(path))
+                .map(([path, title]) => (
+                  <NavLink
+                    key={path}
+                    end
+                    to={"/business" + (path ? "/" + path : "")}
+                  >
+                    <span className="m-nav-icon">
+                      <ChevronRight size={17} />
+                    </span>
+                    {title}
+                  </NavLink>
+                ))}
+            </details>
           ))}
         </nav>
         <Link className="m-credit-link" to="/app">
@@ -343,6 +392,20 @@ export default function BusinessApp({ theme }: { theme: ReactNode }) {
           {error && (
             <div role="alert" className="m-error">
               {error}
+              {recovery && (
+                <>
+                  <button
+                    onClick={() => download("saakh-recovery.json", recovery)}
+                  >
+                    Export original recovery record
+                  </button>
+                  <Confirm text="Reset invalid local data">
+                    {() => {
+                      void deleteData("DELETE");
+                    }}
+                  </Confirm>
+                </>
+              )}
               <button onClick={clearError}>Dismiss</button>
             </div>
           )}
@@ -357,7 +420,7 @@ export default function BusinessApp({ theme }: { theme: ReactNode }) {
             <>
               <div className="m-page-heading">
                 <div>
-                  <span className="m-label">SAAKH / BUSINESS CLARITY</span>
+                  <span className="m-label">SAAKH 3.0 / BUSINESS OPERATIONS</span>
                   <h1>
                     {modules.find((m) => m[0] === page)?.[1] ||
                       "Business Pulse"}
@@ -371,6 +434,14 @@ export default function BusinessApp({ theme }: { theme: ReactNode }) {
                 <Pulse />
               ) : page === "sales" || page === "bills" ? (
                 <Documents kind={page === "sales" ? "sale" : "purchase"} />
+              ) : page === "customers" ? (
+                <Customers3 />
+              ) : page === "sales-returns" || page === "purchase-returns" ? (
+                <Returns3
+                  kind={page === "sales-returns" ? "sale" : "purchase"}
+                />
+              ) : page === "payroll" ? (
+                <Payroll3 />
               ) : page === "passbook" ? (
                 <Passbook />
               ) : page === "inventory" ? (
@@ -748,6 +819,7 @@ function Pulse() {
           </p>
         </Panel>
       </div>
+      <OperationsPulse3 />
       <CreditBridge />
     </>
   );
@@ -796,6 +868,7 @@ function ForecastChart({
 }
 function Documents({ kind }: { kind: "sale" | "purchase" }) {
   const { s, c, commit } = useData();
+  const [preview, setPreview] = useState<Printable | null>(null);
   const [editing, setEditing] = useState<BusinessDocument | null>(null),
     [adding, setAdding] = useState(false),
     [selected, setSelected] = useState("");
@@ -822,6 +895,7 @@ function Documents({ kind }: { kind: "sale" | "purchase" }) {
           <Plus size={16} /> {kind === "sale" ? "New invoice" : "New bill"}
         </button>
       </div>
+      {preview && <Preview3 doc={preview} close={() => setPreview(null)} />}
       {adding && (
         <DocumentForm
           key={editing?.id || "new"}
@@ -893,6 +967,33 @@ function Documents({ kind }: { kind: "sale" | "purchase" }) {
             ))}
           </Table>
           <div className="m-toolbar">
+            {d.kind === "sale" && (
+              <>
+                <button onClick={() => setPreview(invoiceDocument(s, c, d.id))}>
+                  Preview invoice / PDF
+                </button>
+                <button
+                  onClick={() =>
+                    void commit("Invoice duplicated as draft", (s, c) => {
+                      duplicateInvoice(s, c, d.id);
+                    })
+                  }
+                >
+                  Duplicate as new draft
+                </button>
+                <Link to={"/business/customers"}>Customer statement</Link>
+              </>
+            )}
+            <Link
+              to={
+                "/business/" +
+                (d.kind === "sale" ? "sales-returns" : "purchase-returns") +
+                "?document=" +
+                d.id
+              }
+            >
+              Create quantity return →
+            </Link>
             <button
               onClick={() => {
                 setEditing(d);
@@ -983,38 +1084,24 @@ function Documents({ kind }: { kind: "sale" | "purchase" }) {
                 </label>
                 <button>Record payment</button>
               </form>
-              <form
-                className="m-form"
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  const f = val(e);
-                  void commit("Proportional credit note posted", (s, c) =>
-                    op.creditReturn(
-                      s,
-                      c,
-                      d.id,
-                      paise(num(f, "amount")),
-                      today(),
-                      f.has("confirm"),
-                    ),
-                  );
-                }}
-              >
-                <h3>Credit note / stock return</h3>
+              <section className="m-form">
+                <h3>Returns, credits and refunds</h3>
                 <p>
-                  Proportional line allocation. Unpaid balances reduce
-                  receivables/payables; any excess is a confirmed bank refund.
+                  Create a quantity-based return, review condition, approve it,
+                  then settle credit separately. No automatic cash refund on
+                  approval.
                 </p>
-                <Field label="Credit amount (₹)">
-                  <MoneyInput name="amount" />
-                </Field>
-                <label className="m-check">
-                  <input type="checkbox" name="confirm" required />
-                  Confirm goods returned, credit agreed and any bank refund
-                  occurred
-                </label>
-                <button>Post credit note</button>
-              </form>
+                <Link
+                  to={
+                    "/business/" +
+                    (kind === "sale" ? "sales-returns" : "purchase-returns") +
+                    "?document=" +
+                    d.id
+                  }
+                >
+                  Open returns workflow →
+                </Link>
+              </section>
             </div>
           )}
           <details>
@@ -1045,6 +1132,7 @@ function DocumentForm({
   close: () => void;
 }) {
   const { s, c, commit } = useData();
+  const [submissionToken] = useState(() => crypto.randomUUID());
   const [lines, setLines] = useState<DocLine[]>(
     existing?.lines || [
       { description: "", quantity: 1, price: 0, discount: 0, tax: 0 },
@@ -1058,7 +1146,7 @@ function DocumentForm({
           ? {
               ...l,
               [k]:
-                k === "description" || k === "itemId"
+                k === "description" || k === "itemId" || k === "classification"
                   ? v || undefined
                   : Number(v),
             }
@@ -1120,19 +1208,69 @@ function DocumentForm({
             dueDate: str(f, "due"),
             lines,
             cashSale: f.has("cashSale"),
+            notes: str(f, "invoiceNotes"),
+            terms: str(f, "invoiceTerms"),
             ...(attachment ? { attachmentId: attachment } : {}),
           };
-          const ok = await commit("Document saved", (s, c) =>
-            op.saveDocument(
-              s,
-              c,
-              input,
-              str(f, "mode") === "post",
-              f.has("confirm"),
-              existing?.id,
-              existing?.version,
-            ),
-          );
+          const ok = await commit("Document saved", (s, c) => {
+            const mode = str(f, "mode") === "post";
+            if (
+              kind === "sale" &&
+              !existing &&
+              mode &&
+              (!input.number ||
+                input.partyId === "new" ||
+                input.partyId === "guest")
+            ) {
+              issueSale(
+                s,
+                c,
+                {
+                  ...input,
+                  partyId: ["new", "guest"].includes(input.partyId)
+                    ? undefined
+                    : input.partyId,
+                  customer:
+                    input.partyId === "new"
+                      ? {
+                          name: str(f, "customerName"),
+                          location: str(f, "customerLocation"),
+                          termsDays: num(f, "customerTerms"),
+                          notes: "Created during sale",
+                          email: str(f, "customerEmail"),
+                        }
+                      : input.partyId === "guest"
+                        ? {
+                            name:
+                              "Guest cash customer " +
+                              submissionToken.slice(0, 8),
+                            location: s.businesses.find(
+                              (b) => b.id === c.businessId,
+                            )!.location,
+                            termsDays: 0,
+                            notes: "Synthetic one-off guest",
+                          }
+                        : undefined,
+                  prefix: str(f, "prefix") || "SA",
+                  token: submissionToken,
+                },
+                f.has("confirm"),
+              );
+            } else {
+              op.saveDocument(
+                s,
+                c,
+                {
+                  ...input,
+                  number: input.number || "DRAFT-" + (s.sequence + 1),
+                },
+                mode,
+                f.has("confirm"),
+                existing?.id,
+                existing?.version,
+              );
+            }
+          });
           if (ok) close();
         }}
       >
@@ -1150,10 +1288,19 @@ function DocumentForm({
           <Field label="Counterparty">
             <select name="party" defaultValue={existing?.partyId} required>
               <option value="">Select party</option>
+              {kind === "sale" && !existing && (
+                <>
+                  <option value="new">Create customer with sale</option>
+                  <option value="guest">
+                    Guest cash customer (check cash sale)
+                  </option>
+                </>
+              )}
               {s.parties
                 .filter(
                   (p) =>
                     p.businessId === c.businessId &&
+                    !p.archived &&
                     (kind === "sale"
                       ? p.type !== "supplier"
                       : p.type !== "customer"),
@@ -1169,9 +1316,46 @@ function DocumentForm({
             <input
               name="number"
               defaultValue={existing?.number || ""}
-              required
+              placeholder={
+                kind === "sale"
+                  ? "Leave blank for automatic FY numbering"
+                  : "Enter supplier reference"
+              }
+              required={kind !== "sale"}
             />
           </Field>
+          {kind === "sale" && !existing && (
+            <>
+              <Field label="Invoice prefix">
+                <input name="prefix" defaultValue="SA" maxLength={12} />
+              </Field>
+              <details>
+                <summary>New customer details (when selected above)</summary>
+                <Field label="New customer name">
+                  <input name="customerName" />
+                </Field>
+                <Field label="New customer city / state">
+                  <input name="customerLocation" defaultValue="Pune" />
+                </Field>
+                <Field label="New customer email">
+                  <input name="customerEmail" type="email" />
+                </Field>
+                <Field label="New customer terms (days)">
+                  <input
+                    name="customerTerms"
+                    type="number"
+                    min="0"
+                    defaultValue="30"
+                  />
+                </Field>
+              </details>
+              <p>
+                Blank sale numbers are generated atomically by business,
+                financial year and prefix. PDF invoices are not registered GST
+                e-invoices.
+              </p>
+            </>
+          )}
           <Field label="Issue date">
             <input
               type="date"
@@ -1186,6 +1370,20 @@ function DocumentForm({
               name="due"
               defaultValue={existing?.dueDate || plusDays(today(), 30)}
               required
+            />
+          </Field>
+          <Field label="Invoice / bill notes">
+            <input
+              name="invoiceNotes"
+              maxLength={1000}
+              defaultValue={existing?.notes || ""}
+            />
+          </Field>
+          <Field label="Payment terms note">
+            <input
+              name="invoiceTerms"
+              maxLength={400}
+              defaultValue={existing?.terms || ""}
             />
           </Field>
           <Field label="Optional source document (2 MB)">
@@ -1236,6 +1434,13 @@ function DocumentForm({
                     </option>
                   ))}
               </select>
+            </Field>
+            <Field label="HSN / SAC (optional, unverified)">
+              <input
+                value={l.classification || ""}
+                maxLength={20}
+                onChange={(e) => patch(i, "classification", e.target.value)}
+              />
             </Field>
             <Field label="Description">
               <input
@@ -2722,7 +2927,7 @@ function Reports() {
     exportData = () => {
       authorize(s, c, "export");
       return {
-        version: "business-ledger-1",
+        version: "business-ledger-2",
         exportedAt: new Date().toISOString(),
         disclaimer:
           "Synthetic browser-local demonstration; not statutory accounts or verified tax data.",
@@ -2806,7 +3011,7 @@ function Reports() {
           </button>
         </div>
         <p>
-          Formula version business-ledger-1 · currency INR · integer paise ·
+          Formula version business-ledger-2 · currency INR · integer paise ·
           recorded dates only · export includes audit evidence and local
           assumptions. This is not a statutory financial statement.
         </p>
@@ -2838,11 +3043,17 @@ function Reports() {
           </tr>
         </Table>
       </Panel>
+      <OperationsReports3 />
       <Ledger />
       <Panel title="Audit trail · latest 50 events">
         <Table heads={["When / actor", "Action", "Source", "Before / after"]}>
           {s.audit
-            .filter((a) => a.businessId === c.businessId)
+            .filter(
+              (a) =>
+                a.businessId === c.businessId &&
+                (!["staff", "manager"].includes(c.role) ||
+                  !/payroll|salary|employee|attendance/i.test(a.action)),
+            )
             .slice(-50)
             .reverse()
             .map((a) => (

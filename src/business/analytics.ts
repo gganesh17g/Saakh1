@@ -8,6 +8,7 @@ import {
   plusDays,
   rupees,
 } from "./model";
+import { payrollOutstanding } from "./operations3";
 import { balances, due, financials, cashDelta } from "./accounting";
 function predict(values: number[], method: string) {
   if (!values.length) return 0;
@@ -170,8 +171,43 @@ export function forecastBusiness(
       expense = Math.round(dailyExpense * (1 + adjustment.cost)),
       debt = (i + 1) % 30 === 0 ? Math.round(assumptions.monthlyDebt) : 0,
       tax = i === 14 ? Math.round(assumptions.taxPayment) : 0,
-      inflows = collections + cashSales,
-      outflows = suppliers + expense + debt + tax;
+      salaryDue = s.payrollRuns
+        .filter(
+          (r) =>
+            r.businessId === c.businessId &&
+            r.journalId &&
+            r.status !== "Reversed" &&
+            (r.paymentDate <= asOf ? plusDays(asOf, 1) : r.paymentDate) ===
+              date,
+        )
+        .reduce(
+          (a, r) =>
+            a +
+            r.lines.reduce(
+              (a, l) => a + payrollOutstanding(s, r.id, l.employeeId),
+              0,
+            ),
+          0,
+        ),
+      expectedReturns = s.returns.filter(
+        (r) =>
+          r.businessId === c.businessId &&
+          !r.disputed &&
+          r.expectedDate &&
+          r.preference === "Refund" &&
+          r.creditBalance > 0 &&
+          !["Reversed", "Rejected"].includes(r.status) &&
+          (r.expectedDate <= asOf ? plusDays(asOf, 1) : r.expectedDate) ===
+            date,
+      ),
+      refundIn = expectedReturns
+        .filter((r) => r.kind === "purchase")
+        .reduce((a, r) => a + r.creditBalance, 0),
+      refundOut = expectedReturns
+        .filter((r) => r.kind === "sale")
+        .reduce((a, r) => a + r.creditBalance, 0),
+      inflows = collections + cashSales + refundIn,
+      outflows = suppliers + expense + debt + tax + salaryDue + refundOut;
     cash += inflows - outflows;
     return {
       date,
@@ -179,7 +215,7 @@ export function forecastBusiness(
       collections,
       cashSales,
       suppliers,
-      expenses: expense,
+      expenses: expense + salaryDue + refundOut,
       debt,
       tax,
       inflows,
@@ -204,6 +240,7 @@ export function forecastBusiness(
         : "Method chosen by rolling-origin one-step validation on up to 14 historical days; no held-out deployment accuracy claim.",
       "No reliable seasonality estimate: fewer than two annual cycles.",
       "Unrecorded days inside the observed fixture span are treated as zero; omitted transactions can bias estimates.",
+      "Finalized unpaid payroll is scheduled once on its payment date. Refund forecasts require an explicit expected date; uncommitted credits are excluded. Payroll/remittance cash is not re-extrapolated as operating expenses.",
       "All receipts, supplier timing and cost changes are assumptions; no supplier consent is implied.",
     ],
     metrics: sales.length >= 28 ? metrics : [],

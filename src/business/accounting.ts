@@ -64,6 +64,16 @@ export function quantity(s: BusinessState, itemId: string) {
 export function balances(s: BusinessState, businessId: string, asOf = today()) {
   const b = Object.fromEntries(
     [
+      "salaryExpense",
+      "employerExpense",
+      "salaryPayable",
+      "deductionPayable",
+      "employerPayable",
+      "employeeAdvance",
+      "customerCredit",
+      "supplierCredit",
+      "returnsPending",
+      "quarantineInventory",
       "cash",
       "bank",
       "receivable",
@@ -98,7 +108,13 @@ export function financials(
   const b = balances(s, businessId, asOf),
     revenue = -b.revenue,
     operatingExpenses =
-      b.costOfSales + b.expense + b.interest + b.fees + b.depreciation,
+      b.costOfSales +
+      b.expense +
+      b.interest +
+      b.fees +
+      b.depreciation +
+      b.salaryExpense +
+      b.employerExpense,
     profit = revenue - operatingExpenses;
   return {
     balances: b,
@@ -118,8 +134,19 @@ export function financials(
       b.inventory +
       b.inputGST +
       b.equipment +
-      b.accumulatedDepreciation,
-    liabilities: -b.payable - b.outputGST - b.loan,
+      b.accumulatedDepreciation +
+      b.employeeAdvance +
+      b.supplierCredit +
+      b.returnsPending +
+      b.quarantineInventory,
+    liabilities:
+      -b.payable -
+      b.outputGST -
+      b.loan -
+      b.salaryPayable -
+      b.deductionPayable -
+      b.employerPayable -
+      b.customerCredit,
     equity: -b.capital - b.drawings + profit,
   };
 }
@@ -140,6 +167,18 @@ export function postJournal(
     throw new Error(
       "Journal date must be inside the selected April–March financial year",
     );
+  if (
+    !input.reversalOf &&
+    s.journals.some(
+      (j) =>
+        j.businessId === c.businessId &&
+        j.sourceId === input.sourceId &&
+        j.kind === input.kind &&
+        !j.reversalOf,
+    ) &&
+    ["payrollFinalized", "returnCredit", "returnDispatch"].includes(input.kind)
+  )
+    throw new Error("Source event already posted");
   const j = journalSchema.parse({
     ...input,
     id: uid(s, "JRN"),
@@ -202,9 +241,10 @@ function postDoc(s: BusinessState, c: Context, d: BusinessDocument) {
       x.id !== d.id &&
       x.businessId === c.businessId &&
       x.kind === d.kind &&
-      x.partyId === d.partyId &&
+      (d.kind === "sale" || x.partyId === d.partyId) &&
       x.number === d.number &&
-      x.status === "Posted",
+      (x.status === "Posted" ||
+        (d.kind === "sale" && x.status === "Cancelled")),
   );
   if (same)
     throw new Error(
@@ -295,6 +335,7 @@ export function saveDocument(
   authorize(s, c, "draft");
   const data = documentInput.parse(input);
   const party = s.parties.find((p) => p.id === data.partyId);
+  if (party?.archived && !id) throw new Error("Customer is archived");
   if (!party || party.businessId !== c.businessId)
     throw new Error("Select a party in this business");
   if (
@@ -323,6 +364,17 @@ export function saveDocument(
     if (d.status === "Cancelled")
       throw new Error("Cancelled records cannot be edited");
     previous = structuredClone(d);
+    if (d.status === "Posted" && d.number !== data.number)
+      throw new Error("Issued invoice numbers are immutable");
+    if (
+      s.returns.some(
+        (r) =>
+          r.documentId === d.id &&
+          r.status !== "Rejected" &&
+          r.status !== "Reversed",
+      )
+    )
+      throw new Error("Resolve linked returns before correcting this document");
     if (d.status === "Posted") {
       authorize(s, c, "post");
       if (!post || !confirm)
@@ -431,6 +483,15 @@ export function cancelDocument(
   authorize(s, c, "post");
   if (!confirmed) throw new Error("Confirm cancellation");
   const d = record(s, c, id);
+  if (
+    s.returns.some(
+      (r) =>
+        r.documentId === id &&
+        r.status !== "Rejected" &&
+        r.status !== "Reversed",
+    )
+  )
+    throw new Error("Resolve linked returns before cancelling");
   if (d.status === "Cancelled") throw new Error("Already cancelled");
   if (
     s.payments.some((p) => p.documentId === id) ||

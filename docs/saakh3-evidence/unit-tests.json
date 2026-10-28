@@ -1,0 +1,657 @@
+{
+  "numTotalTests": 121,
+  "numPassedTests": 121,
+  "numFailedTests": 0,
+  "success": true,
+  "startTime": 1793164731091,
+  "source": "Selected fields from the executed Vitest JSON; no fabricated or historical results",
+  "testResults": [
+    {
+      "name": "/home/thunder/shared/Saakh/src/business/business.test.ts",
+      "status": "passed",
+      "assertionResults": [
+        {
+          "fullName": "double-entry accounting seed journals balance and balance sheet reconciles",
+          "status": "passed",
+          "duration": 111.09964300000001
+        },
+        {
+          "fullName": "double-entry accounting calculates line discount before rounded tax in integer paise",
+          "status": "passed",
+          "duration": 60.439967000000024
+        },
+        {
+          "fullName": "double-entry accounting credit invoice creates receivable and revenue, no cash",
+          "status": "passed",
+          "duration": 59.28138000000013
+        },
+        {
+          "fullName": "double-entry accounting draft has no ledger effect; posting version creates one entry",
+          "status": "passed",
+          "duration": 65.58713199999988
+        },
+        {
+          "fullName": "double-entry accounting partial collection reduces receivable without second revenue",
+          "status": "passed",
+          "duration": 72.28795100000002
+        },
+        {
+          "fullName": "double-entry accounting overpayment, unconfirmed payment and pre-invoice payment rejected",
+          "status": "passed",
+          "duration": 55.129924000000074
+        },
+        {
+          "fullName": "double-entry accounting supplier bill creates payable, payment no second expense",
+          "status": "passed",
+          "duration": 47.08503500000006
+        },
+        {
+          "fullName": "double-entry accounting stock purchase at different price books standard cost and variance",
+          "status": "passed",
+          "duration": 48.099964
+        },
+        {
+          "fullName": "double-entry accounting posted corrections reverse journals and correct stock once per version",
+          "status": "passed",
+          "duration": 54.927494000000024
+        },
+        {
+          "fullName": "double-entry accounting rejects stale version, duplicate numbers and negative stock",
+          "status": "passed",
+          "duration": 115.30131400000005
+        },
+        {
+          "fullName": "double-entry accounting proportional credit reverses revenue/tax and outstanding",
+          "status": "passed",
+          "duration": 67.5669089999999
+        },
+        {
+          "fullName": "double-entry accounting loan principal, interest, fees and transfer have distinct effects",
+          "status": "passed",
+          "duration": 64.35235399999988
+        },
+        {
+          "fullName": "double-entry accounting depreciation is noncash and limited to carrying value",
+          "status": "passed",
+          "duration": 75.52196600000002
+        },
+        {
+          "fullName": "double-entry accounting cash invoice records payment without outstanding",
+          "status": "passed",
+          "duration": 52.75301800000011
+        },
+        {
+          "fullName": "double-entry accounting demo staff cannot post; foreign records rejected",
+          "status": "passed",
+          "duration": 50.4324610000001
+        },
+        {
+          "fullName": "double-entry accounting calendar and journal validation reject malformed money and dates",
+          "status": "passed",
+          "duration": 53.23781400000007
+        },
+        {
+          "fullName": "double-entry accounting onboarding needs confirmed source and separate opening capital",
+          "status": "passed",
+          "duration": 63.64907599999992
+        },
+        {
+          "fullName": "forecasts and financing reproducible 30-day forecast has continuous arithmetic",
+          "status": "passed",
+          "duration": 68.0078910000002
+        },
+        {
+          "fullName": "forecasts and financing reproducible 60-day forecast has continuous arithmetic",
+          "status": "passed",
+          "duration": 62.38526299999967
+        },
+        {
+          "fullName": "forecasts and financing reproducible 90-day forecast has continuous arithmetic",
+          "status": "passed",
+          "duration": 83.56071699999984
+        },
+        {
+          "fullName": "forecasts and financing downside reduces closing cash with same source state",
+          "status": "passed",
+          "duration": 60.55512200000021
+        },
+        {
+          "fullName": "forecasts and financing zero actuals produce undefined WAPE; insufficient history honest",
+          "status": "passed",
+          "duration": 52.729725000000144
+        },
+        {
+          "fullName": "forecasts and financing invalid assumptions and horizons rejected",
+          "status": "passed",
+          "duration": 58.34015400000044
+        },
+        {
+          "fullName": "forecasts and financing flat monthly schedule preserves exact principal and interest",
+          "status": "passed",
+          "duration": 45.90069600000015
+        },
+        {
+          "fullName": "forecasts and financing flat weekly schedule preserves exact principal and interest",
+          "status": "passed",
+          "duration": 47.971884000000045
+        },
+        {
+          "fullName": "forecasts and financing flat daily schedule preserves exact principal and interest",
+          "status": "passed",
+          "duration": 55.60527000000002
+        },
+        {
+          "fullName": "forecasts and financing reducing zero-rate schedule and month-end dates correct",
+          "status": "passed",
+          "duration": 53.09544199999982
+        },
+        {
+          "fullName": "reconciliation, trade, consent and exports match and rejection never change ledger balances",
+          "status": "passed",
+          "duration": 52.440841999999975
+        },
+        {
+          "fullName": "reconciliation, trade, consent and exports rejects mismatching amounts and journal reuse",
+          "status": "passed",
+          "duration": 57.11867400000028
+        },
+        {
+          "fullName": "reconciliation, trade, consent and exports categorization adds one journal and matched statement without duplicate income",
+          "status": "passed",
+          "duration": 47.479187999999795
+        },
+        {
+          "fullName": "reconciliation, trade, consent and exports quoted CSV parsed, exact duplicates skipped, no automatic journal",
+          "status": "passed",
+          "duration": 45.04929600000014
+        },
+        {
+          "fullName": "reconciliation, trade, consent and exports malformed CSV amounts cannot silently become zero",
+          "status": "passed",
+          "duration": 44.692923000000064
+        },
+        {
+          "fullName": "reconciliation, trade, consent and exports RFQ quotations compare delivered amount with tax",
+          "status": "passed",
+          "duration": 47.52847299999985
+        },
+        {
+          "fullName": "reconciliation, trade, consent and exports consent records purpose and revocation but adapters never connect",
+          "status": "passed",
+          "duration": 45.93419300000005
+        },
+        {
+          "fullName": "reconciliation, trade, consent and exports assistant answers have local evidence and refuses language-based posting",
+          "status": "passed",
+          "duration": 50.800068999999894
+        },
+        {
+          "fullName": "spreadsheet sample round-trips valid XLSX sample through local parser",
+          "status": "passed",
+          "duration": 78.39309400000002
+        },
+        {
+          "fullName": "confirmed refunds cash-sale return refunds bank and reverses inventory/COGS without negative outstanding",
+          "status": "passed",
+          "duration": 49.205037000000175
+        },
+        {
+          "fullName": "stock reversal safeguards does not cancel consumed stock purchases",
+          "status": "passed",
+          "duration": 49.227828000000045
+        },
+        {
+          "fullName": "ledger credit bridge maps trailing sources without presenting an actual trade graph",
+          "status": "passed",
+          "duration": 86.51644299999998
+        }
+      ]
+    },
+    {
+      "name": "/home/thunder/shared/Saakh/src/business/operations3.test.ts",
+      "status": "passed",
+      "assertionResults": [
+        {
+          "fullName": "payroll engine and immutable posting calculates gross, configured deductions, reimbursement and employer cost exactly",
+          "status": "passed",
+          "duration": 112.09922299999994
+        },
+        {
+          "fullName": "payroll engine and immutable posting unpaid leave prorates recurring earnings but keeps bonus separate",
+          "status": "passed",
+          "duration": 62.133321000000024
+        },
+        {
+          "fullName": "payroll engine and immutable posting selects historical effective salary and leaves past snapshot reproducible",
+          "status": "passed",
+          "duration": 65.38348799999994
+        },
+        {
+          "fullName": "payroll engine and immutable posting blocks changing an existing salary version",
+          "status": "passed",
+          "duration": 61.123420000000124
+        },
+        {
+          "fullName": "payroll engine and immutable posting blocks unreviewed attendance approval",
+          "status": "passed",
+          "duration": 68.674395
+        },
+        {
+          "fullName": "payroll engine and immutable posting blocks approval after attendance changed until recalculated",
+          "status": "passed",
+          "duration": 56.6834980000001
+        },
+        {
+          "fullName": "payroll engine and immutable posting finalization records liability and expense without cash; payment does not repeat expense",
+          "status": "passed",
+          "duration": 57.431372999999894
+        },
+        {
+          "fullName": "payroll engine and immutable posting prevents duplicate finalization and payroll periods",
+          "status": "passed",
+          "duration": 49.78937599999995
+        },
+        {
+          "fullName": "payroll engine and immutable posting prevents overpayment and duplicate reference",
+          "status": "passed",
+          "duration": 49.76649599999996
+        },
+        {
+          "fullName": "payroll engine and immutable posting payslip agrees exactly with finalized snapshot and never falsely confirms payment",
+          "status": "passed",
+          "duration": 65.3260150000001
+        },
+        {
+          "fullName": "payroll engine and immutable posting reverses failed payment then payroll without erasing snapshots",
+          "status": "passed",
+          "duration": 75.51984700000003
+        },
+        {
+          "fullName": "payroll engine and immutable posting records advances separately and prevents recovery beyond evidence",
+          "status": "passed",
+          "duration": 79.56667300000004
+        },
+        {
+          "fullName": "payroll engine and immutable posting remittance settles deduction liability without repeating payroll expense",
+          "status": "passed",
+          "duration": 83.12045499999999
+        },
+        {
+          "fullName": "payroll engine and immutable posting payroll is inaccessible for staff; attendance-only manager cannot finalize",
+          "status": "passed",
+          "duration": 61.919366999999966
+        },
+        {
+          "fullName": "payroll engine and immutable posting forecast schedules only remaining finalized salary once",
+          "status": "passed",
+          "duration": 63.92914299999984
+        },
+        {
+          "fullName": "quantity returns, inventory, credits and settlement sales draft and approval do not post cash or stock",
+          "status": "passed",
+          "duration": 57.605874000000085
+        },
+        {
+          "fullName": "quantity returns, inventory, credits and settlement unpaid return reduces receivable and restores sellable stock/COGS without refund",
+          "status": "passed",
+          "duration": 59.80603700000006
+        },
+        {
+          "fullName": "quantity returns, inventory, credits and settlement paid return creates customer liability; partial refund alone changes cash",
+          "status": "passed",
+          "duration": 56.60765700000002
+        },
+        {
+          "fullName": "quantity returns, inventory, credits and settlement supports multiple partial returns and blocks over-return / duplicate credit",
+          "status": "passed",
+          "duration": 58.74572699999999
+        },
+        {
+          "fullName": "quantity returns, inventory, credits and settlement quarantined goods are not available for resale and hold separate value",
+          "status": "passed",
+          "duration": 61.35001300000022
+        },
+        {
+          "fullName": "quantity returns, inventory, credits and settlement written-off goods do not restore stock or reverse cost of sales",
+          "status": "passed",
+          "duration": 68.90795200000002
+        },
+        {
+          "fullName": "quantity returns, inventory, credits and settlement refund cannot exceed credit and reversal restores credit and cash",
+          "status": "passed",
+          "duration": 58.37953900000002
+        },
+        {
+          "fullName": "quantity returns, inventory, credits and settlement customer credit allocates to same-customer future invoice without cash",
+          "status": "passed",
+          "duration": 57.69563199999993
+        },
+        {
+          "fullName": "quantity returns, inventory, credits and settlement return reversal preserves evidence and blocks duplicate reversal",
+          "status": "passed",
+          "duration": 54.896344999999656
+        },
+        {
+          "fullName": "quantity returns, inventory, credits and settlement supplier approval does not dispatch or change cash; dispatch and credit separate",
+          "status": "passed",
+          "duration": 55.88102200000003
+        },
+        {
+          "fullName": "quantity returns, inventory, credits and settlement paid supplier return creates refund receivable; receipt only then increases bank",
+          "status": "passed",
+          "duration": 52.17032600000039
+        },
+        {
+          "fullName": "quantity returns, inventory, credits and settlement supplier credit requires evidence, blocks duplicates and over-return",
+          "status": "passed",
+          "duration": 61.41076500000008
+        },
+        {
+          "fullName": "quantity returns, inventory, credits and settlement rejecting a draft releases reserved quantities without posting",
+          "status": "passed",
+          "duration": 56.59875599999987
+        },
+        {
+          "fullName": "quantity returns, inventory, credits and settlement credits alone do not forecast cash; documented refund does once",
+          "status": "passed",
+          "duration": 63.969838999999865
+        },
+        {
+          "fullName": "customer and automatic invoice integration creates/edits/archives customer and warns on duplicate without merging",
+          "status": "passed",
+          "duration": 46.41639200000009
+        },
+        {
+          "fullName": "customer and automatic invoice integration atomically issues unique FY numbers and deduplicates submission tokens",
+          "status": "passed",
+          "duration": 53.97241600000007
+        },
+        {
+          "fullName": "customer and automatic invoice integration creates a customer in the same sale and uses saved record on repeat purchase",
+          "status": "passed",
+          "duration": 54.438360999999986
+        },
+        {
+          "fullName": "customer and automatic invoice integration cash and credit sale differ; collection does not repeat revenue",
+          "status": "passed",
+          "duration": 53.91071800000009
+        },
+        {
+          "fullName": "customer and automatic invoice integration immutable issued numbers; duplicate creates new draft without posting",
+          "status": "passed",
+          "duration": 50.395534999999654
+        },
+        {
+          "fullName": "customer and automatic invoice integration statement closing reconciles receivable minus customer credit across refunds",
+          "status": "passed",
+          "duration": 56.611851000000115
+        },
+        {
+          "fullName": "customer and automatic invoice integration invoice preview contains actual current numbers and is not an IRN",
+          "status": "passed",
+          "duration": 47.34632599999986
+        },
+        {
+          "fullName": "customer and automatic invoice integration v1 migration preserves all old records and adds empty collections without reset",
+          "status": "passed",
+          "duration": 62.79128999999966
+        },
+        {
+          "fullName": "customer and automatic invoice integration connected synthetic examples reconcile and cannot silently reload",
+          "status": "passed",
+          "duration": 66.16444899999988
+        },
+        {
+          "fullName": "customer and automatic invoice integration empty v2 state validates and unknown business-scoped records fail",
+          "status": "passed",
+          "duration": 49.266737999999805
+        },
+        {
+          "fullName": "supplier partial credit receipts allocate expense/tax/stock cumulatively without duplicate credit",
+          "status": "passed",
+          "duration": 62.030249999999796
+        },
+        {
+          "fullName": "large rational monetary arithmetic uses exact half-up integer rounding",
+          "status": "passed",
+          "duration": 49.40373499999987
+        },
+        {
+          "fullName": "disputed documented supplier refunds are excluded from forecast receipts",
+          "status": "passed",
+          "duration": 51.81443199999967
+        },
+        {
+          "fullName": "manual issued sale numbers are unique across customers and cannot reuse cancellation numbers",
+          "status": "passed",
+          "duration": 50.5275029999998
+        },
+        {
+          "fullName": "PDF text normalizes financial typography and rejects unsupported scripts rather than corrupting output",
+          "status": "passed",
+          "duration": 47.68824399999994
+        },
+        {
+          "fullName": "return receipt conservation rejects corrupted saved credit amounts",
+          "status": "passed",
+          "duration": 61.620356000000356
+        }
+      ]
+    },
+    {
+      "name": "/home/thunder/shared/Saakh/src/business/store.test.ts",
+      "status": "passed",
+      "assertionResults": [
+        {
+          "fullName": "atomic commit does not expose failed drafts or failed persistence",
+          "status": "passed",
+          "duration": 140.08107899999993
+        },
+        {
+          "fullName": "commits balanced journal only after successful save, then restores",
+          "status": "passed",
+          "duration": 93.89711699999998
+        },
+        {
+          "fullName": "blocks concurrent mutations until the first persistence completes",
+          "status": "passed",
+          "duration": 65.710241
+        },
+        {
+          "fullName": "deletion touches only owned records and requires typed confirmation",
+          "status": "passed",
+          "duration": 52.81260300000008
+        },
+        {
+          "fullName": "corrupt persisted data is surfaced without silently seeding",
+          "status": "passed",
+          "duration": 59.15812300000016
+        },
+        {
+          "fullName": "staff view cannot remove local ledger records",
+          "status": "passed",
+          "duration": 52.01736699999992
+        },
+        {
+          "fullName": "invalid restore offers recovery and blocks writes without overwriting the original",
+          "status": "passed",
+          "duration": 50.28311499999995
+        }
+      ]
+    },
+    {
+      "name": "/home/thunder/shared/Saakh/src/components/ErrorBoundary.test.tsx",
+      "status": "passed",
+      "assertionResults": [
+        {
+          "fullName": "Deployment recovery boundary shows the actual failure and retries without clearing stored data",
+          "status": "passed",
+          "duration": 158.633061
+        },
+        {
+          "fullName": "Deployment recovery boundary supports an isolated fallback for graphics failures",
+          "status": "passed",
+          "duration": 4.195227000000045
+        }
+      ]
+    },
+    {
+      "name": "/home/thunder/shared/Saakh/src/components/components.test.tsx",
+      "status": "passed",
+      "assertionResults": [
+        {
+          "fullName": "Accessible product controls recalculates economics after editing assumptions",
+          "status": "passed",
+          "duration": 115.93090800000004
+        },
+        {
+          "fullName": "Accessible product controls navigates guided demo checkpoints",
+          "status": "passed",
+          "duration": 160.11110099999996
+        }
+      ]
+    },
+    {
+      "name": "/home/thunder/shared/Saakh/src/engines/engines.test.ts",
+      "status": "passed",
+      "assertionResults": [
+        {
+          "fullName": "Saakh scoring honors weighted factors and bounds for every profile",
+          "status": "passed",
+          "duration": 5.042197999999985
+        },
+        {
+          "fullName": "Saakh scoring improves or holds when debt falls",
+          "status": "passed",
+          "duration": 7.4355880000000525
+        },
+        {
+          "fullName": "Saakh scoring reduces score with collection delay",
+          "status": "passed",
+          "duration": 0.4071999999999889
+        },
+        {
+          "fullName": "Saakh scoring does not invent score with insufficient evidence",
+          "status": "passed",
+          "duration": 0.5118350000000191
+        },
+        {
+          "fullName": "Saakh scoring handles zero debt",
+          "status": "passed",
+          "duration": 0.4321029999999837
+        },
+        {
+          "fullName": "Forecast and daily cash is deterministic across sectors and horizons",
+          "status": "passed",
+          "duration": 4.647185000000036
+        },
+        {
+          "fullName": "Forecast and daily cash balances each daily ledger and monthly totals",
+          "status": "passed",
+          "duration": 2.2197290000000294
+        },
+        {
+          "fullName": "Forecast and daily cash distinguishes seasonality, stress, deterioration and missing history",
+          "status": "passed",
+          "duration": 8.421915000000013
+        },
+        {
+          "fullName": "Trade-Graph Shield has stable identifiers and no baseline flags",
+          "status": "passed",
+          "duration": 1.2855270000000019
+        },
+        {
+          "fullName": "Trade-Graph Shield detects reciprocal, similar value, abnormal volume and cluster signals",
+          "status": "passed",
+          "duration": 1.5976120000000265
+        },
+        {
+          "fullName": "All six Attack Lab scenarios Circular Invoicing",
+          "status": "passed",
+          "duration": 1.3632839999999078
+        },
+        {
+          "fullName": "All six Attack Lab scenarios Duplicate Invoices",
+          "status": "passed",
+          "duration": 1.0592659999999796
+        },
+        {
+          "fullName": "All six Attack Lab scenarios Revenue Inflation",
+          "status": "passed",
+          "duration": 1.6113770000000613
+        },
+        {
+          "fullName": "All six Attack Lab scenarios Buyer Concentration",
+          "status": "passed",
+          "duration": 2.175283000000036
+        },
+        {
+          "fullName": "All six Attack Lab scenarios Seasonal Shock",
+          "status": "passed",
+          "duration": 0.7148220000000265
+        },
+        {
+          "fullName": "All six Attack Lab scenarios Receivables Delay",
+          "status": "passed",
+          "duration": 0.5632309999999734
+        },
+        {
+          "fullName": "Pipeline, validation and exports reproduces ID and snapshots without mutation",
+          "status": "passed",
+          "duration": 2.015135999999984
+        },
+        {
+          "fullName": "Pipeline, validation and exports validates invalid fields and periods",
+          "status": "passed",
+          "duration": 1.6640039999999772
+        },
+        {
+          "fullName": "Pipeline, validation and exports exports computed cash and version metadata",
+          "status": "passed",
+          "duration": 1.733384000000001
+        },
+        {
+          "fullName": "Lender impact economics avoids double counting",
+          "status": "passed",
+          "duration": 0.5197850000000699
+        },
+        {
+          "fullName": "Lender impact economics handles zero denominators",
+          "status": "passed",
+          "duration": 0.4332809999999654
+        },
+        {
+          "fullName": "keeps largest counterparty share consistent with the three-buyer fixture",
+          "status": "passed",
+          "duration": 1.1191029999999955
+        }
+      ]
+    },
+    {
+      "name": "/home/thunder/shared/Saakh/src/state/store.test.ts",
+      "status": "passed",
+      "assertionResults": [
+        {
+          "fullName": "Simulation lifecycle and persistence blocks duplicate concurrent runs and persists a completed snapshot",
+          "status": "passed",
+          "duration": 10.273048000000017
+        },
+        {
+          "fullName": "Simulation lifecycle and persistence cancels without recording a run",
+          "status": "passed",
+          "duration": 2.045808999999963
+        },
+        {
+          "fullName": "Simulation lifecycle and persistence surfaces invalid input and persistence errors honestly",
+          "status": "passed",
+          "duration": 3.593311999999969
+        },
+        {
+          "fullName": "Simulation lifecycle and persistence restores history, profiles, notes and source configuration",
+          "status": "passed",
+          "duration": 1.686193000000003
+        }
+      ]
+    }
+  ]
+}

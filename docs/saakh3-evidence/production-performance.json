@@ -1,0 +1,19 @@
+{
+  "environment": "Local production static Pages emulation, Chromium headless; completed 3.0 run, one cold desktop and one warm mobile reload. Not physical hardware, throttled network, FPS or statistical benchmark.",
+  "metrics": [
+    {
+      "width": 1440,
+      "readyMs": 1098,
+      "firstPaintMs": 32,
+      "firstContentfulPaintMs": 116,
+      "resources": 6
+    },
+    {
+      "width": 390,
+      "readyMs": 543,
+      "firstPaintMs": 104,
+      "firstContentfulPaintMs": 144,
+      "resources": 6
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+# Automatic sale-to-invoice workflow
+
+The existing Sales & Invoices form and saveDocument/postDoc engine remain the only invoice/accounting/stock implementation. A blank number on a completed new sale invokes issueSale inside the common clone → validate → IndexedDB save → publish-state transaction. Existing manual numbers and drafts remain supported. No intermediate customer, sequence, journal or stock mutation becomes visible if validation/persistence fails.
+
+Select an existing active customer, create a new customer in the sale (duplicate warning blocks silent merges), or choose a synthetic guest with a cash sale. A customer can also be registered/edited/archived in Customer Management. Credit limits, stock availability, lines, dates, source business and explicit posting confirmation are checked. Archived customers cannot receive new documents.
+
+Number = configurable prefix / April–March financial year / monotonically increasing five-digit sequence, scoped to business/year/prefix. Auto sequences scan all existing document numbers, including cancelled records. A stable form submission token returns the same completed invoice on repeat; concurrent store saves are blocked. Manual issued sales numbers are unique across customers and cannot reuse cancelled numbers; issued numbers are immutable. Duplicate as new draft creates a distinct draft without any posting. No invoice number is silently deleted/recycled.
+
+Cash sale Dr bank / Cr revenue/output tax; stock Dr costOfSales / Cr inventory. Credit sale Dr receivable instead of bank; a later full/partial receipt Dr bank/cash / Cr receivable without repeating revenue. Purchases share existing bill/stock/settle services. Invoice preview uses current records, line quantities/prices/discounts/entered tax/optional HSN-SAC, customer billing/delivery details, terms, paid/outstanding and status. Original source journals and audit remain inspectable.
+
+Preview, print and actual local PDF download use current source records. A PDF is not GST e-invoicing, an IRN, supplier validation or evidence of delivery. No email/WhatsApp send status is invented. Return and credit-note actions link to the quantity return workbench. PDF uses built-in Latin fonts with INR notation; use browser Print/Save PDF for Indic-script content where a local font is required.

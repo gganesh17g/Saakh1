@@ -1,0 +1,9 @@
+# Saakh 3.0 deployment validation
+
+Project /home/thunder/shared/Saakh; target gganesh17g/Saakh1 main, expected site https://gganesh17g.github.io/Saakh1/. Existing verified base /Saakh1/, development /, production HashRouter and generated clean-route migration preserved. No publishing workflow was re-enabled, removed or replaced. Only deploy.yml uploads compiled dist; the raw/Jekyll templates remain manual guidance only. Pinned Actions, type/lint/unit/build/development/production browser gates and release.json/HTML source identity remain intact.
+
+Local strict build and production tests pass at the exact subpath, including customers, payroll, sales returns, purchase returns, deep links, refresh, old financial screens and actual PDF chunks. No source /src/main.tsx entry is published. Original user history/working records are preserved. Git initial/final/staged/unstaged/untracked/whitespace checks and file attribution are in the file-changes report.
+
+Publication and final live validation are pending at the time of this initial release document; no live success is inferred from local tests. After authorized non-force publishing, inspect the workflow, uploaded Pages artifact and deployment, then verify release.json and HTML match the actual revision and run the live operations suite. A follow-up evidence commit cannot contain its own future SHA; the delivery summary/observed release.json identify that final revision.
+
+Local commands: npm ci; npm run dev; npm run typecheck; npm run lint; npm test; npm run build; npm run test:e2e; npm run test:pages; npm run preview. Preview http://localhost:4173/Saakh1/#/business/payroll; strict static preview npm run preview:pages. Live acceptance command: SAAKH_TEST_URL=https://gganesh17g.github.io/Saakh1/ SAAKH_EXPECTED_SHA=ACTUAL_SHA npx playwright test --config playwright.pages.config.ts tests/pages/operations3.spec.ts tests/pages/release.spec.ts. No cloud database, secrets or API keys required.

@@ -1,3 +1,33 @@
+# Saakh 3.0 — connected business operations
+
+This release extends the existing local MSME platform with **Payroll Management**, **Customer Management**, **Sales Returns**, **Purchase Returns** and automatic FY invoice generation in the existing Sales & Invoices form. All use the same paise ledger, stock, local persistence and audit events. Earlier documentation remains below for provenance.
+
+Run from `/home/thunder/shared/Saakh` using Node 26:
+
+```sh
+npm ci
+npm run dev
+npm run typecheck
+npm run lint
+npm test
+npm run build
+npm run test:e2e
+npm run test:pages
+npm run preview
+```
+
+Production preview: `http://localhost:4173/Saakh1/#/business`. New routes: `#/business/customers`, `#/business/payroll`, `#/business/sales-returns`, `#/business/purchase-returns`. Source remains `gganesh17g/Saakh1` main; only the existing tested Vite dist workflow publishes. Browser tests require `npx playwright install chromium` when not installed. No API keys required.
+
+Start with **Business Pulse → Load operations examples** to add coherent fictional employees, payroll, repeat sales, customer credit and supplier refund receivable to the selected business without resetting existing data. Or create a customer, leave the new sale's number blank for automatic FY numbering, and use invoice Details to create a quantity return. For payroll, add an employee/salary and effective assumption rule, review attendance, create/calculate/approve/finalize a run, then separately record payments. Payslips/invoices/statements have actual PDF and browser print outputs.
+
+Existing v1 storage is migrated additively to v2 in the same IndexedDB key. Export a backup before experimenting. A failed restore blocks writes and offers the untouched recovery record. The original Team & Settings typed deletion remains available; no silent reset occurs.
+
+All employee/customer/payment records must be synthetic. Contributions/taxes are entered, effective-dated **illustrative assumptions**, not certified statutory calculations. No real bank transfers, filing, IRN, messages or production authorization. Monthly split-period, PDF-font and stock-cost boundaries are documented in [known limitations](docs/SAAKH-3-KNOWN-LIMITATIONS.md).
+
+See [implementation](docs/SAAKH-3-IMPLEMENTATION-REPORT.md), [requirements](docs/SAAKH-3-REQUIREMENTS-MATRIX.md), [payroll method](docs/PAYROLL-METHODOLOGY.md), [regulatory readiness](docs/PAYROLL-AND-GST-READINESS.md), [returns](docs/RETURNS-ACCOUNTING-RULES.md), [invoicing](docs/AUTOMATIC-INVOICING-WORKFLOW.md), [customers](docs/CUSTOMER-DATA-MODEL.md), [financial tests](docs/FINANCIAL-INTEGRATION-TESTS.md), [test report](docs/SAAKH-3-TEST-REPORT.md), [deployment](docs/SAAKH-3-DEPLOYMENT-VALIDATION.md) and [file changes](docs/SAAKH-3-FILE-CHANGES-REPORT.md).
+
+## Earlier releases — preserved documentation
+
 # Current Saakh1 release and deployment
 
 Target repository: **gganesh17g/Saakh1**, branch **main**. Live URL: https://gganesh17g.github.io/Saakh1/. Production base: `/Saakh1/`; development remains `/`. The earlier `/Saakh/` instructions below are retained historical documentation and are superseded by this section.

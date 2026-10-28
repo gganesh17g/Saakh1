@@ -1,3 +1,5 @@
+import { migrateBusinessState } from "./migration";
+import { validateOperations } from "./validation3";
 import { create } from "zustand";
 import { get, set, del } from "idb-keyval";
 import {
@@ -21,7 +23,7 @@ import { simulate } from "../engines";
 const KEY = "saakh-business-v1";
 export function validateBusinessState(s: BusinessState) {
   if (
-    s.version !== 1 ||
+    s.version !== 2 ||
     !Array.isArray(s.businesses) ||
     !Array.isArray(s.journals) ||
     !Number.isSafeInteger(s.sequence)
@@ -71,11 +73,13 @@ export function validateBusinessState(s: BusinessState) {
     if ((credit.refundAmount || 0) > credit.amount)
       throw new Error("Refund exceeds credit");
   }
+  validateOperations(s);
   return s;
 }
 type Store = {
   data: BusinessState;
   ready: boolean;
+  recovery: string;
   busy: boolean;
   error: string;
   notice: string;
@@ -91,24 +95,37 @@ type Store = {
 export const useBusiness = create<Store>((update, state) => ({
   data: emptyState(),
   ready: false,
+  recovery: "",
   busy: false,
   error: "",
   notice: "",
   hydrate: async () => {
     if (state().ready) return;
+    let raw: unknown;
     try {
       const stored = await get<BusinessState>(KEY);
-      const data = stored ? validateBusinessState(stored) : seedBusiness();
-      if (!stored) await set(KEY, data);
-      update({ data, ready: true });
+      raw = stored;
+      const data = stored
+        ? validateBusinessState(migrateBusinessState(stored))
+        : seedBusiness();
+      if (!stored || stored.version !== data.version) await set(KEY, data);
+      update({ data, ready: true, recovery: "" });
     } catch (e) {
       update({
         ready: true,
+        recovery: JSON.stringify(raw ?? { error: "No readable stored ledger" }),
         error: `Could not restore the local ledger: ${String(e)}. Export what is available or use the explicit reset control; no data was silently replaced.`,
       });
     }
   },
   commit: async (label, fn) => {
+    if (state().recovery) {
+      update({
+        error:
+          "Restore failed: export the recovery record or explicitly delete/reset saved data before writing. Existing storage has not been overwritten.",
+      });
+      return false;
+    }
     if (state().busy) {
       update({ error: "Another local save is running. Wait before retrying." });
       return false;
@@ -170,6 +187,7 @@ export const useBusiness = create<Store>((update, state) => ({
       });
       update({
         data: emptyState(),
+        recovery: "",
         ready: true,
         error: "",
         notice:

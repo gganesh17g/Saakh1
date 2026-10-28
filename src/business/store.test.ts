@@ -14,6 +14,7 @@ beforeEach(() => {
   useBusiness.setState({
     data: seedBusiness(),
     ready: true,
+    recovery: "",
     busy: false,
     error: "",
     notice: "",
@@ -112,4 +113,17 @@ it("staff view cannot remove local ledger records", async () => {
   expect(await useBusiness.getState().deleteData("DELETE")).toBe(false);
   expect(useBusiness.getState().error).toContain("does not allow settings");
   expect(del).not.toHaveBeenCalled();
+});
+it("invalid restore offers recovery and blocks writes without overwriting the original", async () => {
+  const invalid = { version: 99, privateDemo: "original synthetic record" };
+  vi.mocked(get).mockResolvedValue(invalid);
+  useBusiness.setState({ ready: false });
+  await useBusiness.getState().hydrate();
+  expect(useBusiness.getState().recovery).toContain(
+    "original synthetic record",
+  );
+  expect(
+    await useBusiness.getState().commit("unsafe replacement", () => {}),
+  ).toBe(false);
+  expect(set).not.toHaveBeenCalled();
 });

@@ -1,0 +1,11 @@
+# Customer data model and statements
+
+Customers extend the existing Party entity; there is no parallel customer master. Business ID, party ID and type (customer/both) join documents, payments, credits, returns and source journals. Optional email, phone, billing/delivery, GSTIN, category, credit limit, created/updated timestamps and archive status extend legacy records without replacing them. Location, terms and notes remain compatible. No real contact or bank data is required; use fictional identities only.
+
+Exact normalized name, email or phone matches produce a potential-duplicate warning. Users select an existing profile or explicitly confirm that a separate directory record is intended; there is no silent fuzzy merge. Inline sale creation stops at potential duplicates so the existing customer can be selected. Archiving preserves every invoice, payment and return history.
+
+Directory supports search, active/archive filters, name/outstanding sort and editing. Profile includes observed order count, average order value, last sale, gross invoice sales, recorded collections, outstanding/overdue receivables, returns and current credits, plus linked documents/payments/audit. Repeated orders are labeled from actual count; no predictive propensity scores are invented.
+
+Statement rows come from source-linked journals for customer documents, returns and settlements, sorted by date and ID. Signed balance = debit-minus-credit changes in receivable and customerCredit accounts (credit liability is negative). Opening = changes before selected start; closing = opening + included changes. Cash sales appear as zero-due source events. A credit note reduces the signed amount and a refunded credit increases it toward zero. Date filters, CSV and printable/PDF output use the same selector, so closing reconciles with receivable less credit liabilities. Gross invoiced sales and recorded collections are shown separately from refunds/net revenue; general-ledger reports remain the financial truth.
+
+Browser storage is a single local demo database with business-ID checks and simulated role guards, not secure tenant isolation or authenticated multi-user privacy. Production requires backend identity, server authorization, tenant policies, encryption, retention/deletion governance and an independently reviewed payroll-data access policy.

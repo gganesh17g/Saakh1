@@ -327,7 +327,7 @@ describe("double-entry accounting", () => {
       }).success,
     ).toBe(false);
     expect(() =>
-      validateBusinessState({ ...s, version: 2 } as unknown as BusinessState),
+      validateBusinessState({ ...s, version: 999 } as unknown as BusinessState),
     ).toThrow(/format/);
   });
   it("onboarding needs confirmed source and separate opening capital", () => {

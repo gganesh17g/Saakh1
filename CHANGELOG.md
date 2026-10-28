@@ -7,6 +7,8 @@
 - Added appearance initialization, density/comfort/quality preferences, contextual Help, dashboard customization and business-scoped view preferences.
 - Expanded financial/persistence/privacy/browser coverage and added ten detailed release reports. See the current test/deployment reports for executed counts and verified publication status; no unverified live release is implied by this entry.
 
+- Verified application `673a972` live with cloud 156/33/61 and public 61/61 acceptance; corrected `.nojekyll` test visibility while retaining strict runtime asset checks. Reports/test-only follow-up preserves application code.
+
 ## 3.0.0-demo — 28 October 2026 · connected operations
 
 - Extended the existing ledger/application with customer profiles/statements, atomic automatic FY invoices, separate quantity-based sales/purchase returns, and effective-dated monthly payroll.

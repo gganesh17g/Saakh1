@@ -1,34 +1,50 @@
 {
-  "status": "initial-release-verified",
-  "applicationCommit": "cb7ec4f48fcaedf6b16e19511c7d3f075477d9d1",
-  "workflowId": 40675782267,
-  "workflowUrl": "https://github.com/gganesh17g/Saakh1/actions/runs/40675782267",
+  "status": "verified-live-application",
+  "applicationCommit": "673a972fedca0359af3a8f94f95c2e59c34ea6c3",
+  "applicationTree": "c9867df47570a1af27e8e79da7599f69fbec67b1",
+  "workflowId": 40677057757,
+  "workflowUrl": "https://github.com/gganesh17g/Saakh1/actions/runs/40677057757",
   "jobs": [
     {
-      "id": 122773702132,
+      "id": 122778051468,
       "name": "build",
       "conclusion": "success"
     },
     {
-      "id": 122775144642,
+      "id": 122779470565,
       "name": "deploy",
       "conclusion": "success"
     }
   ],
-  "artifact": [
+  "artifacts": [
     {
-      "id": 12810387202,
+      "id": 12811650301,
       "name": "github-pages",
-      "size": 838827,
+      "size": 839295,
       "expired": false
     }
   ],
-  "observedTests": {
+  "cloudTests": {
+    "unit": 156,
+    "developmentBrowser": 33,
+    "productionBrowser": 61
+  },
+  "releaseIdentity": {
+    "httpStatus": 200,
+    "sourceCommit": "673a972fedca0359af3a8f94f95c2e59c34ea6c3",
+    "base": "/Saakh1/"
+  },
+  "liveAcceptance": "61 passed; raw record in live-tests.json",
+  "entryAssets": [
+    "/Saakh1/assets/index-YShvKwNc.js",
+    "/Saakh1/assets/index-BllAUTVI.css"
+  ],
+  "previousApplication": {
+    "commit": "cb7ec4f48fcaedf6b16e19511c7d3f075477d9d1",
+    "workflowId": 40675782267,
     "unit": 155,
     "developmentBrowser": 33,
     "productionBrowser": 61
   },
-  "releaseIdentityHttp": 200,
-  "releaseIdentityCommit": "cb7ec4f48fcaedf6b16e19511c7d3f075477d9d1",
-  "note": "Initial source release; final operation-specific Create permission fix is being published separately."
+  "note": "A later reports/test-harness-only follow-up preserves application source. Its exact final identity is recorded in the external final delivery report."
 }

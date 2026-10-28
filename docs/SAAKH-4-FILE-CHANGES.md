@@ -2,7 +2,7 @@
 
 Comparison baseline: `4d5f43899e69b3ae77c8c05cbf245753dc2016e9`. The entry working tree and staged index were clean. All listed changes were made for this task; no pre-existing user modifications are claimed. Existing release documents are retained.
 
-**Task totals: 25 Created, 15 Modified, 0 Renamed, 0 Deleted — 40 files.** Documentation-only follow-ups to these same files do not change their task-level classification.
+**Task totals: 25 Created, 16 Modified, 0 Renamed, 0 Deleted — 41 files.** Documentation-only follow-ups to these same files do not change their task-level classification.
 
 Verified commands: `git status --short`, `git diff --stat`, `git diff --name-status`, `git diff --check`, staged name/status/diff checks and untracked-file inspection. Financial engine paths (`src/engines`, `accounting.ts`, `operations3.ts`, `analytics.ts`, `migration.ts`) have no task diff. No force push, destructive reset, unrelated deletion or source-only Pages publishing is used.
 
@@ -47,6 +47,7 @@ Verified commands: `git status --short`, `git diff --stat`, `git diff --name-sta
 | `src/main.tsx` | Modified | Clear public entry and resilient theme preference | Public launch, themes, navigation and routing tests |
 | `tests/business.spec.ts` | Modified | Adapt retained acceptance tests to deliberate UX changes | Final full development suite: 33/33 |
 | `tests/pages/operations3.spec.ts` | Modified | Preserve payroll/returns privacy acceptance after role-picker relocation | All 12 original operations Pages cases pass |
+| `tests/pages/pages.spec.ts` | Modified | Correct control-file visibility contract | Targeted local/live asset checks and final full live/CI production suites |
 | `tests/pages/workspace4.spec.ts` | Created | Connected 4.0 acceptance coverage | 61 total production-browser tests passed |
 
 ## `CHANGELOG.md` — Modified
@@ -438,6 +439,16 @@ Verified commands: `git status --short`, `git diff --stat`, `git diff --name-sta
 - **Features affected:** Original 3.0 operations acceptance.
 - **Potential side effects:** Adds role-navigation steps without bypassing persistence.
 - **Validation:** All 12 original operations Pages cases pass.
+
+## `tests/pages/pages.spec.ts` — Modified
+
+- **Reason:** Correct control-file visibility contract.
+- **Previous behavior:** The shared local/live test required public HTTP 200 for .nojekyll.
+- **New behavior:** It strictly verifies the emitted empty control file locally and records allowed public visibility while retaining all runtime asset HTTP/MIME checks.
+- **Important changes:** Public B returned 404 for .nojekyll while every compiled asset/favicon passed; 60 other live tests passed. This corrects a non-runtime hosting assumption rather than suppressing an application error.
+- **Features affected:** Pages artifact and live verification.
+- **Potential side effects:** The control-file HTTP annotation is not an asset failure; real JS/CSS must still return 200.
+- **Validation:** Targeted local/live asset checks and final full live/CI production suites.
 
 ## `tests/pages/workspace4.spec.ts` — Created
 

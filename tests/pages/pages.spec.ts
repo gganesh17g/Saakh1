@@ -63,7 +63,25 @@ test("production entry, favicon and every compiled asset resolve at the configur
     if (file.endsWith(".css"))
       expect(response.headers()["content-type"]).toContain("text/css");
   }
-  expect((await request.get("./.nojekyll")).status()).toBe(200);
+  // This is build-control metadata, not a runtime resource. The public Pages
+  // host may omit it even though the validated build directory contains it.
+  expect(
+    await readFile(
+      resolve(process.env.SAAKH_DIST_DIR || "dist", ".nojekyll"),
+      "utf8",
+    ),
+  ).toBe("");
+  const controlStatus = (await request.get("./.nojekyll")).status();
+  if (!process.env.SAAKH_TEST_URL) expect(controlStatus).toBe(200);
+  else {
+    expect([200, 404]).toContain(controlStatus);
+    test
+      .info()
+      .annotations.push({
+        type: "hosting-control-file",
+        description: `.nojekyll artifact verified; public HTTP ${controlStatus}. All runtime assets must still return 200.`,
+      });
+  }
   if (pathname !== "/")
     expect((await request.get("/assets/not-a-real-asset.js")).status()).toBe(
       404,

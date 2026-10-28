@@ -4,6 +4,8 @@ This release extends the existing local MSME platform with role-aware workspace 
 
 **Local demonstration only:** no secure accounts, live banking, tax filing, transfers, external messaging or cloud synchronization. Use fictional data. Backups are unencrypted. [Requirements and boundaries](docs/SAAKH-4-REQUIREMENTS-MATRIX.md).
 
+Verified application `673a972` passed cloud 156 unit, 33 development-browser and 61 production-browser tests, plus all 61 live acceptance tests. [Deployment evidence](docs/SAAKH-4-DEPLOYMENT-VALIDATION.md) distinguishes the application from its later reports/test-harness follow-up.
+
 ## Run and validate
 
 From `/home/thunder/shared/Saakh`, using Node 26:

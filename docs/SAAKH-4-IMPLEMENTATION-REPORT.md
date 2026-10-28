@@ -23,3 +23,7 @@ See the requirements matrix for qualifications and `SAAKH-4-TEST-RESULTS.md` for
 ## Final local acceptance
 
 156 unit/integration, 33 development-browser and 61 production-browser tests passed; typecheck, lint and production build passed. Dependency audit found zero known vulnerabilities. Final source preserves the original financial/scoring engines byte-for-byte; only orchestration, validation, presentation and workspace features changed. See the requirements matrix for qualified scope rather than interpreting this as a claim of full production banking capability.
+
+## Verified publication
+
+The final application `673a972` deployed through workflow `40677057757`, passed cloud 156/33/61 and all 61 live acceptance tests. Reports and hosting-control-file test follow-up preserve the same application source. Scope qualifications remain in the requirements matrix; this is not a claim of secure production banking or statutory certification.

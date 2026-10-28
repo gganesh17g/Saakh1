@@ -1,0 +1,228 @@
+/* Saakh 4.1: shared editorial palette; system fonts remain available offline. */
+:root {
+  --bg: #101c18;
+  --sidebar: #12251e;
+  --card: #192b23;
+  --elevated: #25392f;
+  --text: #f4f1e9;
+  --muted: #afbeb0;
+  --line: #3a5043;
+  --cyan: #bcd4ad;
+  background: var(--bg);
+  color: var(--text);
+}
+:root[data-theme="light"] {
+  --bg: #f6f3ec;
+  --sidebar: #eeeee4;
+  --card: #fffef9;
+  --elevated: #e9eddf;
+  --text: #1e2927;
+  --muted: #57665d;
+  --line: #d5d9cd;
+  --cyan: #173f36;
+}
+body {
+  background: var(--bg);
+  color: var(--text);
+}
+.hero-visual {
+  display: grid;
+  gap: 20px;
+  min-width: 0;
+}
+.hero-visual .network {
+  transform: none;
+  border-color: var(--line);
+  box-shadow: none;
+}
+.hero-score,
+:root[data-theme="light"] .hero-score {
+  margin: 0;
+  width: 100%;
+  background: var(--card);
+  border-color: var(--line);
+  box-shadow: none;
+}
+.hero-visual:before {
+  display: none;
+}
+.hero h1,
+.demo41 h1 {
+  letter-spacing: -0.055em;
+}
+.button,
+.landing .button {
+  background: #315c46;
+  color: #fff;
+  border-radius: 8px;
+}
+.public-nav {
+  background: var(--bg);
+  border-color: var(--line);
+}
+.brand-icon {
+  background: #315c46;
+  color: white;
+}
+.demo41 {
+  max-width: 1160px;
+  margin: auto;
+  padding: 48px 28px 70px;
+}
+.demo41 .logo {
+  margin-bottom: 60px;
+}
+.demo41 h1 {
+  font-size: clamp(40px, 6vw, 76px);
+  line-height: 1.05;
+  margin: 20px 0;
+  font-weight: 600;
+}
+.demo41 h1 em {
+  font-family: Georgia, serif;
+  font-weight: 400;
+  color: var(--cyan);
+}
+.demo41 > p {
+  max-width: 650px;
+  color: var(--muted);
+  line-height: 1.7;
+}
+.role41-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin: 32px 0;
+}
+.role41-grid button {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  text-align: left;
+  padding: 24px;
+  min-height: 210px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+.role41-grid button[aria-pressed="true"] {
+  outline: 2px solid var(--cyan);
+  background: var(--elevated);
+}
+.role41-grid strong {
+  font-size: 18px;
+}
+.role41-grid span {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.6;
+}
+.role41-grid small {
+  margin-top: auto;
+  color: var(--cyan);
+}
+.demo41 .actions {
+  flex-wrap: wrap;
+  gap: 20px;
+}
+.demo41-notice {
+  margin: 30px 0 20px;
+  font-size: 13px;
+}
+.appearance41 {
+  padding-bottom: 24px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid var(--m-line);
+}
+.appearance41-dialog {
+  background: var(--card);
+  color: var(--text);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 26px;
+  width: min(440px, calc(100vw - 32px));
+}
+.appearance41-dialog::backdrop {
+  background: #07150fc0;
+}
+.appearance41-dialog label {
+  display: grid;
+  gap: 12px;
+  margin: 24px 0;
+}
+@media (max-width: 1280px) {
+  .w4-tools > button[aria-label="Open contextual Assistant"] span {
+    display: none;
+  }
+  .w4-tools > button:first-child {
+    max-width: 200px;
+  }
+  .m-top {
+    padding: 12px 16px;
+  }
+}
+@media (max-width: 1024px) {
+  .w4-tools > button[aria-label="Universal search"] span,
+  .w4-tools kbd,
+  .w4-account summary span {
+    display: none;
+  }
+  .w4-tools > button[aria-label="Universal search"] {
+    flex: 0;
+  }
+  .role41-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 600px) {
+  .m-top {
+    gap: 6px;
+    flex-wrap: wrap;
+    padding: 10px;
+  }
+  .w4-tools {
+    gap: 5px;
+    flex-wrap: wrap;
+  }
+  .w4-tools > button:first-child {
+    flex: 1;
+    max-width: 100%;
+    width: calc(100% - 50px);
+  }
+  .w4-tools > button {
+    padding: 8px;
+  }
+  .w4-tools > button[aria-label="Universal search"] {
+    margin: 0;
+  }
+  .w4-account {
+    margin-left: auto;
+  }
+  .hero-visual .scene {
+    height: 280px;
+  }
+  .hero-score {
+    padding: 18px;
+  }
+  .role41-grid {
+    grid-template-columns: 1fr;
+  }
+  .demo41 {
+    padding: 28px 18px 60px;
+  }
+  .demo41 .logo {
+    margin-bottom: 35px;
+  }
+  .role41-grid button {
+    min-height: 180px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

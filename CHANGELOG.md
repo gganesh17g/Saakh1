@@ -1,3 +1,12 @@
+## 4.1 — Premium workspace and demo entry (2026-10-28)
+
+- Add a seven-role browser-local demo entry with explicit returning-session choices.
+- Refine public and workspace surfaces with forest, ivory, sage and copper accents.
+- Fix hero score/network overlap using normal-flow layout.
+- Consolidate workspace tools, add semantic sidebar icons and relocate role switching to Account.
+- Add persistent global appearance settings with a compact Save/Cancel dialog.
+- Preserve financial engines, shared records and role restrictions; add responsive and role-entry regression coverage.
+
 ## 4.0.0-demo — 28 October 2026 · connected workspace
 
 - Preserved existing accounting, payroll, returns, stock, credit and simulation engines; added role-aware shell tools, dedicated demo roles, searchable business switcher and mobile navigation.

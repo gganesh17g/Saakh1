@@ -39,6 +39,18 @@ import {
 } from "react";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import {
+  LayoutDashboard,
+  Receipt,
+  Users,
+  RotateCcw,
+  ShoppingBag,
+  Boxes,
+  Landmark,
+  ListChecks,
+  Settings as SettingsIcon,
+  ChartNoAxesCombined,
+  BookOpen,
+  Network,
   Activity,
   ArrowUpRight,
   Menu,
@@ -284,7 +296,7 @@ function MoneyInput({ name, value = 0 }: { name: string; value?: number }) {
     />
   );
 }
-export default function BusinessApp({ theme }: { theme: ReactNode }) {
+export default function BusinessApp() {
   const {
     s,
     b,
@@ -403,7 +415,9 @@ export default function BusinessApp({ theme }: { theme: ReactNode }) {
               {modules
                 .filter(
                   ([path]) =>
-                    group.paths.includes(path) && canPage(s.role, path),
+                    group.paths.includes(path) &&
+                    !["preferences", "help"].includes(path) &&
+                    canPage(s.role, path),
                 )
                 .map(([path, title]) => (
                   <NavLink
@@ -412,7 +426,30 @@ export default function BusinessApp({ theme }: { theme: ReactNode }) {
                     to={"/business" + (path ? "/" + path : "")}
                   >
                     <span className="m-nav-icon">
-                      <ChevronRight size={17} />
+                      {(() => {
+                        const Icon =
+                          (
+                            {
+                              "": LayoutDashboard,
+                              sales: Receipt,
+                              customers: Users,
+                              "sales-returns": RotateCcw,
+                              bills: ShoppingBag,
+                              "purchase-returns": RotateCcw,
+                              payroll: Users,
+                              inventory: Boxes,
+                              passbook: Landmark,
+                              tasks: ListChecks,
+                              settings: SettingsIcon,
+                              preferences: SettingsIcon,
+                              insights: ChartNoAxesCombined,
+                              reports: FileText,
+                              explorer: Network,
+                              help: BookOpen,
+                            } as Record<string, typeof Activity>
+                          )[path] || ShieldCheck;
+                        return <Icon size={18} />;
+                      })()}
                     </span>
                     {title}
                   </NavLink>
@@ -460,17 +497,9 @@ export default function BusinessApp({ theme }: { theme: ReactNode }) {
           >
             {nav ? <X /> : <Menu />}
           </button>
-          <span className="m-breadcrumb">
-            Workspace <ChevronRight size={14} />{" "}
-            <b>{modules.find((m) => m[0] === page)?.[1] || "Get started"}</b>
-          </span>
-          <div className="m-top-right">
-            <span className="m-demo">● SYNTHETIC DEMO</span>
-            {theme}
-          </div>
+          <Tools4 />
         </header>
         <main id="main" tabIndex={-1} className="m-content">
-          <Tools4 />
           <div className="m-business-bar">
             <div>
               <span className="m-label">BUSINESS WORKSPACE / INR</span>
@@ -527,7 +556,7 @@ export default function BusinessApp({ theme }: { theme: ReactNode }) {
               <div className="m-page-heading">
                 <div>
                   <span className="m-label">
-                    SAAKH 4.0 / FINANCIAL OPERATING PLATFORM
+                    SAAKH 4.2 / FINANCIAL OPERATING PLATFORM
                   </span>
                   <h1>
                     {modules.find((m) => m[0] === page)?.[1] ||
@@ -573,8 +602,8 @@ export default function BusinessApp({ theme }: { theme: ReactNode }) {
                   <RolePulse4 />
                 ) : (
                   <>
-                    <RolePulse4 />
                     <Pulse />
+                    <RolePulse4 />
                   </>
                 )
               ) : page === "sales" || page === "bills" ? (

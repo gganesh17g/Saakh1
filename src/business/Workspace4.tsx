@@ -1,4 +1,14 @@
 import {
+  Search,
+  Plus,
+  Bell,
+  Sparkles,
+  ChevronDown,
+  UserRound,
+} from "lucide-react";
+import { QuickPreferences42 } from "./QuickPreferences42";
+import { Appearance41 } from "./Appearance41";
+import {
   ResponsiveContainer,
   LineChart,
   Line,
@@ -114,35 +124,62 @@ export function Tools4() {
         <button onClick={() => setPanel("Business")}>
           {s.businesses.find((b) => b.id === s.activeBusiness)?.name ||
             "Business"}{" "}
-          ▾
+          <ChevronDown size={14} />
         </button>
         <button
           onClick={() => setPanel("Search")}
           aria-label="Universal search"
         >
-          Search <kbd>⌘ K</kbd>
+          <Search size={17} /> <span>Search</span> <kbd>⌘ K</kbd>
         </button>
-        <button onClick={() => setPanel("Create")}>+ Create</button>
+        <button aria-label="+ Create" onClick={() => setPanel("Create")}>
+          <Plus size={17} /> Create
+        </button>
         <button onClick={() => setPanel("Notifications")}>
-          Alerts ({unread.length})
+          <Bell size={18} />
+          <span>Alerts ({unread.length})</span>
         </button>
         <button
           aria-label="Open contextual Assistant"
           onClick={() => setPanel("Assistant")}
         >
-          Ask Saakh
+          <Sparkles size={18} />
+          <span>Ask Saakh</span>
         </button>
-        <button onClick={() => go("roles")}>Demo roles</button>
-        <details className="w4-account">
-          <summary>Account</summary>
-          <Link to="/business/preferences">Personal preferences</Link>
-          {canPage(s.role, "settings") && (
-            <Link to="/business/settings">Business settings</Link>
-          )}
-          <Link to="/business/help">Help Centre</Link>
-          {canPage(s.role, "data") && (
-            <Link to="/business/data">Recovery & backups</Link>
-          )}
+
+        <details
+          className="w4-account"
+          onKeyDown={(event) => {
+            if (event.key === "Escape") {
+              event.currentTarget.open = false;
+              event.currentTarget.querySelector("summary")?.focus();
+            }
+          }}
+          onBlur={(event) => {
+            if (
+              !event.currentTarget.contains(event.relatedTarget as Node | null)
+            )
+              event.currentTarget.open = false;
+          }}
+        >
+          <summary>
+            <UserRound size={18} />
+            <span>Account</span>
+          </summary>
+          <div className="account41-menu">
+            <strong>{roleNames[s.role]}</strong>
+            <Link to="/demo-login">Switch Demo Role</Link>
+            <Link to="/business/preferences">Workspace Preferences</Link>
+            <Appearance41 compact />
+            <QuickPreferences42 />
+            {canPage(s.role, "settings") && (
+              <Link to="/business/settings">Business settings</Link>
+            )}
+            <Link to="/business/help">Help Centre</Link>
+            {canPage(s.role, "data") && (
+              <Link to="/business/data">Recovery & backups</Link>
+            )}
+          </div>
         </details>
       </div>
       <dialog
@@ -1097,6 +1134,7 @@ export function Preferences4() {
   const w = useWorkspace4();
   return (
     <Panel3 title="Workspace Preferences">
+      <Appearance41 />
       <div className="w4-grid">
         {[
           ["density", "Display density", ["Comfortable", "Compact"]],
@@ -1106,7 +1144,7 @@ export function Preferences4() {
             ["All", "Approvals", "Payments", "Inventory", "Tasks"],
           ],
           ["chartLabels", "Chart labels", ["Visible", "Hidden"]],
-          ["motion", "Motion preference", ["System", "Reduced"]],
+          ["motion", "Motion preference", ["System", "Standard", "Reduced"]],
           [
             "quality",
             "Rendering quality",
@@ -1135,8 +1173,8 @@ export function Preferences4() {
         ))}
       </div>
       <p>
-        Appearance is controlled by the Light / Dark / System button in the
-        header. Preferences are stored separately from financial records.
+        Appearance applies across the whole application. Preferences are stored
+        separately from financial records.
       </p>
       <Link to="/business/data">Data Management</Link> ·{" "}
       <Link to="/business/help">Help & Recovery</Link>

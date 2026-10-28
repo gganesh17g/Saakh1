@@ -892,3 +892,393 @@
     display: none !important;
   }
 }
+
+/* Shared premium appearance, loaded after the business baseline. */
+.munim {
+  --m-bg: #f6f3ec;
+  --m-card: #fffef9;
+  --m-text: #1e2927;
+  --m-muted: #58665c;
+  --m-line: #d8ddcf;
+  --m-teal: #285540;
+  font-size: 14px;
+}
+:root[data-theme="dark"] .munim {
+  --m-bg: #101c18;
+  --m-card: #192b23;
+  --m-text: #f4f1e9;
+  --m-muted: #afbeb0;
+  --m-line: #3a5043;
+  --m-teal: #a8cba0;
+}
+.m-sidebar {
+  background: #17372b;
+  padding-top: 24px;
+}
+.munim .m-brand > span {
+  background: #b87953;
+}
+.m-sidebar .m-nav-group summary {
+  font-size: 11px;
+  letter-spacing: 0.11em;
+  padding-top: 18px;
+  padding-bottom: 9px;
+}
+.m-sidebar nav a {
+  font-size: 13px;
+  min-height: 41px;
+  border-radius: 7px;
+  gap: 11px;
+}
+.m-sidebar nav a.active {
+  background: #345342;
+  color: #fff;
+  border-color: #c6d2c2;
+}
+.m-top {
+  min-height: 82px;
+  height: auto;
+  padding: 16px 26px;
+  background: var(--m-card);
+  border-bottom: 1px solid var(--m-line);
+}
+.w4-tools {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 9px;
+  width: 100%;
+  margin: 0;
+  min-width: 0;
+}
+.munim .w4-tools button {
+  min-height: 40px;
+  background: transparent;
+  color: var(--m-text);
+  border: 1px solid var(--m-line);
+  font-size: 12px;
+  padding: 9px 12px;
+  white-space: nowrap;
+}
+.w4-tools > button:first-child {
+  max-width: 270px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  justify-content: space-between;
+}
+.w4-tools > button[aria-label="Universal search"] {
+  margin-right: auto;
+  flex: 1;
+  max-width: 360px;
+  justify-content: flex-start;
+  color: var(--m-muted);
+}
+.w4-tools kbd {
+  margin-left: auto;
+}
+.w4-account {
+  position: relative;
+}
+.w4-account summary {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  cursor: pointer;
+  min-height: 40px;
+  padding: 9px;
+}
+.w4-account[open] {
+  z-index: 40;
+  background: var(--m-card);
+  border: 1px solid var(--m-line);
+  box-shadow: 0 14px 35px #0003;
+}
+.w4-account strong {
+  display: block;
+  padding: 10px;
+  font-size: 12px;
+}
+.m-business-bar {
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--m-line);
+  margin-bottom: 26px;
+}
+.m-business-bar strong {
+  font-size: 23px;
+  letter-spacing: -0.035em;
+}
+.munim .m-label {
+  color: var(--m-muted);
+}
+.munim .m-panel {
+  box-shadow: 0 4px 16px #11251a05;
+  border-radius: 12px;
+}
+.munim input,
+.munim select,
+.munim textarea {
+  border-radius: 7px;
+}
+.munim button {
+  min-height: 36px;
+}
+.munim button:not(:disabled):focus-visible,
+a:focus-visible {
+  outline: 3px solid #b87953;
+  outline-offset: 3px;
+}
+
+@media (max-width: 1280px) {
+  .w4-tools > button[aria-label="Open contextual Assistant"] span {
+    display: none;
+  }
+  .w4-tools > button:first-child {
+    max-width: 200px;
+  }
+  .m-top {
+    padding: 12px 16px;
+  }
+}
+@media (max-width: 1024px) {
+  .w4-tools > button[aria-label="Universal search"] span,
+  .w4-tools kbd,
+  .w4-account summary span {
+    display: none;
+  }
+  .w4-tools > button[aria-label="Universal search"] {
+    flex: 0;
+  }
+  .role41-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 600px) {
+  .m-top {
+    gap: 6px;
+    flex-wrap: wrap;
+    padding: 10px;
+  }
+  .w4-tools {
+    gap: 5px;
+    flex-wrap: wrap;
+  }
+  .w4-tools > button:first-child {
+    flex: 1;
+    max-width: 100%;
+    width: calc(100% - 50px);
+  }
+  .w4-tools > button {
+    padding: 8px;
+  }
+  .w4-tools > button[aria-label="Universal search"] {
+    margin: 0;
+  }
+  .w4-account {
+    margin-left: auto;
+  }
+  .hero-visual .scene {
+    height: 280px;
+  }
+  .hero-score {
+    padding: 18px;
+  }
+  .role41-grid {
+    grid-template-columns: 1fr;
+  }
+  .demo41 {
+    padding: 28px 18px 60px;
+  }
+  .demo41 .logo {
+    margin-bottom: 35px;
+  }
+  .role41-grid button {
+    min-height: 180px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+.w4-tools .w4-account[open] {
+  border: 0;
+  padding: 0;
+  background: transparent;
+  box-shadow: none;
+}
+.account41-menu {
+  position: absolute;
+  right: 0;
+  top: 100%;
+  width: 240px;
+  padding: 12px;
+  background: var(--m-card);
+  border: 1px solid var(--m-line);
+  border-radius: 10px;
+  box-shadow: 0 14px 35px #0003;
+}
+
+/* Compact financial context before detailed business records. */
+.m-pulse-banner {
+  background: #244837;
+  padding: 24px 28px;
+}
+.m-pulse-banner h2 {
+  font-size: 25px;
+}
+.m-pulse-banner .m-label,
+.munim .m-pulse-banner a {
+  color: #e0e8d7;
+}
+.m-pulse-banner p {
+  color: #d1ddca;
+}
+.m-orbit {
+  border-color: #839d7c;
+  color: #d1ddca;
+}
+.munim .m-metric {
+  border-radius: 10px;
+  border-top: 3px solid #9bab8b;
+}
+.munim .m-metric strong {
+  font-variant-numeric: tabular-nums;
+}
+[data-theme="dark"] .w4-drawer {
+  background: var(--m-card);
+  color: var(--m-text);
+}
+@media (max-width: 600px) {
+  .w4-tools > button:first-child {
+    flex: 0 0 100%;
+    max-width: 100%;
+    width: 100%;
+    justify-content: space-between;
+  }
+  .m-pulse-banner {
+    padding: 22px;
+  }
+}
+
+/* Saakh 4.2 — UI refinements; ledger and status semantics are unchanged. */
+:root .munim {
+  --m-bg: #faf8f4;
+  --m-card: #fffefb;
+  --m-text: #192724;
+  --m-muted: #536660;
+  --m-line: #d5dfd8;
+  --m-teal: #136e5b;
+}
+:root[data-theme="dark"] .munim {
+  --m-bg: #111b22;
+  --m-card: #1b2931;
+  --m-text: #f5f5ef;
+  --m-muted: #b6c5c7;
+  --m-line: #3e525c;
+  --m-teal: #84dbbf;
+}
+.m-sidebar {
+  background: linear-gradient(165deg, #123e36, #242e45);
+}
+.m-sidebar nav a {
+  transition:
+    background-color 150ms ease,
+    color 150ms ease,
+    box-shadow 150ms ease;
+}
+.m-sidebar nav a:hover {
+  background: #ffffff0c;
+}
+.m-sidebar nav a.active {
+  background: linear-gradient(100deg, #1c6e60, #4b4287);
+  box-shadow: inset 3px 0 #a99af4;
+  border-color: transparent;
+}
+.m-nav-group[open] > a {
+  animation: saakh42-enter 160ms ease both;
+}
+.munim .m-brand > span {
+  background: linear-gradient(145deg, #137f6b, #6554d8);
+}
+.munim .m-pulse-banner {
+  background: linear-gradient(115deg, #116452, #35447a);
+}
+.munim .m-metric {
+  border-top-color: #137f6b;
+  transition: box-shadow 150ms ease;
+}
+.munim .m-metric:nth-child(2) {
+  border-top-color: #6554d8;
+}
+.munim .m-metric:nth-child(3) {
+  border-top-color: #c1684e;
+}
+.munim .m-metric:nth-child(4) {
+  border-top-color: #a17629;
+}
+.munim .m-metric:hover {
+  box-shadow: 0 6px 18px #6554d812;
+}
+.w4-account .account41-menu {
+  max-width: calc(100vw - 28px);
+  animation: saakh42-menu 140ms ease both;
+  transform-origin: top right;
+}
+.munim .account41-menu a,
+.munim .account41-menu > section > button {
+  display: flex;
+  width: 100%;
+  justify-content: flex-start;
+  min-height: 40px;
+  border: 0;
+  background: transparent;
+  color: var(--m-text);
+  padding: 9px 10px;
+  font-size: 13px;
+  border-radius: 6px;
+}
+.munim .account41-menu a:hover,
+.munim .account41-menu > section > button:hover {
+  background: var(--m-bg);
+}
+.munim .appearance41-dialog {
+  background: var(--m-card);
+  color: var(--m-text);
+  animation: saakh42-menu 140ms ease both;
+}
+.munim .appearance41-dialog p {
+  line-height: 1.6;
+}
+.munim .w4-tabs button,
+.munim button[role="tab"] {
+  transition:
+    background-color 140ms ease,
+    color 140ms ease,
+    box-shadow 140ms ease;
+}
+.munim button[role="tab"][aria-selected="true"] {
+  box-shadow: inset 0 -3px #a99af4;
+}
+.munim [role="tabpanel"] {
+  animation: saakh42-enter 140ms ease both;
+}
+[data-motion="Reduced"] *,
+[data-motion="Reduced"] *::before,
+[data-motion="Reduced"] *::after {
+  animation: none !important;
+  transition: none !important;
+  scroll-behavior: auto !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .munim *,
+  .munim *::before,
+  .munim *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}

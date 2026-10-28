@@ -1,8 +1,24 @@
 import { test, expect, type Page } from "@playwright/test";
 async function chooseRole4(page: Page, role: string) {
   const prior = page.url();
-  await page.getByRole("button", { name: "Demo roles", exact: true }).click();
-  await page.getByLabel("Demo role", { exact: true }).selectOption(role);
+  await page.locator(".w4-account summary").click();
+  await page
+    .getByRole("link", { name: "Switch Demo Role", exact: true })
+    .click();
+  const names: Record<string, string> = {
+    owner: "Business Owner",
+    staff: "Staff",
+    accountant: "Accountant",
+    admin: "Administrator",
+    payroll: "Payroll Manager",
+    manager: "Operations Manager",
+    auditor: "Auditor",
+  };
+  await page
+    .getByRole("group", { name: "Choose demo role" })
+    .getByRole("button")
+    .filter({ hasText: names[role] })
+    .click();
   await expect(page.locator(".m-asof")).toContainText(role + " demo view");
   await page.goto(prior);
 }

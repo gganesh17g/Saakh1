@@ -36,6 +36,9 @@ const MiniChart = lazy(() =>
 );
 import { score, impact } from "./engines";
 import "./styles.css";
+import "./premium41.css";
+import "./refinement42.css";
+import DemoLogin from "./business/DemoLogin";
 import StoryTour from "./components/StoryTour";
 import { ErrorBoundary } from "./components/ErrorBoundary";
 const AppRouter = import.meta.env.PROD ? HashRouter : BrowserRouter;
@@ -91,6 +94,33 @@ function Logo() {
       </span>
     </Link>
   );
+}
+function AppearanceSync41() {
+  useEffect(() => {
+    const media = matchMedia("(prefers-color-scheme: light)");
+    const apply = () => {
+      let preference = "system";
+      try {
+        preference = localStorage.getItem("saakh-theme") || "system";
+      } catch {
+        /* System remains usable without storage. */
+      }
+      document.documentElement.dataset.theme =
+        preference === "system"
+          ? media.matches
+            ? "light"
+            : "dark"
+          : preference;
+    };
+    apply();
+    media.addEventListener("change", apply);
+    window.addEventListener("saakh-appearance", apply);
+    return () => {
+      media.removeEventListener("change", apply);
+      window.removeEventListener("saakh-appearance", apply);
+    };
+  }, []);
+  return null;
 }
 function Theme() {
   const [theme, setTheme] = useState(() => {
@@ -156,106 +186,111 @@ function Landing() {
           <Link to="/app/responsible">Our methodology</Link>
         </nav>
         <Theme />
-        <Link className="button small" to="/business">
+        <Link className="button small" to="/demo-login">
           Launch workspace <ArrowUpRight size={15} />
         </Link>
       </header>
       <main id="main">
-        <section className="public-section" style={{ paddingBottom: 20 }}>
-          <div className="eyebrow">YOUR AI-INSPIRED DIGITAL MUNIM</div>
-          <h2>
-            Know your money.
-            <br />
-            Plan your next move.
-          </h2>
-          <p>
-            From invoices and stock to cash forecasts and trade enquiries. A
-            connected, browser-local business workspace with every number
-            explained.
-          </p>
-          <div className="actions">
-            <Link className="button" to="/business?start=owner">
-              Explore Business Demo <ArrowUpRight size={18} />
-            </Link>
-            <Link className="text-link" to="/business">
-              Continue Previous Session →
-            </Link>
-            <Link className="text-link" to="/business/roles">
-              Explore Team Roles →
-            </Link>
-            <Link className="text-link" to="/product/accounting">
-              Explore business tools →
-            </Link>
-          </div>
-          <nav className="actions" style={{ marginTop: 24, flexWrap: "wrap" }}>
-            {[
-              "accounting",
-              "cashflow",
-              "collections",
-              "working-capital",
-              "network",
-              "pricing",
-            ].map((x) => (
-              <Link key={x} className="text-link" to={"/product/" + x}>
-                {x.replace("-", " ")}
-              </Link>
-            ))}
-          </nav>
-        </section>
-        <section className="hero">
-          <div className="hero-copy">
-            <div className="eyebrow">
-              <span className="live-dot" /> BUILT FOR THE BUSINESSES BUILDING
-              INDIA
-            </div>
-            <h1>
-              See the business.
+        <div className="intro42">
+          <section className="public-section intro42-copy">
+            <div className="eyebrow">YOUR AI-INSPIRED DIGITAL MUNIM</div>
+            <h2>
+              Know your money.
               <br />
-              Beyond the
-              <br />
-              <span>credit score.</span>
-            </h1>
+              Plan your next move.
+            </h2>
             <p>
-              A clearer picture of MSME credit. Connect cash flows, trade
-              relationships, and business resilience with intelligence you can
-              actually explain.
+              From invoices and stock to cash forecasts and trade enquiries. A
+              connected, browser-local business workspace with every number
+              explained.
             </p>
             <div className="actions">
-              <Link className="button" to="/app">
-                Explore intelligence workspace <ArrowUpRight size={18} />
+              <Link className="button" to="/business?start=owner">
+                Explore Business Demo <ArrowUpRight size={18} />
               </Link>
-              <Link className="text-link" to="/app/guide">
-                <Play size={15} /> Take the guided tour
+              <Link className="text-link" to="/business">
+                Continue Previous Session →
+              </Link>
+              <Link className="text-link" to="/demo-login">
+                Explore Team Roles →
+              </Link>
+              <Link className="text-link" to="/product/accounting">
+                Explore business tools →
               </Link>
             </div>
-            <div className="hero-foot">
-              <ShieldCheck size={16} /> Explainable by design <span>·</span>{" "}
-              Synthetic data. Real calculations.
-            </div>
-          </div>
-          <div className="hero-visual">
-            <div className="floating-tag">
-              <span className="live-dot" /> FINANCIAL DIGITAL TWIN{" "}
-              <span className="muted">01 / ACTIVE</span>
-            </div>
-            <Suspense fallback={<p>Loading network…</p>}>
-              <Network graph={r.graph} />
-            </Suspense>
-            <div className="hero-score">
-              <div>
-                <span className="eyebrow">ANJALI FOODS · PUNE</span>
-                <h3>
-                  More than a number.
-                  <br />A connected financial story.
-                </h3>
+            <nav
+              className="actions"
+              style={{ marginTop: 24, flexWrap: "wrap" }}
+            >
+              {[
+                "accounting",
+                "cashflow",
+                "collections",
+                "working-capital",
+                "network",
+                "pricing",
+              ].map((x) => (
+                <Link key={x} className="text-link" to={"/product/" + x}>
+                  {x.replace("-", " ")}
+                </Link>
+              ))}
+            </nav>
+          </section>
+          <section className="hero intro42-network">
+            <div className="hero-copy">
+              <div className="eyebrow">
+                <span className="live-dot" /> BUILT FOR THE BUSINESSES BUILDING
+                INDIA
               </div>
-              <div className="score-mini">
-                {r.score}
-                <small>/ 1000</small>
+              <h1>
+                See the business.
+                <br />
+                Beyond the
+                <br />
+                <span>credit score.</span>
+              </h1>
+              <p>
+                A clearer picture of MSME credit. Connect cash flows, trade
+                relationships, and business resilience with intelligence you can
+                actually explain.
+              </p>
+              <div className="actions">
+                <Link className="button" to="/app">
+                  Explore intelligence workspace <ArrowUpRight size={18} />
+                </Link>
+                <Link className="text-link" to="/app/guide">
+                  <Play size={15} /> Take the guided tour
+                </Link>
+              </div>
+              <div className="hero-foot">
+                <ShieldCheck size={16} /> Explainable by design <span>·</span>{" "}
+                Synthetic data. Real calculations.
               </div>
             </div>
-          </div>
-        </section>
+            <div className="hero-visual">
+              <div className="floating-tag">
+                <span className="live-dot" /> FINANCIAL DIGITAL TWIN{" "}
+                <span className="muted">01 / ACTIVE</span>
+              </div>
+              <Suspense fallback={<p>Loading network…</p>}>
+                <Network graph={r.graph} />
+              </Suspense>
+              <div className="hero-score">
+                <div>
+                  <span className="eyebrow">ANJALI FOODS · PUNE</span>
+                  <h3>
+                    More than a number.
+                    <br />A connected financial story.
+                  </h3>
+                </div>
+                <div className="score-mini">
+                  {r.score}
+                  <small>/ 1000</small>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
         <div className="trust-strip">
           <span>DESIGNED FOR THE MISSING MIDDLE</span>
           <b>Small businesses.</b>
@@ -610,6 +645,7 @@ function App() {
   }, [hydrate]);
   return (
     <AppRouter>
+      <AppearanceSync41 />
       <a
         className="skip"
         href="#main"
@@ -619,12 +655,13 @@ function App() {
       </a>
       <Routes>
         <Route path="/" element={<Landing />} />
+        <Route path="/demo-login" element={<DemoLogin />} />
         <Route path="/app/*" element={<Workspace />} />
         <Route
           path="/business/*"
           element={
             <Suspense fallback={<p>Loading business workspace…</p>}>
-              <BusinessApp theme={<Theme />} />
+              <BusinessApp />
             </Suspense>
           }
         />

@@ -195,7 +195,7 @@ test("4.0 backup validation, separate restore, task restoration and business iso
   expect(restored.businessId).not.toBe(original.businessId);
   expect(restored.ledger.journals.length).toBe(original.ledger.journals.length);
   expect(restored.workspace.tasks[0].businessId).toBe(restored.businessId);
-  await page.getByRole("button", { name: /\(restored\) ▾/ }).click();
+  await page.getByRole("button", { name: /\(restored\)/ }).click();
   await page
     .getByRole("dialog")
     .getByLabel("Search business")
@@ -364,7 +364,10 @@ test("4.0 invoice filters survive module navigation and create can reopen safely
       "No matching records. Adjust filters or create a permitted draft.",
     ),
   ).toBeVisible();
-  await page.getByRole("button", { name: "Demo roles", exact: true }).click();
+  await page.locator(".w4-account summary").click();
+  await page
+    .getByRole("link", { name: "Switch Demo Role", exact: true })
+    .click();
   await go(page, "sales");
   await expect(
     page.getByLabel("Search documents", { exact: true }),

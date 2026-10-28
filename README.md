@@ -20,7 +20,7 @@ Production preview: `http://localhost:4173/Saakh1/#/business`. New routes: `#/bu
 
 Start with **Business Pulse → Load operations examples** to add coherent fictional employees, payroll, repeat sales, customer credit and supplier refund receivable to the selected business without resetting existing data. Or create a customer, leave the new sale's number blank for automatic FY numbering, and use invoice Details to create a quantity return. For payroll, add an employee/salary and effective assumption rule, review attendance, create/calculate/approve/finalize a run, then separately record payments. Payslips/invoices/statements have actual PDF and browser print outputs.
 
-Existing v1 storage is migrated additively to v2 in the same IndexedDB key. Export a backup before experimenting. A failed restore blocks writes and offers the untouched recovery record. The original Team & Settings typed deletion remains available; no silent reset occurs.
+Existing v1 storage is migrated additively to v2 in the same IndexedDB key, including an additive operations revision for noncash credit metadata. Export a backup before experimenting. A failed restore blocks writes and offers the untouched recovery record. The original Team & Settings typed deletion remains available; no silent reset occurs.
 
 All employee/customer/payment records must be synthetic. Contributions/taxes are entered, effective-dated **illustrative assumptions**, not certified statutory calculations. No real bank transfers, filing, IRN, messages or production authorization. Monthly split-period, PDF-font and stock-cost boundaries are documented in [known limitations](docs/SAAKH-3-KNOWN-LIMITATIONS.md).
 

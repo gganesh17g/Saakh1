@@ -38,7 +38,10 @@ export function due(s: BusinessState, d: BusinessDocument) {
       .reduce((v, p) => v + p.amount, 0) -
     s.credits
       .filter((p) => p.documentId === d.id)
-      .reduce((v, p) => v + p.amount - (p.refundAmount || 0), 0)
+      .reduce(
+        (v, p) => v + p.amount - (p.liabilityAmount ?? p.refundAmount ?? 0),
+        0,
+      )
   );
 }
 export function docStatus(

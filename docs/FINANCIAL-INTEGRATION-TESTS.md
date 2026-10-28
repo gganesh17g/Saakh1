@@ -1,6 +1,6 @@
 # Financial integration test evidence
 
-Executed suite: npm test — 121 passed in seven files. The original 75 cases remain (one unsupported-version test now uses version 999 because version 2 is supported). New operations3.test.ts covers 45 financial/customer cases; an additional store recovery case protects failed migration from overwrite. Final browser totals and release status are in SAAKH-3-TEST-REPORT.md.
+Executed suite: npm test — 123 passed in seven files. The original 75 cases remain (one unsupported-version test now uses version 999 because version 2 is supported). New operations3.test.ts covers 47 financial/customer cases; an additional store recovery case protects failed migration from overwrite. Final browser totals and release status are in SAAKH-3-TEST-REPORT.md.
 
 | Invariant | Executed evidence |
 |---|---|

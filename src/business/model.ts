@@ -186,6 +186,8 @@ export type Credit = {
   date: string;
   journalId: string;
   refundAmount?: number;
+  liabilityAmount?: number;
+  returnId?: string;
 };
 export type Movement = {
   id: string;
@@ -336,6 +338,7 @@ export type ForecastRun = {
 };
 export type BusinessState = OperationsData & {
   version: 2;
+  operationsRevision: 2;
   sequence: number;
   activeBusiness: string;
   role: Role;
@@ -369,6 +372,7 @@ export type BusinessState = OperationsData & {
 export const emptyState = (): BusinessState => ({
   ...emptyOperations(),
   version: 2,
+  operationsRevision: 2,
   sequence: 0,
   activeBusiness: "",
   role: "owner",

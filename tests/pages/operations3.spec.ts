@@ -399,9 +399,34 @@ test("Saakh 3 migration, demo fixtures, role privacy, activity search and refres
     page.getByRole("button", { name: "Preview payslip" }),
   ).toHaveCount(0);
   await page.getByLabel("Demo role").selectOption("owner");
+  await expect(page.locator(".m-asof")).toContainText("owner demo view");
   await page.reload();
   await expect(
     page.getByRole("row").filter({ hasText: "Meera Demo" }).first(),
+  ).toBeVisible();
+  await page
+    .getByRole("row")
+    .filter({ hasText: "Meera Demo" })
+    .first()
+    .getByRole("button", {
+      name: "Edit employee / salary version",
+      exact: true,
+    })
+    .click();
+  await page
+    .getByLabel("Employee name", { exact: true })
+    .fill("Meera Demo Updated");
+  await page
+    .getByRole("button", {
+      name: "Save employee and salary version",
+      exact: true,
+    })
+    .click();
+  await expect(
+    page.getByText("Employee saved · saved locally", { exact: true }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("row").filter({ hasText: "Meera Demo Updated" }).first(),
   ).toBeVisible();
   await go(page, "reports");
   await page.getByLabel("Search activity").fill("Payroll finalized");

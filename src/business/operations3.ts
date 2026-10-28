@@ -370,8 +370,8 @@ export function createReturn(
 ) {
   authorize(s, c, "draft");
   const d = find(s, c, s.documents, input.documentId);
-  if (d.status !== "Posted" || !["sale", "purchase"].includes(d.kind))
-    throw Error("Select a posted sale or inventory purchase");
+  if (d.status !== "Posted")
+    throw Error("Select a posted source invoice or supplier bill");
   dateSchema.parse(input.date);
   if (input.date < d.issueDate || input.date > today())
     throw Error("Return date must be between document date and today");
@@ -411,7 +411,7 @@ export function createReturn(
       Math.round((n * prev) / original.quantity);
     net += allocated(full.net);
     tax += allocated(full.tax);
-    if (original.itemId) {
+    if (original.itemId && ["sale", "purchase"].includes(d.kind)) {
       const source = s.movements.find(
         (m) =>
           m.sourceId === `${d.id}:v${d.version}` &&
@@ -426,7 +426,7 @@ export function createReturn(
     ...input,
     id: uid(s, d.kind === "sale" ? "SR" : "PR"),
     businessId: c.businessId,
-    kind: d.kind as "sale" | "purchase",
+    kind: d.kind === "sale" ? "sale" : "purchase",
     status: "Draft",
     supplierReference: "",
     communication: "Not contacted",
@@ -457,6 +457,7 @@ function returnMovement(
   direction: number,
 ) {
   const d = find(s, c, s.documents, r.documentId);
+  if (!["sale", "purchase"].includes(d.kind)) return;
   for (const l of r.lines) {
     const source = d.lines[l.index];
     if (!source.itemId) continue;
@@ -527,7 +528,10 @@ export function transitionReturn(
           credit("inventory", r.stockCost),
         ]).id,
       );
-    r.status = "Goods Dispatched";
+    r.status =
+      s.documents.find((d) => d.id === r.documentId)?.kind === "expense"
+        ? "Awaiting Supplier Credit"
+        : "Goods Dispatched";
   }
   if (action === "Await") {
     r.status = "Awaiting Supplier Credit";
@@ -566,11 +570,20 @@ export function transitionReturn(
         : [
             debit("payable", applied),
             debit("supplierCredit", balance),
-            credit("returnsPending", stock),
+            credit(
+              d.kind === "purchase"
+                ? "returnsPending"
+                : d.kind === "equipment"
+                  ? "equipment"
+                  : "expense",
+              d.kind === "purchase" ? stock : net,
+            ),
             credit("inputGST", tax),
-            ...(net >= stock
-              ? [credit("expense", net - stock)]
-              : [debit("expense", stock - net)]),
+            ...(d.kind !== "purchase"
+              ? []
+              : net >= stock
+                ? [credit("expense", net - stock)]
+                : [debit("expense", stock - net)]),
           ];
     if (r.kind === "sale") {
       returnMovement(s, c, r, 1);
@@ -620,7 +633,8 @@ export function transitionReturn(
       businessId: c.businessId,
       documentId: d.id,
       amount,
-      refundAmount: balance,
+      liabilityAmount: balance,
+      returnId: r.id,
       date: today(),
       journalId: j.id,
     });
@@ -787,7 +801,7 @@ export const salarySchema = z.object({
   hra: money,
   allowance: money,
   incentive: money,
-  performance: money.optional(),
+  performance: money.default(0),
   bonus: money,
   arrears: money,
   reimbursement: money,
@@ -824,8 +838,10 @@ export function saveEmployee(
   if (
     old?.salaries.some((x) => x.effective === salary.effective) &&
     JSON.stringify(
-      old.salaries.find((x) => x.effective === salary.effective),
-    ) !== JSON.stringify(salary)
+      salarySchema.parse(
+        old.salaries.find((x) => x.effective === salary.effective),
+      ),
+    ) !== JSON.stringify(salarySchema.parse(salary))
   )
     throw Error("Salary effective date exists: add a new version/date");
   const before = old ? structuredClone(old) : null;
@@ -1043,7 +1059,8 @@ export function calculatePayroll(s: BusinessState, c: Context, id: string) {
       !e.archived &&
       e.joined.slice(0, 7) <= r.period,
   );
-  const rule = s.payrollRules
+  const rule = [...s.payrollRules]
+    .reverse()
     .filter(
       (x) => x.businessId === c.businessId && x.effective <= r.period + "-01",
     )

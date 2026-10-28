@@ -1,6 +1,7 @@
 ## 3.0.0-demo — 28 October 2026 · connected operations
 
 - Extended the existing ledger/application with customer profiles/statements, atomic automatic FY invoices, separate quantity-based sales/purchase returns, and effective-dated monthly payroll.
+- Separated noncash credit liabilities from legacy refund fields with a balance-preserving migration; covered non-stock supplier expense/equipment returns and payroll source visibility.
 - Added reviewed attendance, payroll snapshots, payslips/PDFs, partial/batch local payments and reversals, advances/remittances, supplier partial credits, refund/credit allocation, quarantine/write-off evidence, source-linked reports and activity.
 - Added additive v1→v2 migration/recovery, simulated payroll/manager/auditor role views, opt-in coherent synthetic examples, grouped navigation, forecast commitments and financial/browser invariants.
 - Preserved original business modules, credit engines, graph/twin/scenarios/attacks/history and /Saakh1/ dist-only deployment. No statutory/banking/messaging integration or certification claim.

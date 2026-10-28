@@ -188,6 +188,14 @@ describe("payroll engine and immutable posting", () => {
     expect(l.net).toBe(1286200);
     expect(l.employer).toBe(127600);
     expect(l.cost).toBe(1557600);
+    const version = op.savePayrollRule(s, c, {
+      ...l.rule,
+      pfEmployeeBps: 2000,
+      label: "Revised illustrative assumption",
+    });
+    op.calculatePayroll(s, c, r.id);
+    expect(r.lines[0].rule.id).toBe(version.id);
+    expect(r.lines[0].deductions.EPF).toBe(200000);
   });
   it("unpaid leave prorates recurring earnings but keeps bonus separate", () => {
     const e = employee(),
@@ -212,6 +220,15 @@ describe("payroll engine and immutable posting", () => {
   });
   it("blocks changing an existing salary version", () => {
     const e = employee();
+    op.saveEmployee(
+      s,
+      c,
+      { ...e, name: "Edited fictional employee" },
+      { ...salary, performance: 0 },
+      e.id,
+    );
+    expect(e.name).toBe("Edited fictional employee");
+    expect(e.salaries).toHaveLength(1);
     expect(() =>
       op.saveEmployee(s, c, e, { ...salary, basic: 999 }, e.id),
     ).toThrow(/effective date/);
@@ -791,4 +808,69 @@ it("return receipt conservation rejects corrupted saved credit amounts", () => {
   credit(r.id);
   r.creditBalance++;
   expect(() => validateBusinessState(s)).toThrow(/reconcile/);
+});
+it("upgrades early v2 noncash excess metadata without changing cash, balances or original input", () => {
+  const d = sale(true),
+    r = ret(d.id);
+  credit(r.id);
+  const before = financials(s, c.businessId);
+  const old = structuredClone(s) as unknown as Record<string, unknown>;
+  delete old.operationsRevision;
+  const rows = old.credits as {
+    journalId: string;
+    refundAmount?: number;
+    liabilityAmount?: number;
+    returnId?: string;
+  }[];
+  const record = rows.find((x) => x.journalId === r.journalIds.at(-1))!;
+  record.refundAmount = record.liabilityAmount;
+  delete record.liabilityAmount;
+  delete record.returnId;
+  const migrated = migrateBusinessState(old);
+  expect(migrated.operationsRevision).toBe(2);
+  const fixed = migrated.credits.find((x) => x.journalId === record.journalId)!;
+  expect(fixed.liabilityAmount).toBe(r.amount);
+  expect(fixed.refundAmount).toBeUndefined();
+  expect(record.refundAmount).toBe(r.amount);
+  expect(financials(migrated, c.businessId)).toEqual(before);
+  validateBusinessState(migrated);
+});
+it("non-stock supplier expense and equipment returns reverse their original account without invented stock", () => {
+  for (const kind of ["expense", "equipment"] as const) {
+    const account = kind === "expense" ? "expense" : "equipment";
+    const before = balances(s, c.businessId)[account],
+      cash = financials(s, c.businessId).cash,
+      moves = s.movements.length;
+    const d = saveDocument(
+      s,
+      c,
+      {
+        kind,
+        partyId: "P-S1",
+        number: "NONSTOCK-" + kind,
+        issueDate: today(),
+        dueDate: today(),
+        cashSale: false,
+        lines: [
+          {
+            description: "Synthetic " + kind,
+            quantity: 2,
+            price: 100000,
+            discount: 0,
+            tax: 18,
+          },
+        ],
+      },
+      true,
+      true,
+    );
+    const r = ret(d.id, 1);
+    credit(r.id, true);
+    expect(r.kind).toBe("purchase");
+    expect(balances(s, c.businessId)[account] - before).toBe(100000);
+    expect(due(s, d)).toBe(118000);
+    expect(s.movements).toHaveLength(moves);
+    expect(financials(s, c.businessId).cash).toBe(cash);
+    balanced();
+  }
 });

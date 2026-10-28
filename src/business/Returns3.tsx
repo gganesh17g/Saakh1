@@ -34,7 +34,9 @@ export default function Returns3({ kind }: { kind: "sale" | "purchase" }) {
     [preview, setPreview] = useState<Printable | null>(null);
   const docs = s.documents.filter(
     (d) =>
-      d.businessId === c.businessId && d.kind === kind && d.status === "Posted",
+      d.businessId === c.businessId &&
+      (kind === "sale" ? d.kind === "sale" : d.kind !== "sale") &&
+      d.status === "Posted",
   );
   const d = docs.find((d) => d.id === docId);
   const all = s.returns.filter(
@@ -418,7 +420,12 @@ export default function Returns3({ kind }: { kind: "sale" | "purchase" }) {
             )}
             {r.kind === "purchase" && r.status === "Approved" && (
               <Confirm3
-                text="Record goods dispatched"
+                text={
+                  s.documents.find((d) => d.id === r.documentId)?.kind ===
+                  "purchase"
+                    ? "Record goods dispatched"
+                    : "Confirm supplier return"
+                }
                 onConfirm={() =>
                   void commit("Goods dispatched", (s, c) =>
                     ops.transitionReturn(s, c, r.id, "Dispatch", true),

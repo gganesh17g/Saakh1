@@ -33,8 +33,8 @@ Git status --short, diff --stat/name-status/check, staged changes, untracked and
 | `src/business/fixtures3.ts` | Created | Supply coherent opt-in examples | Seed conservation/balances test and browser examples/refresh |
 | `src/business/migration.ts` | Created | Add operations without erasing old data | Old-record preservation and unsupported-format tests |
 | `src/business/money3.ts` | Created | Avoid binary decimal payroll ratio errors | Large rational, tie-rounding and invalid-input tests |
-| `src/business/operations3.test.ts` | Created | Exercise new financial requirements and invariants | 121 total unit/integration/store tests pass |
-| `src/business/operations3.ts` | Created | Centralize operation calculations/posting transitions | 45 operation tests and complete A–E browser flows |
+| `src/business/operations3.test.ts` | Created | Exercise new financial requirements and invariants | 123 total unit/integration/store tests pass |
+| `src/business/operations3.ts` | Created | Centralize operation calculations/posting transitions | 47 operation tests and complete A–E browser flows |
 | `src/business/operationsModel.ts` | Created | Define reproducible operation records | Strict compilation and source-model tests |
 | `src/business/validation3.ts` | Created | Validate financial coherence before every save | Corrupt-state tests and every successful atomic/browser commit |
 | `tests/pages/operations3.spec.ts` | Created | Verify actual connected production workflows | Complete 42 Pages suite; final live status recorded after deployment |
@@ -44,12 +44,12 @@ Git status --short, diff --stat/name-status/check, staged changes, untracked and
 | `package-lock.json` | Modified | Reproducible PDF dependency installation | Install, audit and production build |
 | `package.json` | Modified | Version and real PDF dependency | npm install, npm audit zero, strict build and browser PDF file assertions |
 | `src/business/BusinessApp.tsx` | Modified | Connect new modules to existing owner workflows | 33 development, 42 production and actual PDF/accounting acceptance checks |
-| `src/business/accounting.ts` | Modified | Include new operations in the same ledger and prevent invoice reuse | 121 unit cases, new browser balances and original accounting regressions |
+| `src/business/accounting.ts` | Modified | Include new operations in the same ledger and prevent invoice reuse | 123 unit cases, new browser balances and original accounting regressions |
 | `src/business/analytics.ts` | Modified | Forecast only actual remaining obligations/commitments | Salary, credit/refund and dispute forecast tests plus existing forecast browser regression |
 | `src/business/business.css` | Modified | Style new grouped navigation and linked metrics consistently | Eight new widths plus original responsive/keyboard/theme regressions |
 | `src/business/business.test.ts` | Modified | Keep unsupported-schema regression valid after v2 upgrade | Original 75 assertions plus new operations tests |
 | `src/business/model.ts` | Modified | Extend the existing common business model | Strict types, migration/financial/store tests and all regressions |
-| `src/business/store.test.ts` | Modified | Validate recovery without overwriting saved original | Included in 121 passing tests |
+| `src/business/store.test.ts` | Modified | Validate recovery without overwriting saved original | Included in 123 passing tests |
 | `src/business/store.ts` | Modified | Preserve v1 records and recover invalid storage safely | Migration, recovery, failed-write and restoration tests; browser reload |
 | `src/main.tsx` | Modified | Repair skip focus race exposed by final browser validation | Full 42 production suite including previously failing skip-focus case |
 
@@ -309,7 +309,7 @@ Git status --short, diff --stat/name-status/check, staged changes, untracked and
 
 - Reason: Add operations without erasing old data.
 - Previous behavior: v1-only stored state.
-- New behavior / important changes: Clone and add empty collections on v1→v2; reject unsupported schema or malformed collections.
+- New behavior / important changes: Clone and add empty collections on v1→v2 plus additive operations revision; normalize traceable noncash credit metadata and reject unsupported schema or malformed collections.
 - Related module: Migration.
 - Integration impact: Common v2 schema adds accounts/collections and preserves v1 records; old app versions cannot read newly saved v2 data, so export before upgrade.
 - Tests executed: Old-record preservation and unsupported-format tests.
@@ -329,10 +329,10 @@ Git status --short, diff --stat/name-status/check, staged changes, untracked and
 
 - Reason: Exercise new financial requirements and invariants.
 - Previous behavior: No tests for the requested operation models.
-- New behavior / important changes: 45 meaningful payroll, returns, invoice, customer, migration, forecast, precision and corruption tests.
+- New behavior / important changes: 47 meaningful payroll, returns, invoice, customer, migration, forecast, precision and corruption tests.
 - Related module: Financial QA.
 - Integration impact: Uses existing business-ID scope, atomic persistence, common source records and accounting rather than a second ledger; original credit routes remain supported.
-- Tests executed: 121 total unit/integration/store tests pass.
+- Tests executed: 123 total unit/integration/store tests pass.
 - Risks / limitations: browser-local synthetic roles/storage are not secure production authorization; payroll/tax assumptions are not statutory certification. Monthly/stock-cost/PDF-font limits are documented; actual cloud/live status is limited to observed evidence.
 
 ### `src/business/operations3.ts` — Created
@@ -342,7 +342,7 @@ Git status --short, diff --stat/name-status/check, staged changes, untracked and
 - New behavior / important changes: Customer selectors/validation; existing-engine auto invoices; quantity return/dispatch/credit/refund/reversal; effective payroll/approval/finalization/payment/advance/remittance; source-derived dashboard summaries and role-filtered payroll journal visibility.
 - Related module: Financial events.
 - Integration impact: Uses existing business-ID scope, atomic persistence, common source records and accounting rather than a second ledger; original credit routes remain supported.
-- Tests executed: 45 operation tests and complete A–E browser flows.
+- Tests executed: 47 operation tests and complete A–E browser flows.
 - Risks / limitations: browser-local synthetic roles/storage are not secure production authorization; payroll/tax assumptions are not statutory certification. Monthly/stock-cost/PDF-font limits are documented; actual cloud/live status is limited to observed evidence.
 
 ### `src/business/operationsModel.ts` — Created
@@ -442,7 +442,7 @@ Git status --short, diff --stat/name-status/check, staged changes, untracked and
 - New behavior / important changes: Financials/P&L/balance sheet include new accounts; immutable issued numbers and cross-customer/cancelled-number uniqueness; linked-return correction guards; targeted duplicate source checks.
 - Related module: Ledger/inventory/reports.
 - Integration impact: Common v2 schema adds accounts/collections and preserves v1 records; old app versions cannot read newly saved v2 data, so export before upgrade.
-- Tests executed: 121 unit cases, new browser balances and original accounting regressions.
+- Tests executed: 123 unit cases, new browser balances and original accounting regressions.
 - Risks / limitations: browser-local synthetic roles/storage are not secure production authorization; payroll/tax assumptions are not statutory certification. Monthly/stock-cost/PDF-font limits are documented; actual cloud/live status is limited to observed evidence.
 
 ### `src/business/analytics.ts` — Modified
@@ -492,7 +492,7 @@ Git status --short, diff --stat/name-status/check, staged changes, untracked and
 - New behavior / important changes: Add recovery-state reset in setup and one invalid-restore write-block test.
 - Related module: Storage QA.
 - Integration impact: Uses existing business-ID scope, atomic persistence, common source records and accounting rather than a second ledger; original credit routes remain supported.
-- Tests executed: Included in 121 passing tests.
+- Tests executed: Included in 123 passing tests.
 - Risks / limitations: browser-local synthetic roles/storage are not secure production authorization; payroll/tax assumptions are not statutory certification. Monthly/stock-cost/PDF-font limits are documented; actual cloud/live status is limited to observed evidence.
 
 ### `src/business/store.ts` — Modified

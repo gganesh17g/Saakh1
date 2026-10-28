@@ -6,6 +6,7 @@ import {
   type BusinessState,
   type Context,
   type Role,
+  roles,
   emptyState,
   businessSchema,
   journalSchema,
@@ -24,6 +25,8 @@ const KEY = "saakh-business-v1";
 export function validateBusinessState(s: BusinessState) {
   if (
     s.version !== 2 ||
+    !roles.includes(s.role) ||
+    s.operationsRevision !== 2 ||
     !Array.isArray(s.businesses) ||
     !Array.isArray(s.journals) ||
     !Number.isSafeInteger(s.sequence)
@@ -70,6 +73,9 @@ export function validateBusinessState(s: BusinessState) {
   }
   for (const credit of s.credits) {
     moneySchema.parse(credit.refundAmount || 0);
+    moneySchema.parse(credit.liabilityAmount || 0);
+    if ((credit.liabilityAmount || 0) > credit.amount)
+      throw Error("Credit liability exceeds credit amount");
     if ((credit.refundAmount || 0) > credit.amount)
       throw new Error("Refund exceeds credit");
   }
@@ -108,7 +114,12 @@ export const useBusiness = create<Store>((update, state) => ({
       const data = stored
         ? validateBusinessState(migrateBusinessState(stored))
         : seedBusiness();
-      if (!stored || stored.version !== data.version) await set(KEY, data);
+      if (
+        !stored ||
+        stored.version !== data.version ||
+        stored.operationsRevision !== data.operationsRevision
+      )
+        await set(KEY, data);
       update({ data, ready: true, recovery: "" });
     } catch (e) {
       update({

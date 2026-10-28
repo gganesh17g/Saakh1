@@ -1582,3 +1582,26 @@ export function returnsDashboard(
     reasons: [...reasons.values()],
   };
 }
+export function visibleBusinessJournals(s: BusinessState, c: Context) {
+  authorize(s, c, "read");
+  const allowed = [
+    "owner",
+    "admin",
+    "payroll",
+    "accountant",
+    "auditor",
+  ].includes(c.role);
+  const privateIds = new Set([
+    ...s.payrollRuns
+      .filter((r) => r.businessId === c.businessId)
+      .map((r) => r.journalId),
+    ...s.salaryPayments
+      .filter((p) => p.businessId === c.businessId)
+      .map((p) => p.journalId),
+  ]);
+  return s.journals.filter(
+    (j) =>
+      j.businessId === c.businessId &&
+      (allowed || (!privateIds.has(j.id) && !privateIds.has(j.reversalOf))),
+  );
+}

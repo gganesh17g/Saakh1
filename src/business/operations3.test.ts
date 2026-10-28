@@ -335,6 +335,20 @@ describe("payroll engine and immutable posting", () => {
     expect(() =>
       op.createPayroll(s, { ...c, role: "manager" }, "2026-10", today()),
     ).toThrow(/allow/);
+    const { e, r } = payroll();
+    op.approvePayroll(s, c, r.id);
+    op.finalizePayroll(s, c, r.id, true);
+    op.paySalary(s, c, r.id, e.id, 10000, today(), "PRIVATE-1");
+    expect(
+      op
+        .visibleBusinessJournals(s, { ...c, role: "staff" })
+        .some(
+          (j) => j.kind === "payrollFinalized" || j.kind === "salaryPayment",
+        ),
+    ).toBe(false);
+    expect(
+      op.visibleBusinessJournals(s, c).some((j) => j.kind === "salaryPayment"),
+    ).toBe(true);
   });
   it("forecast schedules only remaining finalized salary once", () => {
     const { e, r } = payroll();

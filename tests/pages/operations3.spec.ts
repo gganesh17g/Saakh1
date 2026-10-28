@@ -384,6 +384,13 @@ test("Saakh 3 migration, demo fixtures, role privacy, activity search and refres
   await expect(
     page.getByRole("heading", { name: "Payroll access restricted" }),
   ).toBeVisible();
+  await go(page, "passbook");
+  await expect(
+    page
+      .locator("summary")
+      .filter({ hasText: /salaryPayment|payrollFinalized/ }),
+  ).toHaveCount(0);
+  await go(page, "payroll");
   await page.getByLabel("Demo role").selectOption("manager");
   await expect(
     page.getByRole("heading", { name: "Attendance and manager review" }),

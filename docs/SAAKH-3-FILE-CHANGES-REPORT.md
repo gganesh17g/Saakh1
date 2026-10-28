@@ -339,7 +339,7 @@ Git status --short, diff --stat/name-status/check, staged changes, untracked and
 
 - Reason: Centralize operation calculations/posting transitions.
 - Previous behavior: Only original manual and proportional services.
-- New behavior / important changes: Customer selectors/validation; existing-engine auto invoices; quantity return/dispatch/credit/refund/reversal; effective payroll/approval/finalization/payment/advance/remittance; source-derived dashboard summaries.
+- New behavior / important changes: Customer selectors/validation; existing-engine auto invoices; quantity return/dispatch/credit/refund/reversal; effective payroll/approval/finalization/payment/advance/remittance; source-derived dashboard summaries and role-filtered payroll journal visibility.
 - Related module: Financial events.
 - Integration impact: Uses existing business-ID scope, atomic persistence, common source records and accounting rather than a second ledger; original credit routes remain supported.
 - Tests executed: 45 operation tests and complete A–E browser flows.
@@ -429,7 +429,7 @@ Git status --short, diff --stat/name-status/check, staged changes, untracked and
 
 - Reason: Connect new modules to existing owner workflows.
 - Previous behavior: 14 business screens, manual numbers and proportional immediate-refund form.
-- New behavior / important changes: 18 routes grouped in navigation; current invoice form supports atomic auto numbering/inline customer/guest and metadata; real document preview/duplicate; new returns links replace primary immediate-refund form; operations Pulse/reports and recovery UI.
+- New behavior / important changes: 18 routes grouped in navigation; current invoice form supports atomic auto numbering/inline customer/guest and metadata; real document preview/duplicate; new returns links replace primary immediate-refund form; operations Pulse/reports and recovery UI; payroll journal/reversal filtering for unrelated roles and role-safe reconciliation lookups.
 - Related module: Business UX/invoicing/integration.
 - Integration impact: Uses existing business-ID scope, atomic persistence, common source records and accounting rather than a second ledger; original credit routes remain supported.
 - Tests executed: 33 development, 42 production and actual PDF/accounting acceptance checks.

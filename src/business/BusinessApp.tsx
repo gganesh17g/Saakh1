@@ -2,7 +2,11 @@ import Customers3 from "./Customers3";
 import Returns3 from "./Returns3";
 import Payroll3 from "./Payroll3";
 import { OperationsPulse3, OperationsReports3 } from "./Reports3";
-import { issueSale, duplicateInvoice } from "./operations3";
+import {
+  issueSale,
+  duplicateInvoice,
+  visibleBusinessJournals,
+} from "./operations3";
 import { invoiceDocument, type Printable } from "./documents3";
 import { Preview3 } from "./UI3";
 import {
@@ -420,7 +424,9 @@ export default function BusinessApp({ theme }: { theme: ReactNode }) {
             <>
               <div className="m-page-heading">
                 <div>
-                  <span className="m-label">SAAKH 3.0 / BUSINESS OPERATIONS</span>
+                  <span className="m-label">
+                    SAAKH 3.0 / BUSINESS OPERATIONS
+                  </span>
                   <h1>
                     {modules.find((m) => m[0] === page)?.[1] ||
                       "Business Pulse"}
@@ -1541,7 +1547,10 @@ function Passbook() {
   const [row, setRow] = useState(""),
     [ids, setIds] = useState<string[]>([]);
   const selected = s.statements.find((r) => r.id === row);
-  const suggestions = selected ? op.suggestMatches(s, c, row) : [];
+  const suggestions =
+    selected && !["staff", "manager", "payroll", "auditor"].includes(c.role)
+      ? op.suggestMatches(s, c, row)
+      : [];
   return (
     <>
       <div className="m-metrics">
@@ -1842,8 +1851,7 @@ function Ledger() {
       <Table
         heads={["Date", "Source / journal", "Cash movement", "Audit actor"]}
       >
-        {s.journals
-          .filter((j) => j.businessId === c.businessId)
+        {visibleBusinessJournals(s, c)
           .slice(-40)
           .reverse()
           .map((j) => (

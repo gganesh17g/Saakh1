@@ -5,7 +5,7 @@
 - Added reviewed attendance, payroll snapshots, payslips/PDFs, partial/batch local payments and reversals, advances/remittances, supplier partial credits, refund/credit allocation, quarantine/write-off evidence, source-linked reports and activity.
 - Added additive v1→v2 migration/recovery, simulated payroll/manager/auditor role views, opt-in coherent synthetic examples, grouped navigation, forecast commitments and financial/browser invariants.
 - Preserved original business modules, credit engines, graph/twin/scenarios/attacks/history and /Saakh1/ dist-only deployment. No statutory/banking/messaging integration or certification claim.
-- Added detailed methodology, research/readiness, implementation, file changes, test and deployment reports. Actual publication/live status is reported after execution.
+- Added detailed methodology, research/readiness, implementation, file changes, test and deployment reports. Application 3e372fa was deployed and verified with 25 live tests; exact evidence is in the release reports.
 
 ## 2026-10-27 — Resolve competing publishers; verify live release
 

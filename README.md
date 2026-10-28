@@ -1,5 +1,7 @@
 # Saakh 3.0 — connected business operations
 
+Verified application release `3e372fa` passed its deployment workflow and 25 live acceptance tests (123 unit, 33 development and 42 production tests also passed). The subsequent report-only commit preserves the same application code; current artifact identity is available in `release.json`.
+
 This release extends the existing local MSME platform with **Payroll Management**, **Customer Management**, **Sales Returns**, **Purchase Returns** and automatic FY invoice generation in the existing Sales & Invoices form. All use the same paise ledger, stock, local persistence and audit events. Earlier documentation remains below for provenance.
 
 Run from `/home/thunder/shared/Saakh` using Node 26:

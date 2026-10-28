@@ -1,6 +1,6 @@
 # Saakh 3.0 file changes report
 
-Baseline: clean main `353ecf73f226747570653b24aca144683bf4b222`, 109 tracked files; matching origin on initial fetch. No pre-existing modified/staged/untracked user files. Recoverable backup `backup/pre-saakh3-20261028`. Exact task totals: **32 Created, 14 Modified, 0 Renamed, 0 Deleted** (46 files). No previous documentation deleted; earlier README/CHANGELOG content is retained. No original credit engine, graph or financial fixture source was replaced. Workflow and /Saakh1/ configuration remain unchanged.
+Baseline: clean main `353ecf73f226747570653b24aca144683bf4b222`, 109 tracked files; matching origin on initial fetch. No pre-existing modified/staged/untracked user files. Recoverable backup `backup/pre-saakh3-20261028`. Exact task totals: **34 Created, 14 Modified, 0 Renamed, 0 Deleted** (48 files). No previous documentation deleted; earlier README/CHANGELOG content is retained. No original credit engine, graph or financial fixture source was replaced. Workflow and /Saakh1/ configuration remain unchanged.
 
 Git status --short, diff --stat/name-status/check, staged changes, untracked and ignored files were inspected. Counts compare actual file hashes to the captured baseline and include this report/evidence, excluding .git, node_modules, dist, browser artifacts and tsbuildinfo. No force push or unrelated-history rewrite is used. Final commit identity is available in release.json and the delivery summary; a report cannot contain its own future commit SHA.
 
@@ -19,7 +19,9 @@ Git status --short, diff --stat/name-status/check, staged changes, untracked and
 | `docs/SAAKH-3-KNOWN-LIMITATIONS.md` | Created | Document actual 3.0 implementation and policy boundaries | Cross-checked with final source, executed commands, source references and stated limitations |
 | `docs/SAAKH-3-REQUIREMENTS-MATRIX.md` | Created | Document actual 3.0 implementation and policy boundaries | Cross-checked with final source, executed commands, source references and stated limitations |
 | `docs/SAAKH-3-TEST-REPORT.md` | Created | Document actual 3.0 implementation and policy boundaries | Cross-checked with final source, executed commands, source references and stated limitations |
+| `docs/saakh3-evidence/cloud-deployment.json` | Created | Retain actual test/audit/performance/release evidence | JSON parse and actual result cross-check; no historical pass substituted for current verification |
 | `docs/saakh3-evidence/development-performance.json` | Created | Retain actual test/audit/performance/release evidence | JSON parse and actual result cross-check; no historical pass substituted for current verification |
+| `docs/saakh3-evidence/live-tests.json` | Created | Retain actual test/audit/performance/release evidence | JSON parse and actual result cross-check; no historical pass substituted for current verification |
 | `docs/saakh3-evidence/npm-audit.json` | Created | Retain actual test/audit/performance/release evidence | JSON parse and actual result cross-check; no historical pass substituted for current verification |
 | `docs/saakh3-evidence/production-performance.json` | Created | Retain actual test/audit/performance/release evidence | JSON parse and actual result cross-check; no historical pass substituted for current verification |
 | `docs/saakh3-evidence/production-tests.json` | Created | Retain actual test/audit/performance/release evidence | JSON parse and actual result cross-check; no historical pass substituted for current verification |
@@ -185,7 +187,27 @@ Git status --short, diff --stat/name-status/check, staged changes, untracked and
 - Tests executed: Cross-checked with final source, executed commands, source references and stated limitations.
 - Risks / limitations: browser-local synthetic roles/storage are not secure production authorization; payroll/tax assumptions are not statutory certification. Monthly/stock-cost/PDF-font limits are documented; actual cloud/live status is limited to observed evidence.
 
+### `docs/saakh3-evidence/cloud-deployment.json` — Created
+
+- Reason: Retain actual test/audit/performance/release evidence.
+- Previous behavior: No corresponding 3.0 evidence.
+- New behavior / important changes: Actual machine-readable executed results, distinguishing local/cloud/live contexts.
+- Related module: Verification.
+- Integration impact: Uses existing business-ID scope, atomic persistence, common source records and accounting rather than a second ledger; original credit routes remain supported.
+- Tests executed: JSON parse and actual result cross-check; no historical pass substituted for current verification.
+- Risks / limitations: browser-local synthetic roles/storage are not secure production authorization; payroll/tax assumptions are not statutory certification. Monthly/stock-cost/PDF-font limits are documented; actual cloud/live status is limited to observed evidence.
+
 ### `docs/saakh3-evidence/development-performance.json` — Created
+
+- Reason: Retain actual test/audit/performance/release evidence.
+- Previous behavior: No corresponding 3.0 evidence.
+- New behavior / important changes: Actual machine-readable executed results, distinguishing local/cloud/live contexts.
+- Related module: Verification.
+- Integration impact: Uses existing business-ID scope, atomic persistence, common source records and accounting rather than a second ledger; original credit routes remain supported.
+- Tests executed: JSON parse and actual result cross-check; no historical pass substituted for current verification.
+- Risks / limitations: browser-local synthetic roles/storage are not secure production authorization; payroll/tax assumptions are not statutory certification. Monthly/stock-cost/PDF-font limits are documented; actual cloud/live status is limited to observed evidence.
+
+### `docs/saakh3-evidence/live-tests.json` — Created
 
 - Reason: Retain actual test/audit/performance/release evidence.
 - Previous behavior: No corresponding 3.0 evidence.
